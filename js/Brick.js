@@ -10,6 +10,9 @@ export class Brick {
         this.destroyed = false;
         this.damaged = false;
 
+        // Store brick config for use in initialization
+        this.brickConfig = brickConfig;
+
         // Apply config-based durability bonus
         if (brickConfig && brickConfig.durabilityBonusChance && Math.random() < brickConfig.durabilityBonusChance) {
             this.durabilityBonus = Math.random() < 0.5 ? 1 : 2; // 50% chance for +1, 50% chance for +2
@@ -97,8 +100,8 @@ export class Brick {
         this.durability += this.durabilityBonus;
 
         // Enforce max durability from config
-        if (brickConfig && brickConfig.maxDurability) {
-            this.durability = Math.min(this.durability, brickConfig.maxDurability);
+        if (this.brickConfig && this.brickConfig.maxDurability) {
+            this.durability = Math.min(this.durability, this.brickConfig.maxDurability);
         }
 
         // Make bonus bricks more noticeable
