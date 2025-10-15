@@ -1,1 +1,2 @@
-[Start](arkanoid-jungle.github.io/index.html)
+# Arkanoid game
+[Start](https://arkanoid-jungle.github.io/index.html)
