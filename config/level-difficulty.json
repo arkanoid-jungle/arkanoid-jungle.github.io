@@ -1,7 +1,7 @@
 {
   "_comment": "Generated level configurations for Jungle Arkanoid game",
   "_version": "2.0.0",
-  "_generated": "2025-10-15T22:43:39.810Z",
+  "_generated": "2025-10-15T23:09:52.266Z",
   "_generator": "level-generator.js",
   "global": {
     "description": "Global defaults and validation rules",
@@ -74,10 +74,7 @@
         ],
         "oneShotPercentage": 0.9,
         "maxDurability": 1,
-        "durabilityBonusChance": 0.1,
-        "width": 75,
-        "height": 25,
-        "padding": 4
+        "durabilityBonusChance": 0.1
       },
       "presentSystem": {
         "spawnProbability": 0.3,
@@ -133,8 +130,8 @@
         ],
         "oneShotPercentage": 0.89,
         "maxDurability": 1,
-        "durabilityBonusChance": 0.12000000000000001,
-        "width": 75,
+        "durabilityBonusChance": 0.1125,
+        "width": 91,
         "height": 25,
         "padding": 4
       },
@@ -191,9 +188,9 @@
           "metal"
         ],
         "oneShotPercentage": 0.88,
-        "maxDurability": 2,
-        "durabilityBonusChance": 0.14,
-        "width": 75,
+        "maxDurability": 1,
+        "durabilityBonusChance": 0.125,
+        "width": 80,
         "height": 25,
         "padding": 4
       },
@@ -254,9 +251,9 @@
           "gold"
         ],
         "oneShotPercentage": 0.87,
-        "maxDurability": 2,
-        "durabilityBonusChance": 0.16,
-        "width": 75,
+        "maxDurability": 1,
+        "durabilityBonusChance": 0.1375,
+        "width": 80,
         "height": 25,
         "padding": 4
       },
@@ -320,9 +317,9 @@
           "explosive"
         ],
         "oneShotPercentage": 0.86,
-        "maxDurability": 2,
-        "durabilityBonusChance": 0.18,
-        "width": 75,
+        "maxDurability": 1,
+        "durabilityBonusChance": 0.15000000000000002,
+        "width": 80,
         "height": 25,
         "padding": 4,
         "explosiveRadius": 80,
@@ -395,8 +392,8 @@
           "regenerating"
         ],
         "oneShotPercentage": 0.85,
-        "maxDurability": 3,
-        "durabilityBonusChance": 0.19999999999999998,
+        "maxDurability": 1,
+        "durabilityBonusChance": 0.1625,
         "width": 72,
         "height": 25,
         "padding": 4,
@@ -474,8 +471,8 @@
           "regenerating"
         ],
         "oneShotPercentage": 0.84,
-        "maxDurability": 3,
-        "durabilityBonusChance": 0.21999999999999997,
+        "maxDurability": 1,
+        "durabilityBonusChance": 0.175,
         "width": 72,
         "height": 25,
         "padding": 4,
@@ -554,8 +551,8 @@
           "regenerating"
         ],
         "oneShotPercentage": 0.83,
-        "maxDurability": 3,
-        "durabilityBonusChance": 0.23999999999999996,
+        "maxDurability": 1,
+        "durabilityBonusChance": 0.1875,
         "width": 72,
         "height": 25,
         "padding": 4,
@@ -635,8 +632,8 @@
           "regenerating"
         ],
         "oneShotPercentage": 0.82,
-        "maxDurability": 4,
-        "durabilityBonusChance": 0.25999999999999995,
+        "maxDurability": 1,
+        "durabilityBonusChance": 0.2,
         "width": 65,
         "height": 25,
         "padding": 4,
@@ -717,8 +714,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.8099999999999999,
-        "maxDurability": 4,
-        "durabilityBonusChance": 0.27999999999999997,
+        "maxDurability": 2,
+        "durabilityBonusChance": 0.21250000000000002,
         "width": 65,
         "height": 25,
         "padding": 4,
@@ -800,8 +797,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.7999999999999999,
-        "maxDurability": 4,
-        "durabilityBonusChance": 0.3,
+        "maxDurability": 2,
+        "durabilityBonusChance": 0.225,
         "width": 65,
         "height": 25,
         "padding": 4,
@@ -883,8 +880,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.7899999999999999,
-        "maxDurability": 5,
-        "durabilityBonusChance": 0.32,
+        "maxDurability": 2,
+        "durabilityBonusChance": 0.23750000000000002,
         "width": 59,
         "height": 25,
         "padding": 4,
@@ -966,8 +963,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.7799999999999999,
-        "maxDurability": 5,
-        "durabilityBonusChance": 0.34,
+        "maxDurability": 2,
+        "durabilityBonusChance": 0.25,
         "width": 59,
         "height": 25,
         "padding": 4,
@@ -1049,8 +1046,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.7699999999999999,
-        "maxDurability": 5,
-        "durabilityBonusChance": 0.36000000000000004,
+        "maxDurability": 2,
+        "durabilityBonusChance": 0.2625,
         "width": 59,
         "height": 25,
         "padding": 4,
@@ -1132,8 +1129,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.7599999999999999,
-        "maxDurability": 6,
-        "durabilityBonusChance": 0.38000000000000006,
+        "maxDurability": 2,
+        "durabilityBonusChance": 0.275,
         "width": 54,
         "height": 25,
         "padding": 4,
@@ -1215,8 +1212,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.7499999999999999,
-        "maxDurability": 6,
-        "durabilityBonusChance": 0.4000000000000001,
+        "maxDurability": 2,
+        "durabilityBonusChance": 0.2875,
         "width": 54,
         "height": 25,
         "padding": 4,
@@ -1298,8 +1295,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.7399999999999999,
-        "maxDurability": 6,
-        "durabilityBonusChance": 0.4200000000000001,
+        "maxDurability": 3,
+        "durabilityBonusChance": 0.30000000000000004,
         "width": 54,
         "height": 25,
         "padding": 4,
@@ -1381,8 +1378,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.7299999999999999,
-        "maxDurability": 7,
-        "durabilityBonusChance": 0.4400000000000001,
+        "maxDurability": 3,
+        "durabilityBonusChance": 0.3125,
         "width": 50,
         "height": 25,
         "padding": 4,
@@ -1464,8 +1461,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.7199999999999999,
-        "maxDurability": 7,
-        "durabilityBonusChance": 0.46000000000000013,
+        "maxDurability": 3,
+        "durabilityBonusChance": 0.325,
         "width": 50,
         "height": 25,
         "padding": 4,
@@ -1547,8 +1544,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.7099999999999999,
-        "maxDurability": 7,
-        "durabilityBonusChance": 0.48000000000000015,
+        "maxDurability": 3,
+        "durabilityBonusChance": 0.3375,
         "width": 50,
         "height": 25,
         "padding": 4,
@@ -1630,8 +1627,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.6999999999999998,
-        "maxDurability": 8,
-        "durabilityBonusChance": 0.5000000000000001,
+        "maxDurability": 3,
+        "durabilityBonusChance": 0.35,
         "width": 46,
         "height": 25,
         "padding": 4,
@@ -1713,8 +1710,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.6899999999999998,
-        "maxDurability": 8,
-        "durabilityBonusChance": 0.5200000000000001,
+        "maxDurability": 3,
+        "durabilityBonusChance": 0.36250000000000004,
         "width": 46,
         "height": 25,
         "padding": 4,
@@ -1796,8 +1793,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.6799999999999998,
-        "maxDurability": 8,
-        "durabilityBonusChance": 0.5400000000000001,
+        "maxDurability": 3,
+        "durabilityBonusChance": 0.375,
         "width": 46,
         "height": 25,
         "padding": 4,
@@ -1879,8 +1876,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.6699999999999998,
-        "maxDurability": 9,
-        "durabilityBonusChance": 0.5600000000000002,
+        "maxDurability": 4,
+        "durabilityBonusChance": 0.38749999999999996,
         "width": 43,
         "height": 25,
         "padding": 4,
@@ -1962,8 +1959,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.6599999999999998,
-        "maxDurability": 9,
-        "durabilityBonusChance": 0.5800000000000002,
+        "maxDurability": 4,
+        "durabilityBonusChance": 0.4,
         "width": 43,
         "height": 25,
         "padding": 4,
@@ -2045,8 +2042,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.6499999999999998,
-        "maxDurability": 9,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 4,
+        "durabilityBonusChance": 0.4125,
         "width": 43,
         "height": 25,
         "padding": 4,
@@ -2128,8 +2125,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.6399999999999998,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 4,
+        "durabilityBonusChance": 0.42500000000000004,
         "width": 40,
         "height": 25,
         "padding": 4,
@@ -2211,8 +2208,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.6299999999999998,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 4,
+        "durabilityBonusChance": 0.4375,
         "width": 40,
         "height": 25,
         "padding": 4,
@@ -2294,8 +2291,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.6199999999999998,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 4,
+        "durabilityBonusChance": 0.44999999999999996,
         "width": 40,
         "height": 25,
         "padding": 4,
@@ -2377,8 +2374,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.6099999999999998,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 4,
+        "durabilityBonusChance": 0.4625,
         "width": 38,
         "height": 25,
         "padding": 4,
@@ -2460,8 +2457,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5999999999999998,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.475,
         "width": 38,
         "height": 25,
         "padding": 4,
@@ -2543,8 +2540,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5899999999999997,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.48750000000000004,
         "width": 38,
         "height": 25,
         "padding": 4,
@@ -2626,8 +2623,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5799999999999997,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.5,
         "width": 36,
         "height": 25,
         "padding": 4,
@@ -2709,8 +2706,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5699999999999997,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.5125,
         "width": 36,
         "height": 25,
         "padding": 4,
@@ -2792,8 +2789,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5599999999999997,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.525,
         "width": 36,
         "height": 25,
         "padding": 4,
@@ -2875,8 +2872,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5499999999999997,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.5375,
         "width": 34,
         "height": 25,
         "padding": 4,
@@ -2958,8 +2955,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5399999999999997,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.55,
         "width": 34,
         "height": 25,
         "padding": 4,
@@ -3041,8 +3038,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5299999999999997,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.5625,
         "width": 34,
         "height": 25,
         "padding": 4,
@@ -3124,8 +3121,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5199999999999997,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.575,
         "width": 34,
         "height": 25,
         "padding": 4,
@@ -3207,8 +3204,8 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5099999999999997,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.6,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.5875,
         "width": 34,
         "height": 25,
         "padding": 4,
@@ -3290,7 +3287,7 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5,
-        "maxDurability": 10,
+        "maxDurability": 5,
         "durabilityBonusChance": 0.6,
         "width": 34,
         "height": 25,
@@ -3373,7 +3370,7 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5,
-        "maxDurability": 10,
+        "maxDurability": 5,
         "durabilityBonusChance": 0.6,
         "width": 34,
         "height": 25,
@@ -3456,7 +3453,7 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5,
-        "maxDurability": 10,
+        "maxDurability": 5,
         "durabilityBonusChance": 0.6,
         "width": 34,
         "height": 25,
@@ -3539,7 +3536,7 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5,
-        "maxDurability": 10,
+        "maxDurability": 5,
         "durabilityBonusChance": 0.6,
         "width": 34,
         "height": 25,
@@ -3622,7 +3619,7 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5,
-        "maxDurability": 10,
+        "maxDurability": 5,
         "durabilityBonusChance": 0.6,
         "width": 34,
         "height": 25,
@@ -3705,7 +3702,7 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5,
-        "maxDurability": 10,
+        "maxDurability": 5,
         "durabilityBonusChance": 0.6,
         "width": 34,
         "height": 25,
@@ -3788,7 +3785,7 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5,
-        "maxDurability": 10,
+        "maxDurability": 5,
         "durabilityBonusChance": 0.6,
         "width": 34,
         "height": 25,
@@ -3871,7 +3868,7 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5,
-        "maxDurability": 10,
+        "maxDurability": 5,
         "durabilityBonusChance": 0.6,
         "width": 34,
         "height": 25,
@@ -3954,7 +3951,7 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5,
-        "maxDurability": 10,
+        "maxDurability": 5,
         "durabilityBonusChance": 0.6,
         "width": 34,
         "height": 25,
@@ -4037,7 +4034,7 @@
           "diamond"
         ],
         "oneShotPercentage": 0.5,
-        "maxDurability": 10,
+        "maxDurability": 5,
         "durabilityBonusChance": 0.6,
         "width": 34,
         "height": 25,
@@ -4124,7 +4121,7 @@
         "max": 15
       },
       "maxDurability": {
-        "base": 10,
+        "base": 5,
         "increment": 0.1,
         "max": 3
       },

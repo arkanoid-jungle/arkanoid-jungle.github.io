@@ -250,6 +250,59 @@ export class LevelManager {
         return (n - Math.floor(n)) * 2 - 1;
     }
 
+    getUltimateFortressBrickType(column, row, config) {
+        const brickSystemConfig = config.brickSystem || {};
+        const { columns, rows } = brickSystemConfig;
+        const bossPosition = brickSystemConfig.bossBrickPosition || { row: Math.floor(rows / 2), column: Math.floor(columns / 2) };
+
+        // Center boss brick (enhanced diamond)
+        if (column === bossPosition.column && row === bossPosition.row) {
+            return 'diamond';
+        }
+
+        // Inner guard layer (closest to boss)
+        const distance = Math.abs(column - bossPosition.column) + Math.abs(row - bossPosition.row);
+        if (distance <= 1) {
+            return 'gold';
+        }
+
+        // Middle guard layer
+        if (distance === 2) {
+            return 'explosive';
+        }
+
+        // Outer guard layer
+        if (distance === 3) {
+            return Math.random() < 0.7 ? 'gold' : 'metal';
+        }
+
+        // Corner and edge reinforcement
+        if ((column === 0 || column === columns - 1) &&
+            (row === 0 || row === rows - 1)) {
+            return 'gold';
+        }
+
+        // Walls with some explosive bricks
+        if (column === 0 || column === columns - 1 ||
+            row === 0 || row === rows - 1) {
+            return Math.random() < 0.8 ? 'metal' : 'explosive';
+        }
+
+        // Strategic explosive placements
+        if ((column % 4 === 2 && row % 3 === 1) ||
+            (column % 4 === 1 && row % 3 === 2)) {
+            return 'explosive';
+        }
+
+        // Diamond bricks in higher rows
+        if (row < rows / 3 && Math.random() < 0.3) {
+            return 'diamond';
+        }
+
+        // Standard bricks fill the rest
+        return 'standard';
+    }
+
     updateBallSpeed() {
         if (this.game.balls && this.game.balls.length > 0) {
             const gameBalanceConfig = this.levelConfig.gameBalance || {};

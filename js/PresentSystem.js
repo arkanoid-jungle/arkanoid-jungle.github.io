@@ -284,35 +284,57 @@ export class PresentSystem {
         if (balls.length === 0) return;
 
         const mainBall = balls[0];
-        const angle1 = Math.PI / 4; // 45 degrees
-        const angle2 = -Math.PI / 4; // -45 degrees
+        
+        // Check if main ball is launched (has velocity)
+        const mainBallLaunched = mainBall.dx !== 0 || mainBall.dy !== 0;
+        
+        if (mainBallLaunched) {
+            // Normal multi-ball behavior for launched balls
+            const angle1 = Math.PI / 4; // 45 degrees
+            const angle2 = -Math.PI / 4; // -45 degrees
 
-        // Calculate new ball velocities based on the original speed if slow effect is active
-        let speed = Math.sqrt(mainBall.dx * mainBall.dx + mainBall.dy * mainBall.dy);
+            // Calculate new ball velocities based on the original speed if slow effect is active
+            let speed = Math.sqrt(mainBall.dx * mainBall.dx + mainBall.dy * mainBall.dy);
 
-        // If slow ball effect is active, get the original speed from the stored velocity
-        if (this.activeEffects.slowBall.active && this.activeEffects.slowBall.originalVelocities) {
-            const originalVelocity = this.activeEffects.slowBall.originalVelocities.get(mainBall.id);
-            if (originalVelocity) {
-                speed = Math.sqrt(originalVelocity.dx * originalVelocity.dx + originalVelocity.dy * originalVelocity.dy);
+            // If slow ball effect is active, get the original speed from the stored velocity
+            if (this.activeEffects.slowBall.active && this.activeEffects.slowBall.originalVelocities) {
+                const originalVelocity = this.activeEffects.slowBall.originalVelocities.get(mainBall.id);
+                if (originalVelocity) {
+                    speed = Math.sqrt(originalVelocity.dx * originalVelocity.dx + originalVelocity.dy * originalVelocity.dy);
+                }
             }
-        }
 
-        // Create ball 1
-        const ball1 = new Ball(mainBall.x, mainBall.y, mainBall.radius, '#FF69B4', 120);
-        ball1.dx = Math.cos(angle1) * speed;
-        ball1.dy = Math.sin(angle1) * speed;
+            // Create ball 1
+            const ball1 = new Ball(mainBall.x, mainBall.y, mainBall.radius, '#FF69B4', 120);
+            ball1.dx = Math.cos(angle1) * speed;
+            ball1.dy = Math.sin(angle1) * speed;
 
-        // Create ball 2
-        const ball2 = new Ball(mainBall.x, mainBall.y, mainBall.radius, '#87CEEB', 240);
-        ball2.dx = Math.cos(angle2) * speed;
-        ball2.dy = Math.sin(angle2) * speed;
+            // Create ball 2
+            const ball2 = new Ball(mainBall.x, mainBall.y, mainBall.radius, '#87CEEB', 240);
+            ball2.dx = Math.cos(angle2) * speed;
+            ball2.dy = Math.sin(angle2) * speed;
 
-        balls.push(ball1, ball2);
+            balls.push(ball1, ball2);
 
-        // If slow ball effect is active, immediately apply the slow effect to the new balls
-        if (this.activeEffects.slowBall.active) {
-            this.applySlowBall([ball1, ball2]);
+            // If slow ball effect is active, immediately apply the slow effect to the new balls
+            if (this.activeEffects.slowBall.active) {
+                this.applySlowBall([ball1, ball2]);
+            }
+        } else {
+            // Ball is not launched - attach new balls to paddle sides
+            const paddle = this.game.paddle;
+            
+            // Create ball 1 (left side of paddle)
+            const ball1 = new Ball(paddle.x + paddle.width * 0.25, mainBall.y, mainBall.radius, '#FF69B4', 120);
+            ball1.dx = 0;
+            ball1.dy = 0;
+
+            // Create ball 2 (right side of paddle)
+            const ball2 = new Ball(paddle.x + paddle.width * 0.75, mainBall.y, mainBall.radius, '#87CEEB', 240);
+            ball2.dx = 0;
+            ball2.dy = 0;
+
+            balls.push(ball1, ball2);
         }
     }
 
@@ -355,30 +377,19 @@ export class PresentSystem {
         }
 
         balls.forEach(ball => {
-            // Only store original velocities if we haven't stored them yet
+            // Only store original velocities and apply slow effect if we haven't done so yet
             if (!this.activeEffects.slowBall.originalVelocities.has(ball.id)) {
+                // Store original velocity
                 this.activeEffects.slowBall.originalVelocities.set(ball.id, {
                     dx: ball.dx,
                     dy: ball.dy
                 });
+                
+                // Apply 30% velocity reduction
+                ball.dx = ball.dx * 0.7;
+                ball.dy = ball.dy * 0.7;
             }
-
-            // Always apply 30% velocity reduction using the stored original velocity
-            const originalVelocity = this.activeEffects.slowBall.originalVelocities.get(ball.id);
-            if (originalVelocity) {
-                ball.dx = originalVelocity.dx * 0.7;
-                ball.dy = originalVelocity.dy * 0.7;
-            } else {
-                // This should not happen in normal circumstances, but handle gracefully
-                // Only reduce speed, preserve direction
-                const currentSpeed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy);
-                if (currentSpeed > 0) {
-                    const newSpeed = currentSpeed * 0.7;
-                    const speedRatio = newSpeed / currentSpeed;
-                    ball.dx *= speedRatio;
-                    ball.dy *= speedRatio;
-                }
-            }
+            // If ball already has stored velocity, it's already slowed - don't apply again
         });
 
         // Reset duration to full time (30 seconds)
@@ -459,11 +470,19 @@ export class PresentSystem {
     }
 
     addEnergyBoost() {
+        // Restore 50% of max energy immediately
+        if (this.game.energySystem) {
+            const maxEnergy = this.game.energySystem.maxEnergy;
+            const boostAmount = maxEnergy * 0.5;
+            this.game.energySystem.addEnergy(boostAmount);
+        }
+        
         this.activeEffects.energyBoost.active = true;
         this.activeEffects.energyBoost.duration = this.getEffectDuration('energyBoost');
     }
 
     addEnergyFree() {
+        // Activate energy-free mode (no consumption for duration)
         this.activeEffects.energyFree.active = true;
         this.activeEffects.energyFree.duration = this.getEffectDuration('energyFree');
     }

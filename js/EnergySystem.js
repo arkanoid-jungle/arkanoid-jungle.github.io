@@ -350,6 +350,10 @@ export class EnergySystem {
         return this.config.currentEnergy / this.config.maxEnergy;
     }
 
+    addEnergy(amount) {
+        this.config.currentEnergy = Math.min(this.config.maxEnergy, this.config.currentEnergy + amount);
+    }
+
     getEnergyColor() {
         const energyRatio = this.getEnergyPercentage();
 

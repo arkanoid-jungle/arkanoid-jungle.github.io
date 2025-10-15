@@ -12,32 +12,60 @@ import { VisualEffects } from './VisualEffects.js';
 import { SettingsManager } from './SettingsManager.js';
 import  './utils.js';
 
-// Initialize the game instance
-const game = new Game();
+// Import debug configuration
+let DEBUG_MODE = false;
+let DEBUG_START_LEVEL = 1;
+let DEBUG_LEVELS = [];
 
-// Initialize settings manager
-const settingsManager = new SettingsManager();
+try {
+    const debugConfig = await import('../.env.js');
+    DEBUG_MODE = debugConfig.DEBUG_MODE;
+    DEBUG_START_LEVEL = debugConfig.DEBUG_START_LEVEL;
+    DEBUG_LEVELS = debugConfig.DEBUG_LEVELS;
+    console.log('Debug mode:', DEBUG_MODE ? 'ENABLED' : 'DISABLED');
+} catch (error) {
+    console.log('No debug configuration found, using defaults');
+}
 
-// Connect settings manager to game
-game.setSettingsManager(settingsManager);
+// Initialize and start game
+async function startGame() {
+    // Initialize the game instance
+    const game = new Game();
 
-// Set up event listeners for keyboard input
-document.addEventListener('keydown', (event) => {
-  // Handle settings menu input
-  settingsManager.handleKeyDown(event.key, game);
+    // Set debug configuration
+    game.setDebugConfig({
+        enabled: DEBUG_MODE,
+        startLevel: DEBUG_START_LEVEL,
+        availableLevels: DEBUG_LEVELS
+    });
 
-  // Handle game input
-  game.handleKeyDown(event);
-});
+    // Initialize settings manager
+    const settingsManager = new SettingsManager();
 
-document.addEventListener('keyup', (event) => {
-  game.handleKeyUp(event);
-});
+    // Connect settings manager to game
+    game.setSettingsManager(settingsManager);
 
-// Handle window resize events
-window.addEventListener('resize', () => {
-  game.handleResize();
-});
+    // Set up event listeners for keyboard input
+    document.addEventListener('keydown', (event) => {
+        // Handle settings menu input
+        settingsManager.handleKeyDown(event.key, game);
 
-// Start the game loop
-game.startGameLoop();
+        // Handle game input
+        game.handleKeyDown(event);
+    });
+
+    document.addEventListener('keyup', (event) => {
+        game.handleKeyUp(event);
+    });
+
+    // Handle window resize events
+    window.addEventListener('resize', () => {
+        game.handleResize();
+    });
+
+    // Start the game loop
+    game.startGameLoop();
+}
+
+// Start the game
+startGame();

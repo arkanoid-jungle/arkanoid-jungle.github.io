@@ -37,6 +37,13 @@ export class Game {
         this.settingsManager = null;
         this.configManager = configManager;
 
+        // Debug configuration
+        this.debugConfig = {
+            enabled: false,
+            startLevel: 1,
+            availableLevels: []
+        };
+
         // Core game objects (use relative positioning)
         const paddleY = this.canvas.height * 0.93; // 93% from top (lower position)
         const paddleX = this.canvas.width * 0.39; // 39% from left
@@ -106,8 +113,20 @@ export class Game {
             if (this.gameState === 'playing' && !this.ballLaunched && this.balls.length > 0) {
                 this.ballLaunched = true;
                 const ballSpeed = this.config?.ball?.baseSpeed || 2.5;
-                this.balls[0].dx = ballSpeed;
-                this.balls[0].dy = -ballSpeed;
+                
+                // Launch all balls
+                this.balls.forEach((ball, index) => {
+                    if (index === 0) {
+                        // Main ball goes straight up
+                        ball.dx = ballSpeed;
+                        ball.dy = -ballSpeed;
+                    } else {
+                        // Additional balls go at angles
+                        const angle = index === 1 ? Math.PI / 4 : -Math.PI / 4;
+                        ball.dx = Math.cos(angle) * ballSpeed;
+                        ball.dy = Math.sin(angle) * ballSpeed;
+                    }
+                });
             }
         });
 
@@ -115,8 +134,20 @@ export class Game {
             if ((e.key === ' ' || e.key === 'Enter') && this.gameState === 'playing' && !this.ballLaunched && this.balls.length > 0) {
                 this.ballLaunched = true;
                 const ballSpeed = this.config?.ball?.baseSpeed || 2.5;
-                this.balls[0].dx = ballSpeed;
-                this.balls[0].dy = -ballSpeed;
+                
+                // Launch all balls
+                this.balls.forEach((ball, index) => {
+                    if (index === 0) {
+                        // Main ball goes straight up
+                        ball.dx = ballSpeed;
+                        ball.dy = -ballSpeed;
+                    } else {
+                        // Additional balls go at angles
+                        const angle = index === 1 ? Math.PI / 4 : -Math.PI / 4;
+                        ball.dx = Math.cos(angle) * ballSpeed;
+                        ball.dy = Math.sin(angle) * ballSpeed;
+                    }
+                });
             }
         });
     }
@@ -144,6 +175,49 @@ export class Game {
         }
     }
 
+    // Set debug configuration (called from main.js)
+    setDebugConfig(debugConfig) {
+        this.debugConfig = debugConfig;
+        if (debugConfig.enabled) {
+            console.log(`Debug mode enabled - Press 1-${debugConfig.availableLevels.length} to start at specific level`);
+        }
+    }
+
+    // Start debug level
+    startDebugLevel(level) {
+        console.log(`Starting debug level: ${level}`);
+
+        // Reset game state
+        this.gameState = 'playing';
+        this.ballLaunched = false;
+        this.score.score = 0;
+        this.lives.lives = 3;
+
+        // Reset and initialize game systems
+        this.resetBall();
+        this.visualEffects.reset();
+        this.presentSystem.reset();
+        this.energySystem.reset();
+        this.energyAnimation.reset();
+        this.activeBonusUI.reset();
+
+        // Start at specific level
+        this.levelManager.startAtLevel(level);
+
+        // Apply settings
+        if (this.settingsManager) {
+            this.settingsManager.applySettings(this);
+        }
+
+        // Start random music
+        if (this.audioManager) {
+            this.audioManager.playRandomMusic();
+        }
+
+        // Add event listeners
+        this.addEventListeners();
+    }
+
     // Set settings manager (called from main.js)
     setSettingsManager(settingsManager) {
         this.settingsManager = settingsManager;
@@ -154,6 +228,25 @@ export class Game {
     handleKeyDown(event) {
         this.keys[event.key] = true;
 
+        // Handle debug mode level selection (keys 1-9 and 0 for level 10)
+        if (this.debugConfig.enabled && this.gameState === 'start') {
+            const key = event.key;
+            if (key >= '1' && key <= '9') {
+                const level = parseInt(key);
+                if (this.debugConfig.availableLevels.includes(level)) {
+                    this.startDebugLevel(level);
+                    event.preventDefault();
+                    return;
+                }
+            } else if (key === '0') {
+                if (this.debugConfig.availableLevels.includes(10)) {
+                    this.startDebugLevel(10);
+                    event.preventDefault();
+                    return;
+                }
+            }
+        }
+
         if (event.key === ' ') {
             if (this.gameState === 'start') {
                 this.start();
@@ -161,10 +254,21 @@ export class Game {
                 this.restart();
             } else if (this.gameState === 'playing' && !this.ballLaunched && this.balls.length > 0) {
                 this.ballLaunched = true;
-                // Launch the main ball
+                // Launch all balls
                 const ballSpeed = this.config?.ball?.baseSpeed || 2.5;
-                this.balls[0].dx = ballSpeed;
-                this.balls[0].dy = -ballSpeed;
+                
+                this.balls.forEach((ball, index) => {
+                    if (index === 0) {
+                        // Main ball goes straight up
+                        ball.dx = ballSpeed;
+                        ball.dy = -ballSpeed;
+                    } else {
+                        // Additional balls go at angles
+                        const angle = index === 1 ? Math.PI / 4 : -Math.PI / 4;
+                        ball.dx = Math.cos(angle) * ballSpeed;
+                        ball.dy = Math.sin(angle) * ballSpeed;
+                    }
+                });
             }
             event.preventDefault();
         }
@@ -339,11 +443,23 @@ export class Game {
         if (this.ballLaunched) {
             this.updateBalls();
         } else {
-            // Keep main ball with paddle
+            // Keep all balls with paddle
             if (this.balls.length > 0) {
-                this.balls[0].x = this.paddle.x + this.paddle.width / 2;
                 const ballSpacing = this.canvas.height * 0.006; // 5px at 900px = 0.6%
-                this.balls[0].y = this.paddle.y - this.balls[0].radius - ballSpacing;
+                
+                this.balls.forEach((ball, index) => {
+                    if (index === 0) {
+                        // Main ball in center
+                        ball.x = this.paddle.x + this.paddle.width / 2;
+                    } else if (index === 1) {
+                        // Second ball on left side
+                        ball.x = this.paddle.x + this.paddle.width * 0.25;
+                    } else {
+                        // Third ball on right side
+                        ball.x = this.paddle.x + this.paddle.width * 0.75;
+                    }
+                    ball.y = this.paddle.y - ball.radius - ballSpacing;
+                });
             }
         }
 
@@ -821,6 +937,15 @@ export class Game {
 
         this.ctx.strokeText('Press S for Settings', this.canvas.width / 2, startY + instructionSpacing * 3);
         this.ctx.fillText('Press S for Settings', this.canvas.width / 2, startY + instructionSpacing * 3);
+
+        // Show debug mode instructions if enabled
+        if (this.debugConfig.enabled) {
+            this.ctx.fillStyle = '#FF0000';
+            this.ctx.strokeText(`DEBUG MODE: Press 1-${this.debugConfig.availableLevels.length} to start at specific level`,
+                              this.canvas.width / 2, startY + instructionSpacing * 4);
+            this.ctx.fillText(`DEBUG MODE: Press 1-${this.debugConfig.availableLevels.length} to start at specific level`,
+                            this.canvas.width / 2, startY + instructionSpacing * 4);
+        }
     }
 
     showSettingsScreen() {
