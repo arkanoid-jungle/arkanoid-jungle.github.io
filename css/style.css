@@ -1,0 +1,145 @@
+/* Reset and Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #000;
+  color: #fff;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Game Container */
+.game-container {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  margin: 20px auto;
+  border: 2px solid #fff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  background-color: #111;
+}
+
+/* Canvas */
+#gameCanvas {
+  display: block;
+  background-color: #000;
+}
+
+/* Game State Overlays */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.start-overlay h1 {
+  color: #0f0;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.start-overlay p {
+  color: #fff;
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  text-align: center;
+  max-width: 80%;
+}
+
+.game-over-overlay h2 {
+  color: #f00;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.game-over-overlay p {
+  color: #fff;
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+/* Score and Lives Display */
+.display {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 1.2em;
+  color: #fff;
+  z-index: 5;
+}
+
+.score-display {
+  margin-bottom: 10px;
+}
+
+/* Control Instructions */
+.instructions {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: #aaa;
+  font-size: 1em;
+  z-index: 5;
+}
+
+/* Responsive Design */
+@media (max-width: 850px) {
+  .game-container {
+    width: 95vw;
+    height: 80vh;
+  }
+  
+  .start-overlay h1,
+  .game-over-overlay h2 {
+    font-size: 2em;
+  }
+  
+  .start-overlay p,
+  .game-over-overlay p {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 600px) {
+  .game-container {
+    width: 98vw;
+    height: 85vh;
+  }
+  
+  .start-overlay h1,
+  .game-over-overlay h2 {
+    font-size: 1.5em;
+  }
+  
+  .start-overlay p,
+  .game-over-overlay p {
+    font-size: 0.9em;
+  }
+  
+  .instructions {
+    font-size: 0.9em;
+  }
+}

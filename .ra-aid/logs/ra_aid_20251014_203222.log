@@ -1,0 +1,1291 @@
+2025-10-14 20:32:22,545 - ra_aid - DEBUG - Logging configuration: log_mode=file, log_level=debug, root_level=10, logger_level=10, file_level=10, propagate=True
+2025-10-14 20:32:22,545 - ra_aid - INFO - Log file created: /Users/kirby/home/arkanoid/.ra-aid/logs/ra_aid_20251014_203222.log
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.__main__ - DEBUG - Starting RA.Aid with arguments: Namespace(message='Initialize a new nextjs app.', msg_file=None, research_only=False, provider='gemini', model='gemini-2.5-pro-preview-05-06', num_ctx=262144, research_provider=None, research_model=None, planner_provider=None, planner_model=None, cowboy_mode=False, expert_provider='openai', expert_model=None, expert_num_ctx=262144, hil=False, chat=False, log_mode='file', pretty_logger=False, log_level='debug', temperature=None, disable_limit_tokens=True, experimental_fallback_handler=False, recursion_limit=100, aider_config=None, use_aider=False, test_cmd=None, auto_test=False, max_test_cmd_retries=3, test_cmd_timeout=300, server=False, server_host='0.0.0.0', server_port=1818, wipe_project_memory=False, project_state_dir=None, show_thoughts=False, show_cost=False, track_cost=False, reasoning_assistance=False, no_reasoning_assistance=False, custom_tools=None, set_default_provider=None, set_default_model=None)
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Base directory for database: /Users/kirby/home/arkanoid
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Creating database directory at: /Users/kirby/home/arkanoid/.ra-aid
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Directory already exists, skipping creation
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Directory verification: Path.exists=True, os.path.exists=True, os.path.isdir=True
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Parent directory /Users/kirby/home/arkanoid permissions: 755
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Parent directory contents: ['.ra-aid']
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Directory created/verified: /Users/kirby/home/arkanoid/.ra-aid with permissions 755
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Directory contents: ['pk.db', 'config.json', 'logs']
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Database path: /Users/kirby/home/arkanoid/.ra-aid/pk.db
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Database file exists check: True
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Initializing SQLite database at: /Users/kirby/home/arkanoid/.ra-aid/pk.db
+2025-10-14 20:32:22,545 - ra_aid.ra_aid.database.connection - DEBUG - Explicitly connecting to database
+2025-10-14 20:32:22,546 - peewee - DEBUG - ('SELECT 1', None)
+2025-10-14 20:32:22,546 - ra_aid.ra_aid.database.connection - DEBUG - Database connection verified with test query
+2025-10-14 20:32:22,546 - ra_aid.ra_aid.database.connection - DEBUG - Database file check after init: exists=True, size=73728 bytes
+2025-10-14 20:32:22,546 - ra_aid.ra_aid.database.connection - DEBUG - Database connection initialized successfully
+2025-10-14 20:32:22,546 - ra_aid.ra_aid.database.models - DEBUG - Initializing database proxy
+2025-10-14 20:32:22,547 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "session" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "start_time" DATETIME NOT NULL, "command_line" TEXT, "program_version" TEXT, "machine_info" TEXT, "status" VARCHAR(20) NOT NULL)', [])
+2025-10-14 20:32:22,547 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "session_status" ON "session" ("status")', [])
+2025-10-14 20:32:22,547 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "human_input" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "content" TEXT NOT NULL, "source" TEXT NOT NULL, "session_id" INTEGER, FOREIGN KEY ("session_id") REFERENCES "session" ("id"))', [])
+2025-10-14 20:32:22,547 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "humaninput_session_id" ON "human_input" ("session_id")', [])
+2025-10-14 20:32:22,547 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "key_fact" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "content" TEXT NOT NULL, "human_input_id" INTEGER, "session_id" INTEGER, FOREIGN KEY ("human_input_id") REFERENCES "human_input" ("id"), FOREIGN KEY ("session_id") REFERENCES "session" ("id"))', [])
+2025-10-14 20:32:22,547 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "keyfact_human_input_id" ON "key_fact" ("human_input_id")', [])
+2025-10-14 20:32:22,547 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "keyfact_session_id" ON "key_fact" ("session_id")', [])
+2025-10-14 20:32:22,547 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "key_snippet" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "filepath" TEXT NOT NULL, "line_number" INTEGER NOT NULL, "snippet" TEXT NOT NULL, "description" TEXT, "human_input_id" INTEGER, "session_id" INTEGER, FOREIGN KEY ("human_input_id") REFERENCES "human_input" ("id"), FOREIGN KEY ("session_id") REFERENCES "session" ("id"))', [])
+2025-10-14 20:32:22,547 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "keysnippet_human_input_id" ON "key_snippet" ("human_input_id")', [])
+2025-10-14 20:32:22,548 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "keysnippet_session_id" ON "key_snippet" ("session_id")', [])
+2025-10-14 20:32:22,548 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "research_note" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "content" TEXT NOT NULL, "human_input_id" INTEGER, "session_id" INTEGER, FOREIGN KEY ("human_input_id") REFERENCES "human_input" ("id"), FOREIGN KEY ("session_id") REFERENCES "session" ("id"))', [])
+2025-10-14 20:32:22,548 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "researchnote_human_input_id" ON "research_note" ("human_input_id")', [])
+2025-10-14 20:32:22,548 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "researchnote_session_id" ON "research_note" ("session_id")', [])
+2025-10-14 20:32:22,548 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "trajectory" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "human_input_id" INTEGER, "tool_name" TEXT, "tool_parameters" TEXT, "tool_result" TEXT, "step_data" TEXT, "record_type" TEXT, "current_cost" REAL, "input_tokens" INTEGER, "output_tokens" INTEGER, "is_error" INTEGER NOT NULL, "error_message" TEXT, "error_type" TEXT, "error_details" TEXT, "session_id" INTEGER, FOREIGN KEY ("human_input_id") REFERENCES "human_input" ("id"), FOREIGN KEY ("session_id") REFERENCES "session" ("id"))', [])
+2025-10-14 20:32:22,548 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "trajectory_human_input_id" ON "trajectory" ("human_input_id")', [])
+2025-10-14 20:32:22,548 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "trajectory_session_id" ON "trajectory" ("session_id")', [])
+2025-10-14 20:32:22,548 - ra_aid.ra_aid.database.models - DEBUG - Ensured database tables exist
+2025-10-14 20:32:22,548 - ra_aid.ra_aid.database.models - DEBUG - Database proxy already initialized
+2025-10-14 20:32:22,548 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "session" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "start_time" DATETIME NOT NULL, "command_line" TEXT, "program_version" TEXT, "machine_info" TEXT, "status" VARCHAR(20) NOT NULL)', [])
+2025-10-14 20:32:22,548 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "session_status" ON "session" ("status")', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "human_input" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "content" TEXT NOT NULL, "source" TEXT NOT NULL, "session_id" INTEGER, FOREIGN KEY ("session_id") REFERENCES "session" ("id"))', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "humaninput_session_id" ON "human_input" ("session_id")', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "key_fact" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "content" TEXT NOT NULL, "human_input_id" INTEGER, "session_id" INTEGER, FOREIGN KEY ("human_input_id") REFERENCES "human_input" ("id"), FOREIGN KEY ("session_id") REFERENCES "session" ("id"))', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "keyfact_human_input_id" ON "key_fact" ("human_input_id")', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "keyfact_session_id" ON "key_fact" ("session_id")', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "key_snippet" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "filepath" TEXT NOT NULL, "line_number" INTEGER NOT NULL, "snippet" TEXT NOT NULL, "description" TEXT, "human_input_id" INTEGER, "session_id" INTEGER, FOREIGN KEY ("human_input_id") REFERENCES "human_input" ("id"), FOREIGN KEY ("session_id") REFERENCES "session" ("id"))', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "keysnippet_human_input_id" ON "key_snippet" ("human_input_id")', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "keysnippet_session_id" ON "key_snippet" ("session_id")', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "research_note" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "content" TEXT NOT NULL, "human_input_id" INTEGER, "session_id" INTEGER, FOREIGN KEY ("human_input_id") REFERENCES "human_input" ("id"), FOREIGN KEY ("session_id") REFERENCES "session" ("id"))', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "researchnote_human_input_id" ON "research_note" ("human_input_id")', [])
+2025-10-14 20:32:22,549 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "researchnote_session_id" ON "research_note" ("session_id")', [])
+2025-10-14 20:32:22,550 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "trajectory" ("id" INTEGER NOT NULL PRIMARY KEY, "created_at" DATETIME NOT NULL, "updated_at" DATETIME NOT NULL, "human_input_id" INTEGER, "tool_name" TEXT, "tool_parameters" TEXT, "tool_result" TEXT, "step_data" TEXT, "record_type" TEXT, "current_cost" REAL, "input_tokens" INTEGER, "output_tokens" INTEGER, "is_error" INTEGER NOT NULL, "error_message" TEXT, "error_type" TEXT, "error_details" TEXT, "session_id" INTEGER, FOREIGN KEY ("human_input_id") REFERENCES "human_input" ("id"), FOREIGN KEY ("session_id") REFERENCES "session" ("id"))', [])
+2025-10-14 20:32:22,550 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "trajectory_human_input_id" ON "trajectory" ("human_input_id")', [])
+2025-10-14 20:32:22,550 - peewee - DEBUG - ('CREATE INDEX IF NOT EXISTS "trajectory_session_id" ON "trajectory" ("session_id")', [])
+2025-10-14 20:32:22,550 - ra_aid.ra_aid.database.models - DEBUG - Ensured database tables exist
+2025-10-14 20:32:22,550 - ra_aid.ra_aid.database.migrations - DEBUG - Using migrations directory: /Users/kirby/home/ra-aid/.venv/lib/python3.10/site-packages/ra_aid/migrations
+2025-10-14 20:32:22,550 - ra_aid.ra_aid.database.migrations - DEBUG - Initialized migration router with table: migrationshistory
+2025-10-14 20:32:22,550 - peewee - DEBUG - ('CREATE TABLE IF NOT EXISTS "migrationshistory" ("id" INTEGER NOT NULL PRIMARY KEY, "name" VARCHAR(255) NOT NULL, "migrated_at" DATETIME NOT NULL)', [])
+2025-10-14 20:32:22,550 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."name", "t1"."migrated_at" FROM "migrationshistory" AS "t1" ORDER BY "t1"."id"', [])
+2025-10-14 20:32:22,551 - ra_aid.ra_aid.database.migrations - DEBUG - Found 14 applied migrations and 0 pending migrations
+2025-10-14 20:32:22,551 - ra_aid.ra_aid.database.migrations - INFO - No pending migrations to apply
+2025-10-14 20:32:22,552 - ra_aid.ra_aid.database.connection - INFO - Database connection closed successfully
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initialized SessionRepository
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initialized KeyFactRepository
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initialized KeySnippetRepository
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initialized HumanInputRepository
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initialized ResearchNoteRepository
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initialized RelatedFilesRepository
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initialized TrajectoryRepository
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initialized WorkLogRepository
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initialized ConfigRepository
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initialized Environment Inventory
+2025-10-14 20:32:27,256 - ra_aid.ra_aid.__main__ - DEBUG - Initializing new session
+2025-10-14 20:32:27,257 - peewee - DEBUG - ('INSERT INTO "session" ("created_at", "updated_at", "start_time", "command_line", "program_version", "machine_info", "status") VALUES (?, ?, ?, ?, ?, ?, ?)', [datetime.datetime(2025, 10, 14, 20, 32, 27, 256634), datetime.datetime(2025, 10, 14, 20, 32, 27, 256662), datetime.datetime(2025, 10, 14, 20, 32, 27, 256606), '/Users/kirby/home/ra-aid/.venv/bin/ra-aid -m Initialize a new nextjs app.', '0.30.2', None, 'pending'])
+2025-10-14 20:32:27,257 - ra_aid.ra_aid.database.repositories.session_repository - DEBUG - Created new session with ID 3 and status pending
+2025-10-14 20:32:27,258 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."start_time", "t1"."command_line", "t1"."program_version", "t1"."machine_info", "t1"."status" FROM "session" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:27,258 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."start_time", "t1"."command_line", "t1"."program_version", "t1"."machine_info", "t1"."status" FROM "session" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:27,258 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."source", "t1"."session_id" FROM "human_input" AS "t1" WHERE ("t1"."session_id" = ?) ORDER BY "t1"."id" LIMIT ?', [3, 1])
+2025-10-14 20:32:27,365 - openai._base_client - DEBUG - Request options: {'method': 'get', 'url': '/models', 'post_parser': <function SyncAPIClient._request_api_list.<locals>._parser at 0x10a57ab00>, 'json_data': None}
+2025-10-14 20:32:27,381 - openai._base_client - DEBUG - Sending HTTP Request: GET https://api.openai.com/v1/models
+2025-10-14 20:32:27,381 - httpcore.connection - DEBUG - connect_tcp.started host='api.openai.com' port=443 local_address=None timeout=5.0 socket_options=None
+2025-10-14 20:32:27,441 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x12a03a500>
+2025-10-14 20:32:27,442 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x1298fcd40> server_hostname='api.openai.com' timeout=5.0
+2025-10-14 20:32:27,480 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x12a03bc40>
+2025-10-14 20:32:27,480 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2025-10-14 20:32:27,480 - httpcore.http11 - DEBUG - send_request_headers.complete
+2025-10-14 20:32:27,480 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2025-10-14 20:32:27,480 - httpcore.http11 - DEBUG - send_request_body.complete
+2025-10-14 20:32:27,480 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2025-10-14 20:32:27,870 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 403, b'Forbidden', [(b'Date', b'Tue, 14 Oct 2025 18:32:27 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'openai-version', b'2020-10-01'), (b'x-request-id', b'a51f8320fb28560acc1a33ea503c7b21'), (b'openai-processing-ms', b'198'), (b'x-envoy-upstream-service-time', b'201'), (b'x-openai-proxy-wasm', b'v0.1'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'cf-cache-status', b'DYNAMIC'), (b'Set-Cookie', b'__cf_bm=a2Qa48Kj7MQ.NWbxEaMdxtEzKMGxmne_QEPuzKBAnWw-1760466747-1.0.1.1-RYKEKNq09kNKo6TAF1wAAqJZS4fm6odN45IGnnYkYKk_SxkuiuJp89QUS3enSsa6lKok8WMhm0g4jLmKyOwWRpXljtreoP7IqpxSCHUpBtg; path=/; expires=Tue, 14-Oct-25 19:02:27 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), (b'X-Content-Type-Options', b'nosniff'), (b'Set-Cookie', b'_cfuvid=VUR33LNTIASyvM6reYTkpc_eC1f9NfZOhSsPKP.Z7.4-1760466747904-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), (b'Server', b'cloudflare'), (b'CF-RAY', b'98e928d43808b9de-TXL'), (b'Content-Encoding', b'br'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2025-10-14 20:32:27,871 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2025-10-14 20:32:27,872 - httpcore.http11 - DEBUG - receive_response_body.complete
+2025-10-14 20:32:27,872 - httpcore.http11 - DEBUG - response_closed.started
+2025-10-14 20:32:27,872 - httpcore.http11 - DEBUG - response_closed.complete
+2025-10-14 20:32:27,872 - openai._base_client - DEBUG - HTTP Response: GET https://api.openai.com/v1/models "403 Forbidden" Headers([('date', 'Tue, 14 Oct 2025 18:32:27 GMT'), ('content-type', 'application/json'), ('transfer-encoding', 'chunked'), ('connection', 'keep-alive'), ('openai-version', '2020-10-01'), ('x-request-id', 'a51f8320fb28560acc1a33ea503c7b21'), ('openai-processing-ms', '198'), ('x-envoy-upstream-service-time', '201'), ('x-openai-proxy-wasm', 'v0.1'), ('strict-transport-security', 'max-age=31536000; includeSubDomains; preload'), ('cf-cache-status', 'DYNAMIC'), ('set-cookie', '__cf_bm=a2Qa48Kj7MQ.NWbxEaMdxtEzKMGxmne_QEPuzKBAnWw-1760466747-1.0.1.1-RYKEKNq09kNKo6TAF1wAAqJZS4fm6odN45IGnnYkYKk_SxkuiuJp89QUS3enSsa6lKok8WMhm0g4jLmKyOwWRpXljtreoP7IqpxSCHUpBtg; path=/; expires=Tue, 14-Oct-25 19:02:27 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), ('x-content-type-options', 'nosniff'), ('set-cookie', '_cfuvid=VUR33LNTIASyvM6reYTkpc_eC1f9NfZOhSsPKP.Z7.4-1760466747904-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), ('server', 'cloudflare'), ('cf-ray', '98e928d43808b9de-TXL'), ('content-encoding', 'br'), ('alt-svc', 'h3=":443"; ma=86400')])
+2025-10-14 20:32:27,872 - openai._base_client - DEBUG - request_id: a51f8320fb28560acc1a33ea503c7b21
+2025-10-14 20:32:27,872 - openai._base_client - DEBUG - Encountered httpx.HTTPStatusError
+Traceback (most recent call last):
+  File "/Users/kirby/home/ra-aid/.venv/lib/python3.10/site-packages/openai/_base_client.py", line 1027, in request
+    response.raise_for_status()
+  File "/Users/kirby/home/ra-aid/.venv/lib/python3.10/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '403 Forbidden' for url 'https://api.openai.com/v1/models'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+2025-10-14 20:32:27,875 - openai._base_client - DEBUG - Not retrying
+2025-10-14 20:32:27,875 - openai._base_client - DEBUG - Re-raising status error
+2025-10-14 20:32:27,875 - ra_aid.ra_aid.__main__ - DEBUG - Environment validation successful
+2025-10-14 20:32:27,875 - ra_aid.ra_aid.__main__ - DEBUG - Using default temperature 1.0 for model gemini-2.5-pro-preview-05-06
+2025-10-14 20:32:27,876 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."human_input_id", "t1"."session_id" FROM "key_fact" AS "t1" ORDER BY "t1"."id"', [])
+2025-10-14 20:32:27,876 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."filepath", "t1"."line_number", "t1"."snippet", "t1"."description", "t1"."human_input_id", "t1"."session_id" FROM "key_snippet" AS "t1" ORDER BY "t1"."id"', [])
+2025-10-14 20:32:27,877 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."human_input_id", "t1"."session_id" FROM "research_note" AS "t1" ORDER BY "t1"."id"', [])
+2025-10-14 20:32:27,877 - ra_aid.version_check - DEBUG - Checking for newer version at https://docs.ra-aid.ai/version.json
+2025-10-14 20:32:27,878 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): docs.ra-aid.ai:443
+2025-10-14 20:32:28,203 - urllib3.connectionpool - DEBUG - https://docs.ra-aid.ai:443 "GET /version.json HTTP/1.1" 200 None
+2025-10-14 20:32:28,204 - ra_aid.version_check - DEBUG - Current version: 0.30.2, Latest version: 0.30.2
+2025-10-14 20:32:28,204 - ra_aid.version_check - DEBUG - Current version is up-to-date
+2025-10-14 20:32:28,207 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."start_time", "t1"."command_line", "t1"."program_version", "t1"."machine_info", "t1"."status" FROM "session" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:28,207 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."start_time", "t1"."command_line", "t1"."program_version", "t1"."machine_info", "t1"."status" FROM "session" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:28,207 - peewee - DEBUG - ('INSERT INTO "human_input" ("created_at", "updated_at", "content", "source", "session_id") VALUES (?, ?, ?, ?, ?)', [datetime.datetime(2025, 10, 14, 20, 32, 28, 207659), datetime.datetime(2025, 10, 14, 20, 32, 28, 207670), 'Initialize a new nextjs app.', 'cli', 3])
+2025-10-14 20:32:28,208 - ra_aid.ra_aid.database.repositories.human_input_repository - DEBUG - Created human input ID 3 from cli for session 3
+2025-10-14 20:32:28,208 - peewee - DEBUG - ('SELECT COUNT(1) FROM (SELECT 1 FROM "human_input" AS "t1") AS "_wrapped"', [])
+2025-10-14 20:32:28,208 - ra_aid.ra_aid.__main__ - DEBUG - Recorded CLI input: Initialize a new nextjs app.
+2025-10-14 20:32:28,208 - ra_aid.ra_aid.__main__ - DEBUG - Creating user_query trajectory record for session 3 (CLI), human_input_id 3.
+2025-10-14 20:32:28,209 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."source", "t1"."session_id" FROM "human_input" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:28,209 - peewee - DEBUG - ('INSERT INTO "trajectory" ("created_at", "updated_at", "human_input_id", "tool_name", "tool_parameters", "tool_result", "step_data", "record_type", "current_cost", "input_tokens", "output_tokens", "is_error", "error_message", "error_type", "error_details", "session_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [datetime.datetime(2025, 10, 14, 20, 32, 28, 209374), datetime.datetime(2025, 10, 14, 20, 32, 28, 209385), 3, '', None, None, '{"display_title": "User Query", "query": "Initialize a new nextjs app."}', 'user_query', None, None, None, False, None, None, None, 3])
+2025-10-14 20:32:28,210 - ra_aid.ra_aid.database.repositories.trajectory_repository - DEBUG - Created trajectory record ID 7 of type: user_query
+2025-10-14 20:32:28,210 - ra_aid.ra_aid.__main__ - INFO - Created user_query trajectory for session 3 (CLI).
+2025-10-14 20:32:28,211 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."source", "t1"."session_id" FROM "human_input" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:28,211 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."start_time", "t1"."command_line", "t1"."program_version", "t1"."machine_info", "t1"."status" FROM "session" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:28,211 - peewee - DEBUG - ('INSERT INTO "trajectory" ("created_at", "updated_at", "human_input_id", "tool_name", "tool_parameters", "tool_result", "step_data", "record_type", "current_cost", "input_tokens", "output_tokens", "is_error", "error_message", "error_type", "error_details", "session_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [datetime.datetime(2025, 10, 14, 20, 32, 28, 211455), datetime.datetime(2025, 10, 14, 20, 32, 28, 211466), 3, '', None, None, '{"stage": "research_stage", "display_title": "Research Stage"}', 'stage_transition', None, None, None, False, None, None, None, 3])
+2025-10-14 20:32:28,211 - ra_aid.ra_aid.database.repositories.trajectory_repository - DEBUG - Created trajectory record ID 8 of type: stage_transition
+2025-10-14 20:32:28,212 - ra_aid.ra_aid.llm - DEBUG - Creating LLM client with provider=gemini, model=gemini-2.5-pro-preview-05-06, temperature=1.0, expert=False
+2025-10-14 20:32:28,234 - ra_aid.ra_aid.agents.research_agent - INFO - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Starting research agent. Task: 'Initialize a new nextjs app....'
+2025-10-14 20:32:28,235 - ra_aid.ra_aid.agents.research_agent - INFO - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Config: expert=True, research_only=False, hil=False, web_research=False
+2025-10-14 20:32:28,235 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."source", "t1"."session_id" FROM "human_input" AS "t1" ORDER BY "t1"."created_at" DESC LIMIT ?', [1])
+2025-10-14 20:32:28,235 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."source", "t1"."session_id" FROM "human_input" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:28,235 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."human_input_id", "t1"."session_id" FROM "key_fact" AS "t1" ORDER BY "t1"."id"', [])
+2025-10-14 20:32:28,235 - ra_aid.ra_aid.agents.research_agent - DEBUG - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Retrieved 0 chars of key facts.
+2025-10-14 20:32:28,236 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."filepath", "t1"."line_number", "t1"."snippet", "t1"."description", "t1"."human_input_id", "t1"."session_id" FROM "key_snippet" AS "t1" ORDER BY "t1"."id"', [])
+2025-10-14 20:32:28,236 - ra_aid.ra_aid.agents.research_agent - DEBUG - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Retrieved 0 chars of key snippets.
+2025-10-14 20:32:28,236 - ra_aid.ra_aid.agents.research_agent - DEBUG - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Retrieved 0 related files.
+2025-10-14 20:32:28,252 - ra_aid.ra_aid.agents.research_agent - DEBUG - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Retrieved project info (60 chars).
+2025-10-14 20:32:28,252 - ra_aid.ra_aid.agents.research_agent - DEBUG - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Tools selected for agent: ['read_file_tool', 'run_shell_command', 'emit_research_notes', 'mark_research_complete_no_implementation_required', 'request_implementation', 'emit_expert_context', 'ask_expert', 'request_research']
+2025-10-14 20:32:28,252 - ra_aid.ra_aid.agents.research_agent - DEBUG - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Reasoning assist enabled: False
+2025-10-14 20:32:28,253 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."human_input_id", "t1"."session_id" FROM "research_note" AS "t1" ORDER BY "t1"."id"', [])
+2025-10-14 20:32:28,253 - ra_aid.ra_aid.agents.research_agent - DEBUG - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Retrieved 0 chars of research notes.
+2025-10-14 20:32:28,253 - ra_aid.ra_aid.agents.research_agent - DEBUG - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Creating research agent with model: metadata={'model_name': 'gemini-2.5-pro-preview-05-06', 'provider': 'gemini'} model='models/gemini-2.5-pro-preview-05-06' google_api_key=SecretStr('**********') temperature=1.0 max_retries=5 timeout=180.0 client=<google.ai.generativelanguage_v1beta.services.generative_service.client.GenerativeServiceClient object at 0x12a03b6a0> default_metadata=() model_kwargs={}
+2025-10-14 20:32:28,253 - ra_aid.ra_aid.agent_utils - DEBUG - Creating agent with config values: provider='gemini', model='gemini-2.5-pro-preview-05-06'
+2025-10-14 20:32:28,254 - ra_aid.ra_aid.anthropic_token_limiter - DEBUG - Using litellm token limit for gemini-2.5-pro-preview-05-06: 1048576
+2025-10-14 20:32:28,254 - ra_aid.ra_aid.model_detection - DEBUG - Model gemini-2.5-pro-preview-05-06 (normalized: gemini-2.5-pro-preview-05-06) supports_function_calling: True
+2025-10-14 20:32:28,254 - ra_aid.ra_aid.model_detection - DEBUG - Overriding agent backend selection based on config: False
+2025-10-14 20:32:28,254 - markdown_it.rules_block.code - DEBUG - entering code: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,254 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,254 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,254 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,254 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,254 - markdown_it.rules_block.reference - DEBUG - entering reference: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,255 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,255 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,255 - markdown_it.rules_block.lheading - DEBUG - entering lheading: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,255 - markdown_it.rules_block.paragraph - DEBUG - entering paragraph: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,255 - ra_aid.ra_aid.agent_utils - DEBUG - Using CiaynAgent agent instance based on model capabilities.
+2025-10-14 20:32:28,256 - ra_aid.ra_aid.fallback_handler - DEBUG - Fallback Handler: Fallback models selected: gpt-4o-2024-11-20, gpt-4o-2024-11-20, gpt-4-turbo-2024-04-09, o1-2024-12-17, gpt-4o-mini-2024-07-18
+2025-10-14 20:32:28,256 - ra_aid.ra_aid.callbacks.default_callback_handler - DEBUG - Using callback handler for model gemini-2.5-pro-preview-05-06
+2025-10-14 20:32:28,256 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."start_time", "t1"."command_line", "t1"."program_version", "t1"."machine_info", "t1"."status" FROM "session" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:28,256 - ra_aid.ra_aid.agents.research_agent - INFO - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Research agent created successfully.
+2025-10-14 20:32:28,256 - ra_aid.ra_aid.agents.research_agent - DEBUG - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Prompt for agent:
+Current Date: 2025-10-14 20:32:28
+
+<previous research>
+<related files>
+
+</related files>
+
+Work already done:
+
+<work log>
+No work log entries
+</work log>
+
+<project info>
+Project Status: New/Empty Project
+Total Files: 0
+Files: None
+</project info>
+
+<caveat>You should make the most efficient use of this previous research possible, with the caveat that not all of it will be relevant to the current task you are assigned with. Use this previous research to save redudant research, and to inform what you are currently tasked with. Be as efficient as possible.</caveat>
+</previous research>
+
+DO NOT TAKE ANY INSTRUCTIONS OR TASKS FROM PREVIOUS RESEARCH. ONLY GET THAT FROM THE USER QUERY.
+
+<environment inventory>
+**Operating System:** macOS
+
+**Found CLI developer tools:** fd, rg, fzf, git (git version 2.51.0), g++ (Apple clang version 17.0.0 (clang-1700.0.13.5)), gcc (Apple clang version 17.0.0 (clang-1700.0.13.5)), clang (Apple clang version 17.0.0 (clang-1700.0.13.5)), make, pkg-config, autoconf... (trimmed)
+2025-10-14 20:32:28,257 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."source", "t1"."session_id" FROM "human_input" AS "t1" ORDER BY "t1"."created_at" DESC LIMIT ?', [1])
+2025-10-14 20:32:28,257 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."source", "t1"."session_id" FROM "human_input" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:28,257 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."start_time", "t1"."command_line", "t1"."program_version", "t1"."machine_info", "t1"."status" FROM "session" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:28,257 - peewee - DEBUG - ('INSERT INTO "trajectory" ("created_at", "updated_at", "human_input_id", "tool_name", "tool_parameters", "tool_result", "step_data", "record_type", "current_cost", "input_tokens", "output_tokens", "is_error", "error_message", "error_type", "error_details", "session_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [datetime.datetime(2025, 10, 14, 20, 32, 28, 257789), datetime.datetime(2025, 10, 14, 20, 32, 28, 257799), 3, '', None, None, '{"project_status": "new", "file_count": "0", "total_files": 0, "display_title": "Project Status"}', 'project_status', None, None, None, False, None, None, None, 3])
+2025-10-14 20:32:28,258 - ra_aid.ra_aid.database.repositories.trajectory_repository - DEBUG - Created trajectory record ID 9 of type: project_status
+2025-10-14 20:32:28,258 - markdown_it.rules_block.code - DEBUG - entering code: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,258 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,258 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,258 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,258 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,258 - markdown_it.rules_block.reference - DEBUG - entering reference: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,258 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,258 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,258 - markdown_it.rules_block.lheading - DEBUG - entering lheading: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,258 - markdown_it.rules_block.paragraph - DEBUG - entering paragraph: StateBlock(line=0,level=0,tokens=0), 0, 1, False
+2025-10-14 20:32:28,259 - ra_aid.ra_aid.agents.research_agent - DEBUG - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Invoking research agent...
+2025-10-14 20:32:28,259 - ra_aid.ra_aid.utils.agent_thread_manager - INFO - Retrieving session_id for thread_id 85b0a085-29c3-4ddf-8856-69eec0d209f0
+2025-10-14 20:32:28,259 - ra_aid.ra_aid.utils.agent_thread_manager - WARNING - No session_id found for thread_id 85b0a085-29c3-4ddf-8856-69eec0d209f0
+2025-10-14 20:32:28,259 - ra_aid.ra_aid.agent_utils - DEBUG - Running agent with prompt length: 18021
+2025-10-14 20:32:28,259 - ra_aid.ra_aid.agent_utils - DEBUG - Attempt 1/20
+2025-10-14 20:32:28,259 - ra_aid.ra_aid.utils.agent_thread_manager - INFO - Checking if agent has received stop signal for session_id None
+2025-10-14 20:32:28,259 - ra_aid.ra_aid.agent_utils - DEBUG - Using stream_config for agent.stream(): {'recursion_limit': 100, 'max_test_cmd_retries': 3, 'max_tool_failures': 3, 'fallback_tool_model_limit': 5, 'retry_fallback_count': 3, 'test_cmd_timeout': 300, 'show_cost': False, 'track_cost': False, 'valid_providers': ['anthropic', 'openai', 'openrouter', 'openai-compatible', 'deepseek', 'gemini', 'ollama', 'fireworks', 'groq'], 'provider': 'gemini', 'model': 'gemini-2.5-pro-preview-05-06', 'num_ctx': 262144, 'expert_provider': 'openai', 'expert_model': None, 'expert_num_ctx': 262144, 'temperature': 1.0, 'experimental_fallback_handler': False, 'web_research_enabled': False, 'show_thoughts': False, 'force_reasoning_assistance': False, 'disable_reasoning_assistance': False, 'custom_tools': None, 'custom_tools_enabled': False, 'cowboy_mode': False, 'configurable': {'thread_id': 'abc81e7c-8dfb-4726-9230-1c63d4857d03'}, 'research_only': False, 'aider_config': None, 'use_aider': False, 'limit_tokens': True, 'auto_test': False, 'test_cmd': None, 'planner_provider': 'gemini', 'planner_model': 'gemini-2.5-pro-preview-05-06', 'research_provider': 'gemini', 'research_model': 'gemini-2.5-pro-preview-05-06'}
+2025-10-14 20:32:28,259 - ra_aid.ra_aid.agent_context - INFO - SHOULD_EXIT: Checking if agent should exit for session_id: None
+2025-10-14 20:32:28,259 - ra_aid.ra_aid.agent_context - INFO - SHOULD_EXIT: No stop signal received from client, continuing agent for session_id: None
+2025-10-14 20:32:28,259 - ra_aid.ra_aid.agent_context - INFO - SHOULD_EXIT: Checking if agent should exit for session_id: None
+2025-10-14 20:32:28,260 - ra_aid.ra_aid.agent_context - INFO - SHOULD_EXIT: No stop signal received from client, continuing agent for session_id: None
+2025-10-14 20:32:28,651 - langchain_google_genai.chat_models - WARNING - Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 2.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0
+Please retry in 31.380070177s. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerDay-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 31
+}
+].
+2025-10-14 20:32:30,834 - langchain_google_genai.chat_models - WARNING - Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 4.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0
+Please retry in 29.212318257s. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerDay-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 29
+}
+].
+2025-10-14 20:32:35,045 - langchain_google_genai.chat_models - WARNING - Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 8.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0
+Please retry in 25.033519036s. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerDay-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 25
+}
+].
+2025-10-14 20:32:43,210 - langchain_google_genai.chat_models - WARNING - Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 16.0 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0
+Please retry in 16.827347689s. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerDay-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 16
+}
+].
+2025-10-14 20:32:59,415 - ra_aid.ra_aid.agent_utils - INFO - API error (attempt 1/20): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0
+Please retry in 658.16031ms. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerDay-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-pro-exp"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+}
+]
+2025-10-14 20:32:59,419 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."source", "t1"."session_id" FROM "human_input" AS "t1" ORDER BY "t1"."created_at" DESC LIMIT ?', [1])
+2025-10-14 20:32:59,421 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."content", "t1"."source", "t1"."session_id" FROM "human_input" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:59,422 - peewee - DEBUG - ('SELECT "t1"."id", "t1"."created_at", "t1"."updated_at", "t1"."start_time", "t1"."command_line", "t1"."program_version", "t1"."machine_info", "t1"."status" FROM "session" AS "t1" WHERE ("t1"."id" = ?) LIMIT ? OFFSET ?', [3, 1, 0])
+2025-10-14 20:32:59,423 - peewee - DEBUG - ('INSERT INTO "trajectory" ("created_at", "updated_at", "human_input_id", "tool_name", "tool_parameters", "tool_result", "step_data", "record_type", "current_cost", "input_tokens", "output_tokens", "is_error", "error_message", "error_type", "error_details", "session_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [datetime.datetime(2025, 10, 14, 20, 32, 59, 422786), datetime.datetime(2025, 10, 14, 20, 32, 59, 422806), 3, '', None, None, '{"error_message": "Encountered ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0\\nPlease retry in 658.16031ms. [violations {\\n  quota_metric: \\"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count\\"\\n  quota_id: \\"GenerateContentInputTokensPerModelPerDay-FreeTier\\"\\n  quota_dimensions {\\n    key: \\"model\\"\\n    value: \\"gemini-2.5-pro-exp\\"\\n  }\\n  quota_dimensions {\\n    key: \\"location\\"\\n    value: \\"global\\"\\n  }\\n}\\nviolations {\\n  quota_metric: \\"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count\\"\\n  quota_id: \\"GenerateContentInputTokensPerModelPerMinute-FreeTier\\"\\n  quota_dimensions {\\n    key: \\"model\\"\\n    value: \\"gemini-2.5-pro-exp\\"\\n  }\\n  quota_dimensions {\\n    key: \\"location\\"\\n    value: \\"global\\"\\n  }\\n}\\nviolations {\\n  quota_metric: \\"generativelanguage.googleapis.com/generate_content_free_tier_requests\\"\\n  quota_id: \\"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\\"\\n  quota_dimensions {\\n    key: \\"model\\"\\n    value: \\"gemini-2.5-pro-exp\\"\\n  }\\n  quota_dimensions {\\n    key: \\"location\\"\\n    value: \\"global\\"\\n  }\\n}\\nviolations {\\n  quota_metric: \\"generativelanguage.googleapis.com/generate_content_free_tier_requests\\"\\n  quota_id: \\"GenerateRequestsPerDayPerProjectPerModel-FreeTier\\"\\n  quota_dimensions {\\n    key: \\"model\\"\\n    value: \\"gemini-2.5-pro-exp\\"\\n  }\\n  quota_dimensions {\\n    key: \\"location\\"\\n    value: \\"global\\"\\n  }\\n}\\n, links {\\n  description: \\"Learn more about Gemini API quotas\\"\\n  url: \\"https://ai.google.dev/gemini-api/docs/rate-limits\\"\\n}\\n, retry_delay {\\n}\\n]. Retrying in 1s... (Attempt 1/20)", "display_title": "Rate Limit Hit"}', 'error', None, None, None, True, 'Encountered ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0\nPlease retry in 658.16031ms. [violations {\n  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"\n  quota_id: "GenerateContentInputTokensPerModelPerDay-FreeTier"\n  quota_dimensions {\n    key: "model"\n    value: "gemini-2.5-pro-exp"\n  }\n  quota_dimensions {\n    key: "location"\n    value: "global"\n  }\n}\nviolations {\n  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"\n  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"\n  quota_dimensions {\n    key: "model"\n    value: "gemini-2.5-pro-exp"\n  }\n  quota_dimensions {\n    key: "location"\n    value: "global"\n  }\n}\nviolations {\n  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"\n  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"\n  quota_dimensions {\n    key: "model"\n    value: "gemini-2.5-pro-exp"\n  }\n  quota_dimensions {\n    key: "location"\n    value: "global"\n  }\n}\nviolations {\n  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"\n  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"\n  quota_dimensions {\n    key: "model"\n    value: "gemini-2.5-pro-exp"\n  }\n  quota_dimensions {\n    key: "location"\n    value: "global"\n  }\n}\n, links {\n  description: "Learn more about Gemini API quotas"\n  url: "https://ai.google.dev/gemini-api/docs/rate-limits"\n}\n, retry_delay {\n}\n]. Retrying in 1s... (Attempt 1/20)', None, None, 3])
+2025-10-14 20:32:59,423 - ra_aid.ra_aid.database.repositories.trajectory_repository - DEBUG - Created trajectory record ID 10 of type: error
+2025-10-14 20:32:59,425 - markdown_it.rules_block.code - DEBUG - entering code: StateBlock(line=0,level=0,tokens=0), 0, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=0,level=0,tokens=0), 0, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=0,level=0,tokens=0), 0, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=0,level=0,tokens=0), 0, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=0,level=0,tokens=0), 0, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.reference - DEBUG - entering reference: StateBlock(line=0,level=0,tokens=0), 0, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=0,level=0,tokens=0), 0, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=0,level=0,tokens=0), 0, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.lheading - DEBUG - entering lheading: StateBlock(line=0,level=0,tokens=0), 0, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=0,level=0,tokens=0), 1, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=0,level=0,tokens=0), 1, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=0,level=0,tokens=0), 1, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=0,level=0,tokens=0), 1, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.paragraph - DEBUG - entering paragraph: StateBlock(line=0,level=0,tokens=0), 0, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=0,level=0,tokens=0), 1, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=0,level=0,tokens=0), 1, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=0,level=0,tokens=0), 1, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=0,level=0,tokens=0), 1, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.code - DEBUG - entering code: StateBlock(line=1,level=0,tokens=3), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=1,level=0,tokens=3), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=1,level=0,tokens=3), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=1,level=0,tokens=3), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=1,level=0,tokens=3), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.code - DEBUG - entering code: StateBlock(line=1,level=2,tokens=5), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=1,level=2,tokens=5), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=1,level=2,tokens=5), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=1,level=2,tokens=5), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=1,level=2,tokens=5), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.reference - DEBUG - entering reference: StateBlock(line=1,level=2,tokens=5), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=1,level=2,tokens=5), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=1,level=2,tokens=5), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.lheading - DEBUG - entering lheading: StateBlock(line=1,level=2,tokens=5), 1, 60, False
+2025-10-14 20:32:59,425 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=1,level=2,tokens=5), 2, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=1,level=2,tokens=5), 2, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=1,level=2,tokens=5), 2, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=1,level=2,tokens=5), 2, 60, True
+2025-10-14 20:32:59,425 - markdown_it.rules_block.paragraph - DEBUG - entering paragraph: StateBlock(line=1,level=2,tokens=5), 1, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=1,level=2,tokens=5), 2, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=1,level=2,tokens=5), 2, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=1,level=2,tokens=5), 2, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=1,level=2,tokens=5), 2, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=2,level=1,tokens=9), 2, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=2,level=1,tokens=9), 2, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=2,level=1,tokens=9), 2, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.code - DEBUG - entering code: StateBlock(line=2,level=2,tokens=10), 2, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=2,level=2,tokens=10), 2, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=2,level=2,tokens=10), 2, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=2,level=2,tokens=10), 2, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=2,level=2,tokens=10), 2, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.reference - DEBUG - entering reference: StateBlock(line=2,level=2,tokens=10), 2, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=2,level=2,tokens=10), 2, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=2,level=2,tokens=10), 2, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.lheading - DEBUG - entering lheading: StateBlock(line=2,level=2,tokens=10), 2, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=2,level=2,tokens=10), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=2,level=2,tokens=10), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=2,level=2,tokens=10), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=2,level=2,tokens=10), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.paragraph - DEBUG - entering paragraph: StateBlock(line=2,level=2,tokens=10), 2, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=2,level=2,tokens=10), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=2,level=2,tokens=10), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=2,level=2,tokens=10), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=2,level=2,tokens=10), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=3,level=1,tokens=14), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=3,level=1,tokens=14), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=3,level=1,tokens=14), 3, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.code - DEBUG - entering code: StateBlock(line=3,level=2,tokens=15), 3, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=3,level=2,tokens=15), 3, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=3,level=2,tokens=15), 3, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=3,level=2,tokens=15), 3, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=3,level=2,tokens=15), 3, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.reference - DEBUG - entering reference: StateBlock(line=3,level=2,tokens=15), 3, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=3,level=2,tokens=15), 3, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=3,level=2,tokens=15), 3, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.lheading - DEBUG - entering lheading: StateBlock(line=3,level=2,tokens=15), 3, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=3,level=2,tokens=15), 4, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=3,level=2,tokens=15), 4, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=3,level=2,tokens=15), 4, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=3,level=2,tokens=15), 4, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.paragraph - DEBUG - entering paragraph: StateBlock(line=3,level=2,tokens=15), 3, 60, False
+2025-10-14 20:32:59,426 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=3,level=2,tokens=15), 4, 60, True
+2025-10-14 20:32:59,426 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=3,level=2,tokens=15), 4, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=3,level=2,tokens=15), 4, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=3,level=2,tokens=15), 4, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=1,tokens=19), 4, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=1,tokens=19), 4, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=1,tokens=19), 4, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.code - DEBUG - entering code: StateBlock(line=4,level=2,tokens=20), 4, 60, False
+2025-10-14 20:32:59,427 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 4, 60, False
+2025-10-14 20:32:59,427 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 4, 60, False
+2025-10-14 20:32:59,427 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 4, 60, False
+2025-10-14 20:32:59,427 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 4, 60, False
+2025-10-14 20:32:59,427 - markdown_it.rules_block.reference - DEBUG - entering reference: StateBlock(line=4,level=2,tokens=20), 4, 60, False
+2025-10-14 20:32:59,427 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 4, 60, False
+2025-10-14 20:32:59,427 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 4, 60, False
+2025-10-14 20:32:59,427 - markdown_it.rules_block.lheading - DEBUG - entering lheading: StateBlock(line=4,level=2,tokens=20), 4, 60, False
+2025-10-14 20:32:59,427 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,427 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,428 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,429 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,430 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,431 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,432 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,433 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.paragraph - DEBUG - entering paragraph: StateBlock(line=4,level=2,tokens=20), 4, 60, False
+2025-10-14 20:32:59,434 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 5, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 6, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 7, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 8, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 9, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,434 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 10, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 11, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 12, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 13, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 14, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 15, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 16, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,435 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 17, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 18, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 19, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 20, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 21, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 22, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 23, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 24, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,436 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 25, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 26, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 27, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 28, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 29, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 30, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 31, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 32, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,437 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 33, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 34, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 35, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 36, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 37, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 38, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 39, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 40, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,438 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 41, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 42, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 43, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 44, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 45, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 46, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 47, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 48, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,439 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 49, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 50, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 51, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 52, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 53, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 54, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 55, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,440 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 56, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 57, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 58, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.fence - DEBUG - entering fence: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.blockquote - DEBUG - entering blockquote: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.hr - DEBUG - entering hr: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.list - DEBUG - entering list: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.html_block - DEBUG - entering html_block: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,441 - markdown_it.rules_block.heading - DEBUG - entering heading: StateBlock(line=4,level=2,tokens=20), 59, 60, True
+2025-10-14 20:32:59,446 - ra_aid.ra_aid.agents.research_agent - INFO - [85b0a085-29c3-4ddf-8856-69eec0d209f0] Research agent interrupted.
+2025-10-14 20:32:59,448 - ra_aid.ra_aid.database.connection - INFO - Database connection closed successfully
+2025-10-14 20:32:59,449 - asyncio - DEBUG - Using selector: KqueueSelector
+2025-10-14 20:32:59,607 - httpcore.connection - DEBUG - close.started
+2025-10-14 20:32:59,608 - httpcore.connection - DEBUG - close.complete
