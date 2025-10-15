@@ -1,10 +1,10 @@
 {
-  "_comment": "Comprehensive level difficulty configuration for Jungle Arkanoid game",
-  "_version": "1.0.0",
-  "_lastModified": "2025-10-15",
-
+  "_comment": "Generated level configurations for Jungle Arkanoid game",
+  "_version": "2.0.0",
+  "_generated": "2025-10-15T22:43:39.810Z",
+  "_generator": "level-generator.js",
   "global": {
-    "description": "Default values that apply to all levels unless overridden",
+    "description": "Global defaults and validation rules",
     "defaults": {
       "presentSystem": {
         "spawnDelay": 800,
@@ -15,9 +15,6 @@
         "durationRefreshEnabled": true
       },
       "brickSystem": {
-        "width": 75,
-        "height": 25,
-        "padding": 4,
         "durabilityBonusChance": 0.3,
         "maxDurabilityBonus": 2,
         "levelBonusMultiplier": 1,
@@ -27,26 +24,26 @@
         "baseConsumptionRate": 0.08,
         "maxRecoveryRate": 0.12,
         "recoveryCurveSteepness": 4,
-        "speedPenaltyThreshold": 0.30,
-        "speedPenaltyAmount": 0.50,
-        "consumptionReductionThreshold": 0.70,
+        "speedPenaltyThreshold": 0.3,
+        "speedPenaltyAmount": 0.5,
+        "consumptionReductionThreshold": 0.7,
         "tiredConsumptionPenalty": 0.15,
         "highEnergyEfficiency": 0.35
       },
       "gameBalance": {
-        "baseBallSpeed": 4.0,
+        "baseBallSpeed": 4,
         "ballSpeedIncrement": 0.25,
-        "maxBallSpeed": 15.0,
+        "maxBallSpeed": 12,
         "paddleBaseWidth": 120,
         "paddleMaxWidth": 240,
         "paddleExpansionFactor": 1.4,
         "maxExpansions": 2,
         "baseLives": 3,
-        "scoreMultiplier": 1.0
+        "scoreMultiplier": 1
       },
       "visualEffects": {
         "particleIntensityBase": 0.5,
-        "particleIntensityMax": 1.0,
+        "particleIntensityMax": 1,
         "warningPulseThreshold": 0.15,
         "glowIntensityBase": 0.7,
         "glowIntensityVariation": 0.3
@@ -56,14 +53,13 @@
       "maxLevel": 50,
       "maxRows": 20,
       "maxColumns": 20,
-      "maxBallSpeed": 20.0,
-      "maxPresentSpawnRate": 1.0,
+      "maxBallSpeed": 20,
+      "maxPresentSpawnRate": 1,
       "maxPresents": 50,
       "maxDurability": 10,
-      "maxScoreMultiplier": 5.0
+      "maxScoreMultiplier": 5
     }
   },
-
   "levels": {
     "1": {
       "name": "Tutorial",
@@ -73,13 +69,18 @@
         "rows": 4,
         "columns": 8,
         "pattern": "solid",
-        "types": ["standard"],
-        "oneShotPercentage": 0.90,
+        "types": [
+          "standard"
+        ],
+        "oneShotPercentage": 0.9,
         "maxDurability": 1,
-        "durabilityBonusChance": 0.1
+        "durabilityBonusChance": 0.1,
+        "width": 75,
+        "height": 25,
+        "padding": 4
       },
       "presentSystem": {
-        "spawnProbability": 0.30,
+        "spawnProbability": 0.3,
         "maxPresents": 3,
         "rarityModifiers": {
           "MULTI_BALL": 1.2,
@@ -109,7 +110,7 @@
       },
       "gameBalance": {
         "ballSpeed": 3.5,
-        "scoreMultiplier": 1.0,
+        "scoreMultiplier": 1,
         "lives": 3
       },
       "visualTheme": {
@@ -118,32 +119,37 @@
         "specialEffects": []
       }
     },
-
     "2": {
-      "name": "Mixed Bricks",
+      "name": "Level 2",
       "difficulty": "easy",
       "description": "Mixed brick types introduce strategy",
       "brickSystem": {
-        "rows": 7,
-        "columns": 10,
+        "rows": 5,
+        "columns": 8,
         "pattern": "checkerboard",
-        "types": ["standard", "metal"],
-        "oneShotPercentage": 0.88,
-        "maxDurability": 2,
-        "durabilityBonusChance": 0.15
+        "types": [
+          "standard",
+          "metal"
+        ],
+        "oneShotPercentage": 0.89,
+        "maxDurability": 1,
+        "durabilityBonusChance": 0.12000000000000001,
+        "width": 75,
+        "height": 25,
+        "padding": 4
       },
       "presentSystem": {
-        "spawnProbability": 0.25,
-        "maxPresents": 5,
+        "spawnProbability": 0.3,
+        "maxPresents": 4,
         "rarityModifiers": {
-          "MULTI_BALL": 1.1,
-          "EXPAND_PADDLE": 1.2,
-          "SLOW_BALL": 1.1,
-          "SHIELD": 1.0,
-          "ENERGY_BOOST": 1.1,
-          "ENERGY_FREE": 1.0,
-          "POWER_SHOT": 0.8,
-          "BONUS_POINTS": 0.9
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.49,
+          "SLOW_BALL": 1.29,
+          "SHIELD": 1.09,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
         },
         "effectDurations": {
           "expandPaddle": 15000,
@@ -154,16 +160,16 @@
         }
       },
       "energySystem": {
-        "consumptionRateMultiplier": 0.85,
-        "recoveryRateMultiplier": 1.15,
+        "consumptionRateMultiplier": 0.8200000000000001,
+        "recoveryRateMultiplier": 1.19,
         "thresholds": {
-          "speedPenalty": 0.27,
-          "consumptionReduction": 0.67
+          "speedPenalty": 0.255,
+          "consumptionReduction": 0.655
         }
       },
       "gameBalance": {
-        "ballSpeed": 4.0,
-        "scoreMultiplier": 1.1,
+        "ballSpeed": 3.65,
+        "scoreMultiplier": 1.05,
         "lives": 3
       },
       "visualTheme": {
@@ -172,33 +178,37 @@
         "specialEffects": []
       }
     },
-
     "3": {
-      "name": "Moving Targets",
+      "name": "Level 3",
       "difficulty": "medium",
-      "description": "Moving rows and regenerating bricks challenge your skills",
+      "description": "Moving targets and regenerating bricks challenge your skills",
       "brickSystem": {
-        "rows": 8,
-        "columns": 10,
+        "rows": 5,
+        "columns": 9,
         "pattern": "moving_rows",
-        "types": ["standard", "metal", "gold", "regenerating"],
-        "oneShotPercentage": 0.86,
-        "maxDurability": 3,
-        "durabilityBonusChance": 0.2,
-        "regenerationTime": 10000
+        "types": [
+          "standard",
+          "metal"
+        ],
+        "oneShotPercentage": 0.88,
+        "maxDurability": 2,
+        "durabilityBonusChance": 0.14,
+        "width": 75,
+        "height": 25,
+        "padding": 4
       },
       "presentSystem": {
-        "spawnProbability": 0.20,
-        "maxPresents": 7,
+        "spawnProbability": 0.27999999999999997,
+        "maxPresents": 5,
         "rarityModifiers": {
-          "MULTI_BALL": 1.0,
-          "EXPAND_PADDLE": 1.0,
-          "SLOW_BALL": 0.9,
-          "SHIELD": 1.2,
-          "ENERGY_BOOST": 1.0,
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.48,
+          "SLOW_BALL": 1.28,
+          "SHIELD": 1.08,
+          "ENERGY_BOOST": 1.2,
           "ENERGY_FREE": 1.1,
-          "POWER_SHOT": 1.3,
-          "BONUS_POINTS": 0.9
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
         },
         "effectDurations": {
           "expandPaddle": 15000,
@@ -209,636 +219,3945 @@
         }
       },
       "energySystem": {
-        "consumptionRateMultiplier": 0.9,
-        "recoveryRateMultiplier": 1.1,
+        "consumptionRateMultiplier": 0.8400000000000001,
+        "recoveryRateMultiplier": 1.18,
+        "thresholds": {
+          "speedPenalty": 0.26,
+          "consumptionReduction": 0.66
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 3.8,
+        "scoreMultiplier": 1.05,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4d7c4d",
+        "themeColor": "#228b22",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks"
+        ]
+      }
+    },
+    "4": {
+      "name": "Level 4",
+      "difficulty": "hard",
+      "description": "Fortress patterns with explosive chain reactions",
+      "brickSystem": {
+        "rows": 6,
+        "columns": 9,
+        "pattern": "fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold"
+        ],
+        "oneShotPercentage": 0.87,
+        "maxDurability": 2,
+        "durabilityBonusChance": 0.16,
+        "width": 75,
+        "height": 25,
+        "padding": 4
+      },
+      "presentSystem": {
+        "spawnProbability": 0.27999999999999997,
+        "maxPresents": 6,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.47,
+          "SLOW_BALL": 1.27,
+          "SHIELD": 1.07,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 15000,
+          "slowBall": 30000,
+          "shield": 10000,
+          "energyBoost": 20000,
+          "energyFree": 15000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 0.8600000000000001,
+        "recoveryRateMultiplier": 1.17,
+        "thresholds": {
+          "speedPenalty": 0.265,
+          "consumptionReduction": 0.665
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 3.9499999999999997,
+        "scoreMultiplier": 1.1,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#5d8a5d",
+        "themeColor": "#ff6347",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners"
+        ]
+      }
+    },
+    "5": {
+      "name": "Level 5",
+      "difficulty": "extreme",
+      "description": "Boss level with diamond core and multiple phases",
+      "brickSystem": {
+        "rows": 6,
+        "columns": 9,
+        "pattern": "boss_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive"
+        ],
+        "oneShotPercentage": 0.86,
+        "maxDurability": 2,
+        "durabilityBonusChance": 0.18,
+        "width": 75,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 80,
+        "bossBrickPosition": {
+          "row": 3,
+          "column": 4
+        }
+      },
+      "presentSystem": {
+        "spawnProbability": 0.27999999999999997,
+        "maxPresents": 7,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.46,
+          "SLOW_BALL": 1.26,
+          "SHIELD": 1.06,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 15000,
+          "slowBall": 30000,
+          "shield": 10000,
+          "energyBoost": 20000,
+          "energyFree": 15000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 0.8800000000000001,
+        "recoveryRateMultiplier": 1.16,
+        "thresholds": {
+          "speedPenalty": 0.27,
+          "consumptionReduction": 0.67
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 4.1,
+        "scoreMultiplier": 1.1,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#6d4c4d",
+        "themeColor": "#ffd700",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure"
+        ]
+      }
+    },
+    "6": {
+      "name": "Level 6",
+      "difficulty": "procedural_1",
+      "description": "Procedural generation begins with complex patterns",
+      "brickSystem": {
+        "rows": 7,
+        "columns": 10,
+        "pattern": "procedural_complex",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating"
+        ],
+        "oneShotPercentage": 0.85,
+        "maxDurability": 3,
+        "durabilityBonusChance": 0.19999999999999998,
+        "width": 72,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 80,
+        "bossBrickPosition": {
+          "row": 3,
+          "column": 4
+        },
+        "regenerationTime": 10000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.25999999999999995,
+        "maxPresents": 8,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.45,
+          "SLOW_BALL": 1.25,
+          "SHIELD": 1.05,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 14800,
+          "slowBall": 29800,
+          "shield": 9800,
+          "energyBoost": 19800,
+          "energyFree": 14800
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 0.9000000000000001,
+        "recoveryRateMultiplier": 1.15,
+        "thresholds": {
+          "speedPenalty": 0.275,
+          "consumptionReduction": 0.675
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 4.25,
+        "scoreMultiplier": 1.1500000000000001,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#7a6a7a",
+        "themeColor": "#b19cd9",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs"
+        ]
+      }
+    },
+    "7": {
+      "name": "Level 7",
+      "difficulty": "procedural_2",
+      "description": "Time pressure mechanics and faster regeneration",
+      "brickSystem": {
+        "rows": 7,
+        "columns": 10,
+        "pattern": "procedural_complex",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating"
+        ],
+        "oneShotPercentage": 0.84,
+        "maxDurability": 3,
+        "durabilityBonusChance": 0.21999999999999997,
+        "width": 72,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 80,
+        "bossBrickPosition": {
+          "row": 3,
+          "column": 4
+        },
+        "regenerationTime": 9500
+      },
+      "presentSystem": {
+        "spawnProbability": 0.25999999999999995,
+        "maxPresents": 9,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.44,
+          "SLOW_BALL": 1.24,
+          "SHIELD": 1.04,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 14400,
+          "slowBall": 29400,
+          "shield": 9400,
+          "energyBoost": 19400,
+          "energyFree": 14400
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 0.9200000000000002,
+        "recoveryRateMultiplier": 1.14,
         "thresholds": {
           "speedPenalty": 0.28,
           "consumptionReduction": 0.68
         }
       },
       "gameBalance": {
-        "ballSpeed": 4.5,
-        "scoreMultiplier": 1.2,
-        "lives": 3
-      },
-      "visualTheme": {
-        "backgroundColor": "#4d7c4d",
-        "themeColor": "#228b22",
-        "specialEffects": ["row_movement", "regenerating_bricks"]
-      }
-    },
-
-    "4": {
-      "name": "Fortress Pattern",
-      "difficulty": "hard",
-      "description": "Fortress layout with explosive chain reactions",
-      "brickSystem": {
-        "rows": 9,
-        "columns": 10,
-        "pattern": "fortress",
-        "types": ["metal", "gold", "explosive"],
-        "oneShotPercentage": 0.84,
-        "maxDurability": 4,
-        "durabilityBonusChance": 0.25,
-        "explosiveRadius": 80
-      },
-      "presentSystem": {
-        "spawnProbability": 0.15,
-        "maxPresents": 9,
-        "rarityModifiers": {
-          "MULTI_BALL": 0.9,
-          "EXPAND_PADDLE": 0.9,
-          "SLOW_BALL": 0.8,
-          "SHIELD": 1.0,
-          "ENERGY_BOOST": 1.1,
-          "ENERGY_FREE": 1.2,
-          "POWER_SHOT": 1.5,
-          "BONUS_POINTS": 1.3
-        },
-        "effectDurations": {
-          "expandPaddle": 15000,
-          "slowBall": 30000,
-          "shield": 10000,
-          "energyBoost": 20000,
-          "energyFree": 15000
-        }
-      },
-      "energySystem": {
-        "consumptionRateMultiplier": 0.95,
-        "recoveryRateMultiplier": 1.05,
-        "thresholds": {
-          "speedPenalty": 0.29,
-          "consumptionReduction": 0.69
-        }
-      },
-      "gameBalance": {
-        "ballSpeed": 5.0,
-        "scoreMultiplier": 1.3,
-        "lives": 3
-      },
-      "visualTheme": {
-        "backgroundColor": "#5d8a5d",
-        "themeColor": "#ff6347",
-        "specialEffects": ["explosive_chains", "reinforced_corners"]
-      }
-    },
-
-    "5": {
-      "name": "Boss Level",
-      "difficulty": "extreme",
-      "description": "Boss level with diamond core and multiple phases",
-      "brickSystem": {
-        "rows": 10,
-        "columns": 12,
-        "pattern": "boss_fortress",
-        "types": ["gold", "explosive", "regenerating", "diamond"],
-        "oneShotPercentage": 0.82,
-        "maxDurability": 5,
-        "durabilityBonusChance": 0.3,
-        "bossBrickPosition": {"row": 5, "column": 6},
-        "explosiveRadius": 80,
-        "regenerationTime": 8000
-      },
-      "presentSystem": {
-        "spawnProbability": 0.20,
-        "maxPresents": 11,
-        "rarityModifiers": {
-          "MULTI_BALL": 1.4,
-          "EXPAND_PADDLE": 1.0,
-          "SLOW_BALL": 0.8,
-          "SHIELD": 1.0,
-          "ENERGY_BOOST": 1.3,
-          "ENERGY_FREE": 1.4,
-          "POWER_SHOT": 1.2,
-          "BONUS_POINTS": 1.5
-        },
-        "effectDurations": {
-          "expandPaddle": 15000,
-          "slowBall": 30000,
-          "shield": 10000,
-          "energyBoost": 20000,
-          "energyFree": 15000
-        }
-      },
-      "energySystem": {
-        "consumptionRateMultiplier": 1.0,
-        "recoveryRateMultiplier": 1.0,
-        "thresholds": {
-          "speedPenalty": 0.30,
-          "consumptionReduction": 0.70
-        }
-      },
-      "gameBalance": {
-        "ballSpeed": 5.5,
-        "scoreMultiplier": 1.5,
-        "lives": 3
-      },
-      "visualTheme": {
-        "backgroundColor": "#6d4c4d",
-        "themeColor": "#ffd700",
-        "specialEffects": ["boss_brick", "multi_phase", "time_pressure"]
-      }
-    },
-
-    "6": {
-      "name": "Procedural Beginning",
-      "difficulty": "procedural_1",
-      "description": "Procedural generation begins with complex patterns",
-      "brickSystem": {
-        "rows": 11,
-        "columns": 12,
-        "pattern": "procedural_complex",
-        "types": ["gold", "explosive", "regenerating", "diamond"],
-        "oneShotPercentage": 0.80,
-        "maxDurability": 6,
-        "durabilityBonusChance": 0.35,
-        "explosiveRadius": 90,
-        "regenerationTime": 7000
-      },
-      "presentSystem": {
-        "spawnProbability": 0.18,
-        "maxPresents": 13,
-        "rarityModifiers": {
-          "MULTI_BALL": 1.2,
-          "EXPAND_PADDLE": 0.9,
-          "SLOW_BALL": 0.7,
-          "SHIELD": 0.9,
-          "ENERGY_BOOST": 1.2,
-          "ENERGY_FREE": 1.3,
-          "POWER_SHOT": 1.4,
-          "BONUS_POINTS": 1.4
-        },
-        "effectDurations": {
-          "expandPaddle": 14000,
-          "slowBall": 28000,
-          "shield": 9000,
-          "energyBoost": 18000,
-          "energyFree": 14000
-        }
-      },
-      "energySystem": {
-        "consumptionRateMultiplier": 1.05,
-        "recoveryRateMultiplier": 0.95,
-        "thresholds": {
-          "speedPenalty": 0.31,
-          "consumptionReduction": 0.71
-        }
-      },
-      "gameBalance": {
-        "ballSpeed": 6.0,
-        "scoreMultiplier": 1.6,
-        "lives": 3
-      },
-      "visualTheme": {
-        "backgroundColor": "#7a6a7a",
-        "themeColor": "#b19cd9",
-        "specialEffects": ["complex_patterns", "variable_brick_health", "time_bombs"]
-      }
-    },
-
-    "7": {
-      "name": "Time Pressure",
-      "difficulty": "procedural_2",
-      "description": "Time pressure mechanics and faster regeneration",
-      "brickSystem": {
-        "rows": 12,
-        "columns": 13,
-        "pattern": "procedural_complex",
-        "types": ["gold", "explosive", "regenerating", "diamond"],
-        "oneShotPercentage": 0.78,
-        "maxDurability": 7,
-        "durabilityBonusChance": 0.4,
-        "explosiveRadius": 100,
-        "regenerationTime": 6000
-      },
-      "presentSystem": {
-        "spawnProbability": 0.16,
-        "maxPresents": 15,
-        "rarityModifiers": {
-          "MULTI_BALL": 1.1,
-          "EXPAND_PADDLE": 0.8,
-          "SLOW_BALL": 0.6,
-          "SHIELD": 0.8,
-          "ENERGY_BOOST": 1.1,
-          "ENERGY_FREE": 1.2,
-          "POWER_SHOT": 1.5,
-          "BONUS_POINTS": 1.5
-        },
-        "effectDurations": {
-          "expandPaddle": 13000,
-          "slowBall": 26000,
-          "shield": 8000,
-          "energyBoost": 16000,
-          "energyFree": 13000
-        }
-      },
-      "energySystem": {
-        "consumptionRateMultiplier": 1.1,
-        "recoveryRateMultiplier": 0.9,
-        "thresholds": {
-          "speedPenalty": 0.32,
-          "consumptionReduction": 0.72
-        }
-      },
-      "gameBalance": {
-        "ballSpeed": 6.5,
-        "scoreMultiplier": 1.7,
+        "ballSpeed": 4.4,
+        "scoreMultiplier": 1.1500000000000001,
         "lives": 3
       },
       "visualTheme": {
         "backgroundColor": "#8a7a8a",
         "themeColor": "#da70d6",
-        "specialEffects": ["complex_patterns", "variable_brick_health", "time_bombs", "gravity_zones"]
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones"
+        ]
       }
     },
-
     "8": {
-      "name": "Gravity Zones",
+      "name": "Level 8",
       "difficulty": "procedural_3",
       "description": "Gravity zones affect ball physics",
       "brickSystem": {
-        "rows": 13,
-        "columns": 14,
-        "pattern": "procedural_complex",
-        "types": ["gold", "explosive", "regenerating", "diamond"],
-        "oneShotPercentage": 0.76,
-        "maxDurability": 8,
-        "durabilityBonusChance": 0.45,
-        "explosiveRadius": 110,
-        "regenerationTime": 5000
+        "rows": 8,
+        "columns": 10,
+        "pattern": "procedural_extreme",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating"
+        ],
+        "oneShotPercentage": 0.83,
+        "maxDurability": 3,
+        "durabilityBonusChance": 0.23999999999999996,
+        "width": 72,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 80,
+        "bossBrickPosition": {
+          "row": 3,
+          "column": 4
+        },
+        "regenerationTime": 9000
       },
       "presentSystem": {
-        "spawnProbability": 0.14,
-        "maxPresents": 17,
+        "spawnProbability": 0.25999999999999995,
+        "maxPresents": 10,
         "rarityModifiers": {
-          "MULTI_BALL": 1.0,
-          "EXPAND_PADDLE": 0.7,
-          "SLOW_BALL": 0.5,
-          "SHIELD": 0.7,
-          "ENERGY_BOOST": 1.0,
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.43,
+          "SLOW_BALL": 1.23,
+          "SHIELD": 1.03,
+          "ENERGY_BOOST": 1.2,
           "ENERGY_FREE": 1.1,
-          "POWER_SHOT": 1.6,
-          "BONUS_POINTS": 1.6
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
         },
         "effectDurations": {
-          "expandPaddle": 12000,
-          "slowBall": 24000,
-          "shield": 7000,
-          "energyBoost": 14000,
-          "energyFree": 12000
+          "expandPaddle": 13800,
+          "slowBall": 28800,
+          "shield": 8800,
+          "energyBoost": 18800,
+          "energyFree": 13800
         }
       },
       "energySystem": {
-        "consumptionRateMultiplier": 1.15,
-        "recoveryRateMultiplier": 0.85,
+        "consumptionRateMultiplier": 0.9400000000000002,
+        "recoveryRateMultiplier": 1.13,
         "thresholds": {
-          "speedPenalty": 0.33,
-          "consumptionReduction": 0.73
+          "speedPenalty": 0.28500000000000003,
+          "consumptionReduction": 0.685
         }
       },
       "gameBalance": {
-        "ballSpeed": 7.0,
-        "scoreMultiplier": 1.8,
+        "ballSpeed": 4.550000000000001,
+        "scoreMultiplier": 1.2000000000000002,
         "lives": 3
       },
       "visualTheme": {
         "backgroundColor": "#9a8a9a",
         "themeColor": "#ff69b4",
-        "specialEffects": ["complex_patterns", "variable_brick_health", "time_bombs", "gravity_zones", "multi_ball_required"]
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required"
+        ]
       }
     },
-
     "9": {
-      "name": "Multi-ball Challenge",
+      "name": "Level 9",
       "difficulty": "procedural_4",
       "description": "Strategic multi-ball challenges",
       "brickSystem": {
-        "rows": 14,
-        "columns": 15,
-        "pattern": "procedural_complex",
-        "types": ["gold", "explosive", "regenerating", "diamond"],
-        "oneShotPercentage": 0.74,
-        "maxDurability": 9,
-        "durabilityBonusChance": 0.5,
-        "explosiveRadius": 120,
-        "regenerationTime": 4000
+        "rows": 8,
+        "columns": 11,
+        "pattern": "procedural_extreme",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating"
+        ],
+        "oneShotPercentage": 0.82,
+        "maxDurability": 4,
+        "durabilityBonusChance": 0.25999999999999995,
+        "width": 65,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 80,
+        "bossBrickPosition": {
+          "row": 3,
+          "column": 4
+        },
+        "regenerationTime": 8500
       },
       "presentSystem": {
-        "spawnProbability": 0.13,
-        "maxPresents": 19,
+        "spawnProbability": 0.23999999999999996,
+        "maxPresents": 11,
         "rarityModifiers": {
-          "MULTI_BALL": 1.3,
-          "EXPAND_PADDLE": 0.6,
-          "SLOW_BALL": 0.4,
-          "SHIELD": 0.6,
-          "ENERGY_BOOST": 0.9,
-          "ENERGY_FREE": 1.0,
-          "POWER_SHOT": 1.7,
-          "BONUS_POINTS": 1.7
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.42,
+          "SLOW_BALL": 1.22,
+          "SHIELD": 1.02,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
         },
         "effectDurations": {
-          "expandPaddle": 11000,
-          "slowBall": 22000,
-          "shield": 6000,
-          "energyBoost": 12000,
-          "energyFree": 11000
+          "expandPaddle": 13000,
+          "slowBall": 28000,
+          "shield": 8000,
+          "energyBoost": 18000,
+          "energyFree": 13000
         }
       },
       "energySystem": {
-        "consumptionRateMultiplier": 1.2,
-        "recoveryRateMultiplier": 0.8,
+        "consumptionRateMultiplier": 0.9600000000000002,
+        "recoveryRateMultiplier": 1.1199999999999999,
         "thresholds": {
-          "speedPenalty": 0.34,
-          "consumptionReduction": 0.74
+          "speedPenalty": 0.29000000000000004,
+          "consumptionReduction": 0.6900000000000001
         }
       },
       "gameBalance": {
-        "ballSpeed": 7.5,
-        "scoreMultiplier": 1.9,
+        "ballSpeed": 4.700000000000001,
+        "scoreMultiplier": 1.2000000000000002,
         "lives": 3
       },
       "visualTheme": {
         "backgroundColor": "#aa9aaa",
         "themeColor": "#ff1493",
-        "specialEffects": ["complex_patterns", "variable_brick_health", "time_bombs", "gravity_zones", "multi_ball_required", "boss_brick"]
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required"
+        ]
       }
     },
-
     "10": {
-      "name": "Ultimate Challenge",
+      "name": "Level 10",
       "difficulty": "ultimate",
       "description": "The ultimate challenge with all mechanics combined",
       "brickSystem": {
-        "rows": 15,
-        "columns": 16,
+        "rows": 9,
+        "columns": 11,
         "pattern": "ultimate_fortress",
-        "types": ["gold", "explosive", "regenerating", "diamond"],
-        "oneShotPercentage": 0.72,
-        "maxDurability": 10,
-        "durabilityBonusChance": 0.55,
-        "explosiveRadius": 150,
-        "regenerationTime": 3000,
-        "bossBrickPosition": {"row": 7, "column": 8}
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.8099999999999999,
+        "maxDurability": 4,
+        "durabilityBonusChance": 0.27999999999999997,
+        "width": 65,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 105,
+        "bossBrickPosition": {
+          "row": 4,
+          "column": 5
+        },
+        "regenerationTime": 8000
       },
       "presentSystem": {
-        "spawnProbability": 0.12,
-        "maxPresents": 21,
+        "spawnProbability": 0.23999999999999996,
+        "maxPresents": 12,
         "rarityModifiers": {
-          "MULTI_BALL": 1.5,
-          "EXPAND_PADDLE": 0.5,
-          "SLOW_BALL": 0.3,
-          "SHIELD": 0.5,
-          "ENERGY_BOOST": 0.8,
-          "ENERGY_FREE": 0.9,
-          "POWER_SHOT": 1.8,
-          "BONUS_POINTS": 1.8
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.41,
+          "SLOW_BALL": 1.21,
+          "SHIELD": 1.01,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
         },
         "effectDurations": {
-          "expandPaddle": 10000,
-          "slowBall": 20000,
-          "shield": 5000,
-          "energyBoost": 10000,
-          "energyFree": 10000
+          "expandPaddle": 12000,
+          "slowBall": 27000,
+          "shield": 7000,
+          "energyBoost": 17000,
+          "energyFree": 12000
         }
       },
       "energySystem": {
-        "consumptionRateMultiplier": 1.25,
-        "recoveryRateMultiplier": 0.75,
+        "consumptionRateMultiplier": 0.9800000000000002,
+        "recoveryRateMultiplier": 1.1099999999999999,
         "thresholds": {
-          "speedPenalty": 0.35,
-          "consumptionReduction": 0.75
+          "speedPenalty": 0.29500000000000004,
+          "consumptionReduction": 0.6950000000000001
         }
       },
       "gameBalance": {
-        "ballSpeed": 8.0,
-        "scoreMultiplier": 2.0,
+        "ballSpeed": 4.850000000000001,
+        "scoreMultiplier": 1.2500000000000002,
         "lives": 3
       },
       "visualTheme": {
         "backgroundColor": "#4a0e0e",
         "themeColor": "#ff0000",
         "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
           "complex_patterns",
           "variable_brick_health",
           "time_bombs",
           "gravity_zones",
           "multi_ball_required",
-          "boss_brick",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "11": {
+      "name": "Level 11",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 9,
+        "columns": 11,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.7999999999999999,
+        "maxDurability": 4,
+        "durabilityBonusChance": 0.3,
+        "width": 65,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 110,
+        "bossBrickPosition": {
+          "row": 4,
+          "column": 5
+        },
+        "regenerationTime": 7500
+      },
+      "presentSystem": {
+        "spawnProbability": 0.23999999999999996,
+        "maxPresents": 13,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.4,
+          "SLOW_BALL": 1.2,
+          "SHIELD": 1,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 10800,
+          "slowBall": 25800,
+          "shield": 5800,
+          "energyBoost": 15800,
+          "energyFree": 10800
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.0000000000000002,
+        "recoveryRateMultiplier": 1.0999999999999999,
+        "thresholds": {
+          "speedPenalty": 0.30000000000000004,
+          "consumptionReduction": 0.7000000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 5.000000000000002,
+        "scoreMultiplier": 1.2500000000000002,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
           "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "12": {
+      "name": "Level 12",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 10,
+        "columns": 12,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.7899999999999999,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.32,
+        "width": 59,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 115,
+        "bossBrickPosition": {
+          "row": 5,
+          "column": 6
+        },
+        "regenerationTime": 7000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.21999999999999997,
+        "maxPresents": 14,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.39,
+          "SLOW_BALL": 1.19,
+          "SHIELD": 0.99,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 9400,
+          "slowBall": 24400,
+          "shield": 5000,
+          "energyBoost": 14400,
+          "energyFree": 9400
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.0200000000000002,
+        "recoveryRateMultiplier": 1.0899999999999999,
+        "thresholds": {
+          "speedPenalty": 0.30500000000000005,
+          "consumptionReduction": 0.7050000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 5.150000000000002,
+        "scoreMultiplier": 1.3000000000000003,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "13": {
+      "name": "Level 13",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 10,
+        "columns": 12,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.7799999999999999,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.34,
+        "width": 59,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 120,
+        "bossBrickPosition": {
+          "row": 5,
+          "column": 6
+        },
+        "regenerationTime": 6500
+      },
+      "presentSystem": {
+        "spawnProbability": 0.21999999999999997,
+        "maxPresents": 15,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.38,
+          "SLOW_BALL": 1.18,
+          "SHIELD": 0.98,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 7800,
+          "slowBall": 22800,
+          "shield": 5000,
+          "energyBoost": 12800,
+          "energyFree": 7800
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.0400000000000003,
+        "recoveryRateMultiplier": 1.0799999999999998,
+        "thresholds": {
+          "speedPenalty": 0.31000000000000005,
+          "consumptionReduction": 0.7100000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 5.3000000000000025,
+        "scoreMultiplier": 1.3000000000000003,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "14": {
+      "name": "Level 14",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 11,
+        "columns": 12,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.7699999999999999,
+        "maxDurability": 5,
+        "durabilityBonusChance": 0.36000000000000004,
+        "width": 59,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 125,
+        "bossBrickPosition": {
+          "row": 5,
+          "column": 6
+        },
+        "regenerationTime": 6000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.21999999999999997,
+        "maxPresents": 16,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.3699999999999999,
+          "SLOW_BALL": 1.17,
+          "SHIELD": 0.97,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 6000,
+          "slowBall": 21000,
+          "shield": 5000,
+          "energyBoost": 11000,
+          "energyFree": 6000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.0600000000000003,
+        "recoveryRateMultiplier": 1.0699999999999998,
+        "thresholds": {
+          "speedPenalty": 0.31500000000000006,
+          "consumptionReduction": 0.7150000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 5.450000000000003,
+        "scoreMultiplier": 1.3500000000000003,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "15": {
+      "name": "Level 15",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 11,
+        "columns": 13,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.7599999999999999,
+        "maxDurability": 6,
+        "durabilityBonusChance": 0.38000000000000006,
+        "width": 54,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 130,
+        "bossBrickPosition": {
+          "row": 5,
+          "column": 6
+        },
+        "regenerationTime": 5500
+      },
+      "presentSystem": {
+        "spawnProbability": 0.19999999999999998,
+        "maxPresents": 17,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.3599999999999999,
+          "SLOW_BALL": 1.16,
+          "SHIELD": 0.96,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 19000,
+          "shield": 5000,
+          "energyBoost": 9000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.0800000000000003,
+        "recoveryRateMultiplier": 1.0599999999999998,
+        "thresholds": {
+          "speedPenalty": 0.32000000000000006,
+          "consumptionReduction": 0.7200000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 5.600000000000003,
+        "scoreMultiplier": 1.3500000000000003,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "16": {
+      "name": "Level 16",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 12,
+        "columns": 13,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.7499999999999999,
+        "maxDurability": 6,
+        "durabilityBonusChance": 0.4000000000000001,
+        "width": 54,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 135,
+        "bossBrickPosition": {
+          "row": 6,
+          "column": 6
+        },
+        "regenerationTime": 5000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.19999999999999998,
+        "maxPresents": 18,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.3499999999999999,
+          "SLOW_BALL": 1.15,
+          "SHIELD": 0.95,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 16800,
+          "shield": 5000,
+          "energyBoost": 6800,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.1000000000000003,
+        "recoveryRateMultiplier": 1.0499999999999998,
+        "thresholds": {
+          "speedPenalty": 0.32500000000000007,
+          "consumptionReduction": 0.7250000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 5.7500000000000036,
+        "scoreMultiplier": 1.4000000000000004,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "17": {
+      "name": "Level 17",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 12,
+        "columns": 13,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.7399999999999999,
+        "maxDurability": 6,
+        "durabilityBonusChance": 0.4200000000000001,
+        "width": 54,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 140,
+        "bossBrickPosition": {
+          "row": 6,
+          "column": 6
+        },
+        "regenerationTime": 4500
+      },
+      "presentSystem": {
+        "spawnProbability": 0.19999999999999998,
+        "maxPresents": 19,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.3399999999999999,
+          "SLOW_BALL": 1.14,
+          "SHIELD": 0.94,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 14400,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.1200000000000003,
+        "recoveryRateMultiplier": 1.0399999999999998,
+        "thresholds": {
+          "speedPenalty": 0.33000000000000007,
+          "consumptionReduction": 0.7300000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 5.900000000000004,
+        "scoreMultiplier": 1.4000000000000004,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "18": {
+      "name": "Level 18",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 13,
+        "columns": 14,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.7299999999999999,
+        "maxDurability": 7,
+        "durabilityBonusChance": 0.4400000000000001,
+        "width": 50,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 145,
+        "bossBrickPosition": {
+          "row": 6,
+          "column": 7
+        },
+        "regenerationTime": 4000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.18,
+        "maxPresents": 20,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.3299999999999998,
+          "SLOW_BALL": 1.13,
+          "SHIELD": 0.9299999999999999,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 11800,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.1400000000000003,
+        "recoveryRateMultiplier": 1.0299999999999998,
+        "thresholds": {
+          "speedPenalty": 0.3350000000000001,
+          "consumptionReduction": 0.7350000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 6.050000000000004,
+        "scoreMultiplier": 1.4500000000000004,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "19": {
+      "name": "Level 19",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 13,
+        "columns": 14,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.7199999999999999,
+        "maxDurability": 7,
+        "durabilityBonusChance": 0.46000000000000013,
+        "width": 50,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 150,
+        "bossBrickPosition": {
+          "row": 6,
+          "column": 7
+        },
+        "regenerationTime": 3500
+      },
+      "presentSystem": {
+        "spawnProbability": 0.18,
+        "maxPresents": 21,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.3199999999999998,
+          "SLOW_BALL": 1.1199999999999999,
+          "SHIELD": 0.9199999999999999,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 9000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.1600000000000004,
+        "recoveryRateMultiplier": 1.0199999999999998,
+        "thresholds": {
+          "speedPenalty": 0.3400000000000001,
+          "consumptionReduction": 0.7400000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 6.200000000000005,
+        "scoreMultiplier": 1.4500000000000004,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "20": {
+      "name": "Level 20",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 14,
+        "columns": 14,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.7099999999999999,
+        "maxDurability": 7,
+        "durabilityBonusChance": 0.48000000000000015,
+        "width": 50,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 155,
+        "bossBrickPosition": {
+          "row": 7,
+          "column": 7
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.18,
+        "maxPresents": 22,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.3099999999999998,
+          "SLOW_BALL": 1.1099999999999999,
+          "SHIELD": 0.9099999999999999,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 6000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.1800000000000004,
+        "recoveryRateMultiplier": 1.0099999999999998,
+        "thresholds": {
+          "speedPenalty": 0.3450000000000001,
+          "consumptionReduction": 0.7450000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 6.350000000000005,
+        "scoreMultiplier": 1.5000000000000004,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "21": {
+      "name": "Level 21",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 14,
+        "columns": 15,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.6999999999999998,
+        "maxDurability": 8,
+        "durabilityBonusChance": 0.5000000000000001,
+        "width": 46,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 160,
+        "bossBrickPosition": {
+          "row": 7,
+          "column": 7
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.16,
+        "maxPresents": 23,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.2999999999999998,
+          "SLOW_BALL": 1.0999999999999999,
+          "SHIELD": 0.8999999999999999,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.2000000000000004,
+        "recoveryRateMultiplier": 0.9999999999999998,
+        "thresholds": {
+          "speedPenalty": 0.3500000000000001,
+          "consumptionReduction": 0.7500000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 6.500000000000005,
+        "scoreMultiplier": 1.5000000000000004,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "22": {
+      "name": "Level 22",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 15,
+        "columns": 15,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.6899999999999998,
+        "maxDurability": 8,
+        "durabilityBonusChance": 0.5200000000000001,
+        "width": 46,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 165,
+        "bossBrickPosition": {
+          "row": 7,
+          "column": 7
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.16,
+        "maxPresents": 24,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.2899999999999998,
+          "SLOW_BALL": 1.0899999999999999,
+          "SHIELD": 0.8899999999999999,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.2200000000000004,
+        "recoveryRateMultiplier": 0.9899999999999998,
+        "thresholds": {
+          "speedPenalty": 0.3550000000000001,
+          "consumptionReduction": 0.7550000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 6.650000000000006,
+        "scoreMultiplier": 1.5500000000000005,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "23": {
+      "name": "Level 23",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 15,
+        "columns": 15,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.6799999999999998,
+        "maxDurability": 8,
+        "durabilityBonusChance": 0.5400000000000001,
+        "width": 46,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 170,
+        "bossBrickPosition": {
+          "row": 7,
+          "column": 7
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.16,
+        "maxPresents": 25,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.2799999999999998,
+          "SLOW_BALL": 1.0799999999999998,
+          "SHIELD": 0.8799999999999999,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.2400000000000004,
+        "recoveryRateMultiplier": 0.9799999999999998,
+        "thresholds": {
+          "speedPenalty": 0.3600000000000001,
+          "consumptionReduction": 0.7600000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 6.800000000000006,
+        "scoreMultiplier": 1.5500000000000005,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "24": {
+      "name": "Level 24",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 16,
+        "columns": 16,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.6699999999999998,
+        "maxDurability": 9,
+        "durabilityBonusChance": 0.5600000000000002,
+        "width": 43,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 175,
+        "bossBrickPosition": {
+          "row": 8,
+          "column": 8
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.14,
+        "maxPresents": 26,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.2699999999999998,
+          "SLOW_BALL": 1.0699999999999998,
+          "SHIELD": 0.8699999999999999,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.2600000000000005,
+        "recoveryRateMultiplier": 0.9699999999999998,
+        "thresholds": {
+          "speedPenalty": 0.3650000000000001,
+          "consumptionReduction": 0.7650000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 6.950000000000006,
+        "scoreMultiplier": 1.6000000000000005,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "25": {
+      "name": "Level 25",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 16,
+        "columns": 16,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.6599999999999998,
+        "maxDurability": 9,
+        "durabilityBonusChance": 0.5800000000000002,
+        "width": 43,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 180,
+        "bossBrickPosition": {
+          "row": 8,
+          "column": 8
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.14,
+        "maxPresents": 27,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.2599999999999998,
+          "SLOW_BALL": 1.0599999999999998,
+          "SHIELD": 0.8599999999999999,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.2800000000000005,
+        "recoveryRateMultiplier": 0.9599999999999997,
+        "thresholds": {
+          "speedPenalty": 0.3700000000000001,
+          "consumptionReduction": 0.7700000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 7.100000000000007,
+        "scoreMultiplier": 1.6000000000000005,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "26": {
+      "name": "Level 26",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 17,
+        "columns": 16,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.6499999999999998,
+        "maxDurability": 9,
+        "durabilityBonusChance": 0.6,
+        "width": 43,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 185,
+        "bossBrickPosition": {
+          "row": 8,
+          "column": 8
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.14,
+        "maxPresents": 28,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.2499999999999998,
+          "SLOW_BALL": 1.0499999999999998,
+          "SHIELD": 0.8499999999999999,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.3000000000000005,
+        "recoveryRateMultiplier": 0.9499999999999997,
+        "thresholds": {
+          "speedPenalty": 0.3750000000000001,
+          "consumptionReduction": 0.7750000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 7.250000000000007,
+        "scoreMultiplier": 1.6500000000000006,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "27": {
+      "name": "Level 27",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 17,
+        "columns": 17,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.6399999999999998,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 40,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 190,
+        "bossBrickPosition": {
+          "row": 8,
+          "column": 8
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.12000000000000001,
+        "maxPresents": 29,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.2399999999999998,
+          "SLOW_BALL": 1.0399999999999998,
+          "SHIELD": 0.8399999999999999,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.3200000000000005,
+        "recoveryRateMultiplier": 0.9399999999999997,
+        "thresholds": {
+          "speedPenalty": 0.3800000000000001,
+          "consumptionReduction": 0.7800000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 7.4000000000000075,
+        "scoreMultiplier": 1.6500000000000006,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "28": {
+      "name": "Level 28",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 18,
+        "columns": 17,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.6299999999999998,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 40,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 195,
+        "bossBrickPosition": {
+          "row": 9,
+          "column": 8
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.12000000000000001,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.2299999999999998,
+          "SLOW_BALL": 1.0299999999999998,
+          "SHIELD": 0.8299999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.3400000000000005,
+        "recoveryRateMultiplier": 0.9299999999999997,
+        "thresholds": {
+          "speedPenalty": 0.3850000000000001,
+          "consumptionReduction": 0.7850000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 7.550000000000008,
+        "scoreMultiplier": 1.7000000000000006,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "29": {
+      "name": "Level 29",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 18,
+        "columns": 17,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.6199999999999998,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 40,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 200,
+        "bossBrickPosition": {
+          "row": 9,
+          "column": 8
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.12000000000000001,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.2199999999999998,
+          "SLOW_BALL": 1.0199999999999998,
+          "SHIELD": 0.8199999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.3600000000000005,
+        "recoveryRateMultiplier": 0.9199999999999997,
+        "thresholds": {
+          "speedPenalty": 0.3900000000000001,
+          "consumptionReduction": 0.7900000000000001
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 7.700000000000008,
+        "scoreMultiplier": 1.7000000000000006,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "30": {
+      "name": "Level 30",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 19,
+        "columns": 18,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.6099999999999998,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 38,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 205,
+        "bossBrickPosition": {
+          "row": 9,
+          "column": 9
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.1,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.2099999999999997,
+          "SLOW_BALL": 1.0099999999999998,
+          "SHIELD": 0.8099999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.3800000000000006,
+        "recoveryRateMultiplier": 0.9099999999999997,
+        "thresholds": {
+          "speedPenalty": 0.39500000000000013,
+          "consumptionReduction": 0.7950000000000002
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 7.8500000000000085,
+        "scoreMultiplier": 1.7500000000000007,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "31": {
+      "name": "Level 31",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 19,
+        "columns": 18,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5999999999999998,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 38,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 210,
+        "bossBrickPosition": {
+          "row": 9,
+          "column": 9
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.1,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.1999999999999997,
+          "SLOW_BALL": 0.9999999999999998,
+          "SHIELD": 0.7999999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.4000000000000006,
+        "recoveryRateMultiplier": 0.8999999999999997,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 8.000000000000009,
+        "scoreMultiplier": 1.7500000000000007,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "32": {
+      "name": "Level 32",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 18,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5899999999999997,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 38,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 215,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 9
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.1,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.1899999999999997,
+          "SLOW_BALL": 0.9899999999999998,
+          "SHIELD": 0.7899999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.4200000000000006,
+        "recoveryRateMultiplier": 0.8899999999999997,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 8.15000000000001,
+        "scoreMultiplier": 1.8000000000000007,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "33": {
+      "name": "Level 33",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 19,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5799999999999997,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 36,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 220,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 9
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.08,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.1799999999999997,
+          "SLOW_BALL": 0.9799999999999998,
+          "SHIELD": 0.7799999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.4400000000000006,
+        "recoveryRateMultiplier": 0.8799999999999997,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 8.30000000000001,
+        "scoreMultiplier": 1.8000000000000007,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "34": {
+      "name": "Level 34",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 19,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5699999999999997,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 36,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 225,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 9
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.08,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.1699999999999997,
+          "SLOW_BALL": 0.9699999999999998,
+          "SHIELD": 0.7699999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.4600000000000006,
+        "recoveryRateMultiplier": 0.8699999999999997,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 8.45000000000001,
+        "scoreMultiplier": 1.8500000000000008,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "35": {
+      "name": "Level 35",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 19,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5599999999999997,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 36,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 230,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 9
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.08,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.1599999999999997,
+          "SLOW_BALL": 0.9599999999999997,
+          "SHIELD": 0.7599999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.4800000000000006,
+        "recoveryRateMultiplier": 0.8599999999999997,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 8.60000000000001,
+        "scoreMultiplier": 1.8500000000000008,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "36": {
+      "name": "Level 36",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5499999999999997,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 235,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.06,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.1499999999999997,
+          "SLOW_BALL": 0.9499999999999997,
+          "SHIELD": 0.7499999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.5000000000000007,
+        "recoveryRateMultiplier": 0.8499999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 8.75000000000001,
+        "scoreMultiplier": 1.9000000000000008,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "37": {
+      "name": "Level 37",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5399999999999997,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 240,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.06,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.1399999999999997,
+          "SLOW_BALL": 0.9399999999999997,
+          "SHIELD": 0.7399999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.5200000000000007,
+        "recoveryRateMultiplier": 0.8399999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 8.900000000000011,
+        "scoreMultiplier": 1.9000000000000008,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "38": {
+      "name": "Level 38",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5299999999999997,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 245,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.06,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.1299999999999997,
+          "SLOW_BALL": 0.9299999999999997,
+          "SHIELD": 0.7299999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.5400000000000007,
+        "recoveryRateMultiplier": 0.8299999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 9.050000000000011,
+        "scoreMultiplier": 1.9500000000000008,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "39": {
+      "name": "Level 39",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5199999999999997,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 250,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.1199999999999997,
+          "SLOW_BALL": 0.9199999999999997,
+          "SHIELD": 0.7199999999999998,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.5600000000000007,
+        "recoveryRateMultiplier": 0.8199999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 9.200000000000012,
+        "scoreMultiplier": 1.9500000000000008,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "40": {
+      "name": "Level 40",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5099999999999997,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 255,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.1099999999999997,
+          "SLOW_BALL": 0.9099999999999997,
+          "SHIELD": 0.7099999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.5800000000000007,
+        "recoveryRateMultiplier": 0.8099999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 9.350000000000012,
+        "scoreMultiplier": 2.000000000000001,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "41": {
+      "name": "Level 41",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 260,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.0999999999999996,
+          "SLOW_BALL": 0.8999999999999997,
+          "SHIELD": 0.6999999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.6000000000000008,
+        "recoveryRateMultiplier": 0.7999999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 9.500000000000012,
+        "scoreMultiplier": 2.000000000000001,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "42": {
+      "name": "Level 42",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 265,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.0899999999999996,
+          "SLOW_BALL": 0.8899999999999997,
+          "SHIELD": 0.6899999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.6200000000000008,
+        "recoveryRateMultiplier": 0.7899999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 9.650000000000013,
+        "scoreMultiplier": 2.0500000000000007,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "43": {
+      "name": "Level 43",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 270,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.0799999999999996,
+          "SLOW_BALL": 0.8799999999999997,
+          "SHIELD": 0.6799999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.6400000000000008,
+        "recoveryRateMultiplier": 0.7799999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 9.800000000000013,
+        "scoreMultiplier": 2.0500000000000007,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "44": {
+      "name": "Level 44",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 275,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.0699999999999996,
+          "SLOW_BALL": 0.8699999999999997,
+          "SHIELD": 0.6699999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.6600000000000008,
+        "recoveryRateMultiplier": 0.7699999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 9.950000000000014,
+        "scoreMultiplier": 2.1000000000000005,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "45": {
+      "name": "Level 45",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 280,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.0599999999999996,
+          "SLOW_BALL": 0.8599999999999997,
+          "SHIELD": 0.6599999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.6800000000000008,
+        "recoveryRateMultiplier": 0.7599999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 10.100000000000014,
+        "scoreMultiplier": 2.1000000000000005,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "46": {
+      "name": "Level 46",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 285,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.0499999999999996,
+          "SLOW_BALL": 0.8499999999999996,
+          "SHIELD": 0.6499999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.7000000000000008,
+        "recoveryRateMultiplier": 0.7499999999999996,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 10.250000000000014,
+        "scoreMultiplier": 2.1500000000000004,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "47": {
+      "name": "Level 47",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 290,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.0399999999999996,
+          "SLOW_BALL": 0.8399999999999996,
+          "SHIELD": 0.6399999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.7200000000000009,
+        "recoveryRateMultiplier": 0.7399999999999995,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 10.400000000000015,
+        "scoreMultiplier": 2.1500000000000004,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "48": {
+      "name": "Level 48",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 295,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.0299999999999996,
+          "SLOW_BALL": 0.8299999999999996,
+          "SHIELD": 0.6299999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.7400000000000009,
+        "recoveryRateMultiplier": 0.7299999999999995,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 10.550000000000015,
+        "scoreMultiplier": 2.2,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "49": {
+      "name": "Level 49",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 300,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.0199999999999996,
+          "SLOW_BALL": 0.8199999999999996,
+          "SHIELD": 0.6199999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.760000000000001,
+        "recoveryRateMultiplier": 0.7199999999999995,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 10.700000000000015,
+        "scoreMultiplier": 2.2,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
+          "regenerating_waves"
+        ]
+      }
+    },
+    "50": {
+      "name": "Level 50",
+      "difficulty": "ultimate",
+      "description": "The ultimate challenge with all mechanics combined",
+      "brickSystem": {
+        "rows": 20,
+        "columns": 20,
+        "pattern": "ultimate_fortress",
+        "types": [
+          "standard",
+          "metal",
+          "gold",
+          "explosive",
+          "regenerating",
+          "diamond"
+        ],
+        "oneShotPercentage": 0.5,
+        "maxDurability": 10,
+        "durabilityBonusChance": 0.6,
+        "width": 34,
+        "height": 25,
+        "padding": 4,
+        "explosiveRadius": 305,
+        "bossBrickPosition": {
+          "row": 10,
+          "column": 10
+        },
+        "regenerationTime": 3000
+      },
+      "presentSystem": {
+        "spawnProbability": 0.05,
+        "maxPresents": 30,
+        "rarityModifiers": {
+          "MULTI_BALL": 1.2,
+          "EXPAND_PADDLE": 1.0099999999999996,
+          "SLOW_BALL": 0.8099999999999996,
+          "SHIELD": 0.6099999999999997,
+          "ENERGY_BOOST": 1.2,
+          "ENERGY_FREE": 1.1,
+          "POWER_SHOT": 0.5,
+          "BONUS_POINTS": 0.8
+        },
+        "effectDurations": {
+          "expandPaddle": 5000,
+          "slowBall": 5000,
+          "shield": 5000,
+          "energyBoost": 5000,
+          "energyFree": 5000
+        }
+      },
+      "energySystem": {
+        "consumptionRateMultiplier": 1.780000000000001,
+        "recoveryRateMultiplier": 0.7099999999999995,
+        "thresholds": {
+          "speedPenalty": 0.4,
+          "consumptionReduction": 0.8
+        }
+      },
+      "gameBalance": {
+        "ballSpeed": 10.850000000000016,
+        "scoreMultiplier": 2.25,
+        "lives": 3
+      },
+      "visualTheme": {
+        "backgroundColor": "#4a0e0e",
+        "themeColor": "#ff0000",
+        "specialEffects": [
+          "row_movement",
+          "regenerating_bricks",
+          "explosive_chains",
+          "reinforced_corners",
+          "boss_brick",
+          "multi_phase",
+          "time_pressure",
+          "complex_patterns",
+          "variable_brick_health",
+          "time_bombs",
+          "gravity_zones",
+          "multi_ball_required",
           "regenerating_waves"
         ]
       }
     }
   },
-
   "proceduralTemplate": {
-    "description": "Template for generating levels beyond 10",
-    "baseLevel": 1,
+    "description": "Template for generating levels beyond maxLevel",
+    "baseLevel": 50,
     "progression": {
       "rows": {
-        "base": 15,
-        "increment": 1,
-        "max": 20
+        "base": 20,
+        "increment": 0.05,
+        "max": 3
       },
       "columns": {
-        "base": 16,
+        "base": 20,
         "increment": 1,
         "max": 20
       },
       "ballSpeed": {
-        "base": 8.0,
+        "base": 10.850000000000016,
         "increment": 0.2,
-        "max": 12.0
+        "max": 15
       },
       "maxDurability": {
         "base": 10,
-        "increment": 1,
-        "max": 15
+        "increment": 0.1,
+        "max": 3
       },
       "oneShotPercentage": {
-        "base": 0.70,
-        "decrement": 0.02,
-        "min": 0.50
+        "base": 0.5,
+        "decrement": 0.01,
+        "min": 0.5
       },
       "presentSpawnRate": {
-        "base": 0.10,
-        "decrement": 0.01,
+        "base": 0.05,
+        "decrement": 0.005,
         "min": 0.05
       },
       "maxPresents": {
-        "base": 21,
-        "increment": 2,
+        "base": 30,
+        "increment": 1,
         "max": 50
       },
       "scoreMultiplier": {
-        "base": 2.0,
+        "base": 2.25,
         "increment": 0.1,
-        "max": 5.0
+        "max": 5
       },
       "energyConsumptionMultiplier": {
-        "base": 1.25,
-        "increment": 0.05,
-        "max": 2.0
+        "base": 1.780000000000001,
+        "increment": 0.02,
+        "max": 2
       },
       "effectDurationReduction": {
-        "base": 1.0,
-        "decrement": 0.05,
+        "base": 1,
+        "decrement": 0.02,
         "min": 0.5
       }
-    },
-    "specialFeatureUnlock": {
-      "11": "chaos_mode",
-      "15": "inverse_controls",
-      "20": "time_dilation",
-      "25": "quantum_bricks",
-      "30": "dimension_shift",
-      "35": "reality_bending",
-      "40": "cosmic_horde",
-      "45": "transcendence",
-      "50": "infinity_mode"
-    }
-  },
-
-  "bossLevels": {
-    "5": {
-      "name": "Jungle Guardian",
-      "health": 4,
-      "phases": 1,
-      "specialAbilities": ["shield"],
-      "rewardMultiplier": 2.0
-    },
-    "10": {
-      "name": "Ancient Temple Beast",
-      "health": 5,
-      "phases": 2,
-      "specialAbilities": ["shield", "regeneration", "summon_minions"],
-      "rewardMultiplier": 3.0
-    },
-    "15": {
-      "name": "Chaos Demon",
-      "health": 6,
-      "phases": 3,
-      "specialAbilities": ["shield", "regeneration", "summon_minions", "gravity_well"],
-      "rewardMultiplier": 4.0
-    },
-    "20": {
-      "name": "Time Master",
-      "health": 7,
-      "phases": 4,
-      "specialAbilities": ["shield", "regeneration", "summon_minions", "gravity_well", "time_control"],
-      "rewardMultiplier": 5.0
-    }
-  },
-
-  "difficultyPresets": {
-    "easy": {
-      "description": "Easier difficulty for casual players",
-      "modifiers": {
-        "ballSpeedMultiplier": 0.8,
-        "damageMultiplier": 1.2,
-        "presentSpawnRateMultiplier": 1.5,
-        "energyConsumptionMultiplier": 0.7,
-        "scoreMultiplier": 0.8,
-        "extraLives": 1
-      }
-    },
-    "normal": {
-      "description": "Standard game experience",
-      "modifiers": {
-        "ballSpeedMultiplier": 1.0,
-        "damageMultiplier": 1.0,
-        "presentSpawnRateMultiplier": 1.0,
-        "energyConsumptionMultiplier": 1.0,
-        "scoreMultiplier": 1.0,
-        "extraLives": 0
-      }
-    },
-    "hard": {
-      "description": "Challenging difficulty for experienced players",
-      "modifiers": {
-        "ballSpeedMultiplier": 1.3,
-        "damageMultiplier": 0.8,
-        "presentSpawnRateMultiplier": 0.7,
-        "energyConsumptionMultiplier": 1.3,
-        "scoreMultiplier": 1.5,
-        "extraLives": 0
-      }
-    },
-    "extreme": {
-      "description": "Maximum difficulty for experts",
-      "modifiers": {
-        "ballSpeedMultiplier": 1.6,
-        "damageMultiplier": 0.6,
-        "presentSpawnRateMultiplier": 0.5,
-        "energyConsumptionMultiplier": 1.6,
-        "scoreMultiplier": 2.0,
-        "extraLives": -1
-      }
-    }
-  },
-
-  "loadingInstructions": {
-    "description": "Instructions for implementing this configuration",
-    "implementation": {
-      "PresentSystem": {
-        "requiredChanges": [
-          "Replace hardcoded spawn probability array with level-specific values",
-          "Replace hardcoded max presents formula with config values",
-          "Replace hardcoded rarity modifiers with config values",
-          "Replace hardcoded effect durations with config values"
-        ],
-        "configPath": "levels[levelNumber].presentSystem",
-        "fallbackPath": "global.defaults.presentSystem"
-      },
-      "LevelManager": {
-        "requiredChanges": [
-          "Replace LevelDesign.generateLevel() calls with config loading",
-          "Replace hardcoded ball speed updates with config values",
-          "Replace hardcoded brick generation with config-based generation"
-        ],
-        "configPath": "levels[levelNumber]",
-        "fallbackPath": "global.defaults"
-      },
-      "Brick": {
-        "requiredChanges": [
-          "Replace hardcoded durability calculations with config values",
-          "Replace hardcoded brick type definitions with config values",
-          "Replace hardcoded durability bonus chance with config values"
-        ],
-        "configPath": "levels[levelNumber].brickSystem",
-        "fallbackPath": "global.defaults.brickSystem"
-      },
-      "EnergySystem": {
-        "requiredChanges": [
-          "Load level-specific energy multipliers from config",
-          "Replace hardcoded thresholds with config values",
-          "Replace hardcoded consumption/recovery rates with config values"
-        ],
-        "configPath": "levels[levelNumber].energySystem",
-        "fallbackPath": "global.defaults.energySystem"
-      },
-      "Game": {
-        "requiredChanges": [
-          "Load game balance parameters from config",
-          "Replace hardcoded paddle dimensions with config values",
-          "Replace hardcoded scoring multipliers with config values"
-        ],
-        "configPath": "levels[levelNumber].gameBalance",
-        "fallbackPath": "global.defaults.gameBalance"
-      }
-    },
-    "loadingOrder": [
-      "Load global defaults",
-      "Load level-specific configuration",
-      "Apply difficulty preset modifiers",
-      "Validate configuration values",
-      "Initialize game systems with merged configuration"
-    ],
-    "errorHandling": {
-      "fileNotFound": "Use hardcoded defaults with console warning",
-      "invalidLevel": "Use closest available level configuration",
-      "missingProperty": "Fall back to global default value",
-      "invalidValue": "Clamp to validation range and log warning"
     }
   }
 }

@@ -81,24 +81,24 @@ export class LevelManager {
         const wallThickness = canvasWidth * 0.011; // Same as in Game.js
 
         // Use configuration values or fall back to defaults (with relative sizing)
-        const maxBrickWidth = brickSystemConfig.maxWidth || globalDefaults.maxWidth || (canvasWidth * 0.083); // 75px at 900px = 8.3%
-        const brickHeight = brickSystemConfig.height || globalDefaults.height || (canvasHeight * 0.028); // 25px at 900px = 2.8%
-        const brickPadding = brickSystemConfig.padding || globalDefaults.padding || (canvasWidth * 0.004); // 4px at 900px = 0.4%
+        const gameConfig = this.game.config?.brickSystem || {};
+        const maxBrickWidth = brickSystemConfig.maxWidth || gameConfig.maxWidth || (canvasWidth * 0.083); // 75px at 900px = 8.3%
+        const brickHeight = brickSystemConfig.height || gameConfig.height || (canvasHeight * 0.028); // 25px at 900px = 2.8%
+        const brickPadding = brickSystemConfig.padding || gameConfig.padding || (canvasWidth * 0.004); // 4px at 900px = 0.4%
         const columns = brickSystemConfig.columns || 10;
         const rows = brickSystemConfig.rows || 6;
 
-        // Calculate layout with proper centering
+        // Calculate layout with consistent spacing
         const availableWidth = canvasWidth - (wallThickness * 2); // Account for walls
-        const totalPaddingWidth = (columns - 1) * brickPadding;
+        const totalPaddingWidth = (columns + 1) * brickPadding; // Include left and right margins
         const availableBrickWidth = availableWidth - totalPaddingWidth;
         
         // Calculate brick width: use smaller of maxWidth or stretched width
         const stretchedBrickWidth = availableBrickWidth / columns;
         const brickWidth = Math.min(maxBrickWidth, stretchedBrickWidth);
         
-        // If using max width, center the brick area
-        const totalBricksWidth = columns * brickWidth + totalPaddingWidth;
-        const brickOffsetLeft = (availableWidth - totalBricksWidth) / 2 + wallThickness;
+        // Left offset includes wall thickness plus one padding unit
+        const brickOffsetLeft = wallThickness + brickPadding;
         const brickOffsetTop = canvasHeight * 0.111; // 100px at 900px = 11.1%
 
         // Create brick grid
@@ -111,7 +111,7 @@ export class LevelManager {
                 // Determine brick type based on pattern and configuration
                 const brickType = this.determineBrickType(c, r, config);
 
-                const brick = new Brick(brickX, brickY, brickWidth, brickHeight, brickType, r, this.currentLevel);
+                const brick = new Brick(brickX, brickY, brickWidth, brickHeight, brickType, r, this.currentLevel, brickSystemConfig);
                 this.bricks[c][r] = brick;
 
                 if (!brick.destroyed) {
@@ -634,6 +634,24 @@ export class LevelManager {
 
     getStats() {
         return this.stats;
+    }
+
+    // Start at specific level (for debug mode)
+    async startAtLevel(levelNumber) {
+        console.log(`Starting at level ${levelNumber}`);
+        this.currentLevel = Math.min(levelNumber, this.maxLevel);
+        this.bricks = [];
+        this.bricksDestroyed = 0;
+        this.totalBricks = 0;
+        this.levelState = 'playing';
+        this.specialBrickEffects = [];
+        this.levelInitialized = false;
+
+        // Initialize the specific level
+        await this.initializeLevel(this.currentLevel);
+        this.levelInitialized = true;
+
+        console.log(`Level ${levelNumber} initialized successfully`);
     }
 
     reset() {

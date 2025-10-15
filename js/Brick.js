@@ -1,5 +1,5 @@
 export class Brick {
-    constructor(x, y, width, height, type = 'standard', row = 0, currentLevel = 1) {
+    constructor(x, y, width, height, type = 'standard', row = 0, currentLevel = 1, brickConfig = null) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -10,8 +10,12 @@ export class Brick {
         this.destroyed = false;
         this.damaged = false;
 
-        // Random durability bonus (x1-2 extra hits)
-        this.durabilityBonus = Math.random() < 0.3 ? Math.floor(Math.random() * 2) + 1 : 0;
+        // Apply config-based durability bonus
+        if (brickConfig && brickConfig.durabilityBonusChance && Math.random() < brickConfig.durabilityBonusChance) {
+            this.durabilityBonus = Math.random() < 0.5 ? 1 : 2; // 50% chance for +1, 50% chance for +2
+        } else {
+            this.durabilityBonus = 0;
+        }
 
         // Initialize brick properties based on type
         this.initializeType();
@@ -89,12 +93,13 @@ export class Brick {
         const config = brickTypes[this.type] || brickTypes.standard;
         Object.assign(this, config);
 
-        // Increase durability based on level (+1 per level)
-        const levelBonus = this.currentLevel - 1;
-        this.durability += levelBonus;
-
-        // Add random durability bonus
+        // Apply durability bonus from config (if any)
         this.durability += this.durabilityBonus;
+
+        // Enforce max durability from config
+        if (brickConfig && brickConfig.maxDurability) {
+            this.durability = Math.min(this.durability, brickConfig.maxDurability);
+        }
 
         // Make bonus bricks more noticeable
         if (this.special) {
