@@ -1,10 +1,14 @@
 export class Lives {
-    constructor(lives) {
+    constructor(lives, canvasWidth = 800, canvasHeight = 800) {
         this.lives = lives;
-        this.ballRadius = 12;
-        this.ballSpacing = 35;
-        this.startX = 750; // Position from right edge
-        this.startY = 25;
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
+
+        // Relative sizing
+        this.ballRadius = canvasWidth * 0.013; // 12px at 900px = 1.3%
+        this.ballSpacing = canvasWidth * 0.039; // 35px at 900px = 3.9%
+        this.startX = canvasWidth * 0.833; // 750px at 900px = 83.3%
+        this.startY = canvasHeight * 0.028; // 25px at 900px = 2.8%
 
         // Load ball image for lives display
         this.loadBallImage();
@@ -24,6 +28,15 @@ export class Lives {
 
     reset() {
         this.lives = 3;
+    }
+
+    updateCanvasDimensions(canvasWidth, canvasHeight) {
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
+        this.ballRadius = canvasWidth * 0.013;
+        this.ballSpacing = canvasWidth * 0.039;
+        this.startX = canvasWidth * 0.833;
+        this.startY = canvasHeight * 0.028;
     }
 
     draw(ctx) {

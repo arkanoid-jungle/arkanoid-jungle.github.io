@@ -18,8 +18,8 @@ export class Game {
     constructor() {
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
-        this.canvas.width = 800;
-        this.canvas.height = 800;
+        this.canvas.width = 900;
+        this.canvas.height = 900;
 
         // Set canvas size based on background image when it loads
         this.backImg = new Image();
@@ -37,9 +37,16 @@ export class Game {
         this.settingsManager = null;
         this.configManager = configManager;
 
-        // Core game objects
-        this.paddle = new Paddle(350, 750, 120, 18);
-        this.balls = [new Ball(400, 700, 10, '#0095DD', 0)];
+        // Core game objects (use relative positioning)
+        const paddleY = this.canvas.height * 0.93; // 93% from top (lower position)
+        const paddleX = this.canvas.width * 0.39; // 39% from left
+        const paddleWidth = this.canvas.width * 0.13; // 13% of canvas width
+        const ballX = this.canvas.width * 0.44; // 44% from left (center of paddle)
+        const ballY = this.canvas.height * 0.85; // 85% from top (just above paddle)
+        const ballRadius = this.canvas.width * 0.011; // 1.1% of canvas width
+
+        this.paddle = new Paddle(paddleX, paddleY, paddleWidth, 18, this.config);
+        this.balls = [new Ball(ballX, ballY, ballRadius, '#0095DD', 0)];
         this.ballLaunched = false;
         this.shakeEffect = 0;
 
@@ -57,8 +64,8 @@ export class Game {
         this.energySystemInitialized = false;
 
         // Game state and scoring
-        this.score = new Score(0, 50, 20);
-        this.lives = new Lives(3);
+        this.score = new Score(0, 50, 20, this.canvas.width, this.canvas.height);
+        this.lives = new Lives(3, this.canvas.width, this.canvas.height);
         this.lastFrameTime = 0;
 
         this.init();
@@ -67,6 +74,15 @@ export class Game {
     async init() {
         // Initialize configuration manager first
         await this.configManager.initialize();
+        
+        // Load energy config
+        try {
+            const response = await fetch('config/energy-config.json');
+            this.config = await response.json();
+        } catch (error) {
+            console.warn('Could not load energy-config.json, using defaults:', error);
+            this.config = {};
+        }
 
         // Initialize game systems that depend on configuration
         // These will be initialized asynchronously in their constructors
@@ -83,24 +99,24 @@ export class Game {
     addEventListeners() {
         document.addEventListener('mousemove', (e) => {
             const relativeX = e.clientX - this.canvas.getBoundingClientRect().left;
-            if (relativeX > 0 && relativeX < this.canvas.width) {
-                this.mouseX = relativeX;
-            }
+            this.mouseX = relativeX;
         });
 
         document.addEventListener('click', () => {
             if (this.gameState === 'playing' && !this.ballLaunched && this.balls.length > 0) {
                 this.ballLaunched = true;
-                this.balls[0].dx = 2.5;
-                this.balls[0].dy = -2.5;
+                const ballSpeed = this.config?.ball?.baseSpeed || 2.5;
+                this.balls[0].dx = ballSpeed;
+                this.balls[0].dy = -ballSpeed;
             }
         });
 
         document.addEventListener('keydown', (e) => {
             if ((e.key === ' ' || e.key === 'Enter') && this.gameState === 'playing' && !this.ballLaunched && this.balls.length > 0) {
                 this.ballLaunched = true;
-                this.balls[0].dx = 2.5;
-                this.balls[0].dy = -2.5;
+                const ballSpeed = this.config?.ball?.baseSpeed || 2.5;
+                this.balls[0].dx = ballSpeed;
+                this.balls[0].dy = -ballSpeed;
             }
         });
     }
@@ -146,8 +162,9 @@ export class Game {
             } else if (this.gameState === 'playing' && !this.ballLaunched && this.balls.length > 0) {
                 this.ballLaunched = true;
                 // Launch the main ball
-                this.balls[0].dx = 2.5;
-                this.balls[0].dy = -2.5;
+                const ballSpeed = this.config?.ball?.baseSpeed || 2.5;
+                this.balls[0].dx = ballSpeed;
+                this.balls[0].dy = -ballSpeed;
             }
             event.preventDefault();
         }
@@ -187,34 +204,27 @@ export class Game {
     }
 
     processMouseInput() {
-        if (this.mouseX > 0) {
-            const targetX = this.mouseX - this.paddle.width / 2;
-            const distanceToTarget = targetX - this.paddle.x;
+        const targetX = this.mouseX - this.paddle.width / 2;
+        const distanceToTarget = targetX - this.paddle.x;
 
-            // Calculate valid movement range (considering walls)
-            const minValidX = 10;
-            const maxValidX = this.canvas.width - 10 - this.paddle.width;
+        // Calculate valid movement range (considering walls)
+        const wallThickness = this.canvas.width * 0.011;
+        const minValidX = wallThickness;
+        const maxValidX = this.canvas.width - wallThickness - this.paddle.width;
 
-            // Check if paddle is currently against a wall
-            const paddleAtLeftWall = this.paddle.x <= minValidX;
-            const paddleAtRightWall = this.paddle.x >= maxValidX;
+        // Check if paddle is currently against a wall
+        const paddleAtLeftWall = this.paddle.x <= minValidX;
+        const paddleAtRightWall = this.paddle.x >= maxValidX;
 
-            // Check if mouse is trying to push paddle into wall
-            const mousePushingLeft = paddleAtLeftWall && targetX < this.paddle.x;
-            const mousePushingRight = paddleAtRightWall && targetX > this.paddle.x;
+        // Check if mouse is trying to push paddle into wall
+        const mousePushingLeft = paddleAtLeftWall && targetX < this.paddle.x;
+        const mousePushingRight = paddleAtRightWall && targetX > this.paddle.x;
 
-            // Only apply mouse force if:
-            // 1. Mouse target is within valid range, AND
-            // 2. Not trying to push paddle into wall
-            if (targetX >= minValidX && targetX <= maxValidX && !mousePushingLeft && !mousePushingRight) {
-                const mouseForce = distanceToTarget * 0.15; // Gentle attraction to mouse
-                this.paddle.velocity += mouseForce;
-                this.mouseMovementAmount = Math.abs(distanceToTarget);
-            } else {
-                // Mouse is trying to push paddle into wall - completely block the force and movement
-                this.mouseMovementAmount = 0;
-                // Don't modify paddle.velocity here - let wall collision handle it
-            }
+        // Apply mouse force unless trying to push paddle into wall
+        if (!mousePushingLeft && !mousePushingRight) {
+            const mouseForce = distanceToTarget * 0.15; // Gentle attraction to mouse
+            this.paddle.velocity += mouseForce;
+            this.mouseMovementAmount = Math.abs(distanceToTarget);
         } else {
             this.mouseMovementAmount = 0;
         }
@@ -229,8 +239,9 @@ export class Game {
             paddleVelocityBeforeCollision: this.paddle.velocity
         };
 
-        const minValidX = 10;
-        const maxValidX = this.canvas.width - 10 - this.paddle.width;
+        const wallThickness = this.canvas.width * 0.011; // 1.1% of canvas width (was 10px at 900px)
+        const minValidX = wallThickness;
+        const maxValidX = this.canvas.width - wallThickness - this.paddle.width;
 
         // Check left wall collision
         if (this.paddle.x < minValidX) {
@@ -246,7 +257,7 @@ export class Game {
         }
 
         // Check right wall collision
-        if (this.paddle.x + this.paddle.width > this.canvas.width - 10) {
+        if (this.paddle.x + this.paddle.width > this.canvas.width - wallThickness) {
             this.paddle.x = maxValidX;
             this.paddle.velocity = 0;
             wallState.isHittingWall = true;
@@ -275,6 +286,11 @@ export class Game {
             return;
         }
 
+        // Don't update game systems if level is not properly initialized yet
+        if (!this.levelManager.levelInitialized) {
+            return;
+        }
+
         // Calculate delta time
         const currentTime = performance.now();
         const deltaTime = this.lastFrameTime ? currentTime - this.lastFrameTime : 16;
@@ -295,7 +311,7 @@ export class Game {
 
         // Apply energy effects to paddle
         this.paddle.applyEnergyEffects(this.energySystem);
-        this.paddle.update(leftPressed, rightPressed);
+        this.paddle.update(leftPressed, rightPressed, this.energySystem, this.canvas.width);
 
         // Process mouse input with wall collision awareness
         this.processMouseInput();
@@ -326,7 +342,8 @@ export class Game {
             // Keep main ball with paddle
             if (this.balls.length > 0) {
                 this.balls[0].x = this.paddle.x + this.paddle.width / 2;
-                this.balls[0].y = this.paddle.y - this.balls[0].radius - 5;
+                const ballSpacing = this.canvas.height * 0.006; // 5px at 900px = 0.6%
+                this.balls[0].y = this.paddle.y - this.balls[0].radius - ballSpacing;
             }
         }
 
@@ -344,8 +361,8 @@ export class Game {
                 }
             }
         } else {
-            // Remove dead balls only if we still have balls left
-            this.balls = this.balls.filter(ball => !(ball.dy === 0 && ball.dx === 0));
+            // Don't remove unlaunched balls - they have dx=0, dy=0 which is normal
+            // Dead balls are handled by the updateBalls() method
         }
     }
 
@@ -371,9 +388,10 @@ export class Game {
         ball.y += ball.dy;
 
         // Wall collision (left/right)
-        if (ball.x - ball.radius <= 10 || ball.x + ball.radius >= this.canvas.width - 10) {
+        const wallThickness = this.canvas.width * 0.011;
+        if (ball.x - ball.radius <= wallThickness || ball.x + ball.radius >= this.canvas.width - wallThickness) {
             ball.dx = -ball.dx;
-            ball.x = ball.x - ball.radius <= 10 ? 10 + ball.radius : this.canvas.width - 10 - ball.radius;
+            ball.x = ball.x - ball.radius <= wallThickness ? wallThickness + ball.radius : this.canvas.width - wallThickness - ball.radius;
             // Play percussion sound
             if (this.audioManager) {
                 this.audioManager.playPercussionHit();
@@ -381,9 +399,10 @@ export class Game {
         }
 
         // Wall collision (top)
-        if (ball.y - ball.radius <= 30) {
+        const topWallMargin = this.canvas.height * 0.033; // 30px at 900px = 3.3%
+        if (ball.y - ball.radius <= topWallMargin) {
             ball.dy = -ball.dy;
-            ball.y = 30 + ball.radius;
+            ball.y = topWallMargin + ball.radius;
             // Play percussion sound
             if (this.audioManager) {
                 this.audioManager.playPercussionHit();
@@ -391,9 +410,10 @@ export class Game {
         }
 
         // Shield collision (before bottom wall)
-        if (this.presentSystem.activeEffects.shield.active && ball.y + ball.radius >= this.canvas.height - 20) {
+        const bottomShieldMargin = this.canvas.height * 0.022; // 20px at 900px = 2.2%
+        if (this.presentSystem.activeEffects.shield.active && ball.y + ball.radius >= this.canvas.height - bottomShieldMargin) {
             ball.dy = -Math.abs(ball.dy); // Bounce ball upward
-            ball.y = this.canvas.height - 20 - ball.radius;
+            ball.y = this.canvas.height - bottomShieldMargin - ball.radius;
             this.presentSystem.checkShieldCollision(); // Consume shield
             this.visualEffects.createShieldEffect(ball.x, ball.y);
             return false;
@@ -411,11 +431,9 @@ export class Game {
         }
 
         // Bottom wall collision
-        if (ball.y - ball.radius > this.canvas.height) {
-            return true; // Signal ball lost
-        }
+        return ball.y - ball.radius > this.canvas.height;
 
-        return false;
+
     }
 
     checkPaddleCollision(ball) {
@@ -538,7 +556,10 @@ export class Game {
     }
 
     resetBall() {
-        this.balls = [new Ball(400, 700, 10, '#0095DD', 0)];
+        const ballX = this.canvas.width * 0.44;
+        const ballY = this.canvas.height * 0.85; // Same as initial position
+        const ballRadius = this.canvas.width * 0.011;
+        this.balls = [new Ball(ballX, ballY, ballRadius, '#0095DD', 0)];
         this.ballLaunched = false;
     }
 
@@ -569,8 +590,9 @@ export class Game {
         } else {
             // Draw side walls
             this.ctx.fillStyle = '#8B4513';
-            this.ctx.fillRect(0, 0, 10, this.canvas.height);
-            this.ctx.fillRect(this.canvas.width - 10, 0, 10, this.canvas.height);
+            const wallThickness = this.canvas.width * 0.011;
+            this.ctx.fillRect(0, 0, wallThickness, this.canvas.height);
+            this.ctx.fillRect(this.canvas.width - wallThickness, 0, wallThickness, this.canvas.height);
 
             // Draw level and bricks
             this.levelManager.draw(this.ctx);
@@ -603,13 +625,15 @@ export class Game {
 
             // Draw launch hint
             if (!this.ballLaunched && this.balls.length > 0) {
-                this.ctx.font = '16px Arial';
+                const fontSize = this.canvas.width * 0.018; // 16px at 900px = 1.8%
+                const launchTextY = this.canvas.height * 0.944; // 50px from bottom at 900px
+                this.ctx.font = `${fontSize}px Arial`;
                 this.ctx.fillStyle = '#FFD700';
                 this.ctx.textAlign = 'center';
                 this.ctx.strokeStyle = '#000';
                 this.ctx.lineWidth = 2;
-                this.ctx.strokeText('Press SPACE or ENTER to launch', this.canvas.width / 2, this.canvas.height - 50);
-                this.ctx.fillText('Press SPACE or ENTER to launch', this.canvas.width / 2, this.canvas.height - 50);
+                this.ctx.strokeText('Press SPACE or ENTER to launch', this.canvas.width / 2, launchTextY);
+                this.ctx.fillText('Press SPACE or ENTER to launch', this.canvas.width / 2, launchTextY);
             }
 
             // Draw level tip
@@ -685,48 +709,54 @@ export class Game {
         const levelConfig = this.levelManager.getLevelConfig();
         if (levelConfig && levelConfig.description) {
             this.ctx.save();
-            this.ctx.font = '14px Arial';
+            const fontSize = this.canvas.width * 0.016; // 14px at 900px = 1.6%
+            const tipY = this.canvas.height * 0.978; // 20px from bottom at 900px
+            this.ctx.font = `${fontSize}px Arial`;
             this.ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
             this.ctx.textAlign = 'center';
-            this.ctx.fillText(levelConfig.description, this.canvas.width / 2, this.canvas.height - 20);
+            this.ctx.fillText(levelConfig.description, this.canvas.width / 2, tipY);
             this.ctx.restore();
         }
     }
 
     drawJungleBackground() {
+        const canvasWidth = this.canvas.width;
+        const canvasHeight = this.canvas.height;
+
         // Draw trees
         this.ctx.fillStyle = '#654321';
-        this.ctx.fillRect(50, 400, 20, 200);
-        this.ctx.fillRect(730, 350, 25, 250);
-        
+        this.ctx.fillRect(canvasWidth * 0.056, canvasHeight * 0.444, canvasWidth * 0.022, canvasHeight * 0.222); // Left tree
+        this.ctx.fillRect(canvasWidth * 0.811, canvasHeight * 0.389, canvasWidth * 0.028, canvasHeight * 0.278); // Right tree
+
         // Draw tree tops
         this.ctx.fillStyle = '#228B22';
         this.ctx.beginPath();
-        this.ctx.arc(60, 400, 40, 0, Math.PI * 2);
+        this.ctx.arc(canvasWidth * 0.067, canvasHeight * 0.444, canvasWidth * 0.044, 0, Math.PI * 2); // Left top
         this.ctx.fill();
         this.ctx.beginPath();
-        this.ctx.arc(742, 350, 50, 0, Math.PI * 2);
+        this.ctx.arc(canvasWidth * 0.824, canvasHeight * 0.389, canvasWidth * 0.056, 0, Math.PI * 2); // Right top
         this.ctx.fill();
-        
+
         // Draw hanging vines
         this.ctx.strokeStyle = '#32CD32';
-        this.ctx.lineWidth = 3;
+        this.ctx.lineWidth = canvasWidth * 0.003; // 3px at 900px = 0.3%
         this.ctx.beginPath();
-        this.ctx.moveTo(150, 0);
-        this.ctx.quadraticCurveTo(160, 100, 145, 200);
+        this.ctx.moveTo(canvasWidth * 0.167, 0);
+        this.ctx.quadraticCurveTo(canvasWidth * 0.178, canvasHeight * 0.111, canvasWidth * 0.161, canvasHeight * 0.222);
         this.ctx.stroke();
         this.ctx.beginPath();
-        this.ctx.moveTo(650, 0);
-        this.ctx.quadraticCurveTo(640, 80, 655, 160);
+        this.ctx.moveTo(canvasWidth * 0.722, 0);
+        this.ctx.quadraticCurveTo(canvasWidth * 0.711, canvasHeight * 0.089, canvasWidth * 0.728, canvasHeight * 0.178);
         this.ctx.stroke();
-        
+
         // Draw scattered leaves
         this.ctx.fillStyle = '#90EE90';
-        for (let i = 0; i < 8; i++) {
-            const x = 100 + i * 80;
-            const y = 50 + Math.sin(i) * 20;
+        const leafCount = 8;
+        for (let i = 0; i < leafCount; i++) {
+            const x = canvasWidth * 0.111 + (i * canvasWidth * 0.089); // 100px + spacing
+            const y = canvasHeight * 0.056 + (Math.sin(i) * canvasHeight * 0.022); // 50px + variation
             this.ctx.beginPath();
-            this.ctx.ellipse(x, y, 8, 4, i * 0.5, 0, Math.PI * 2);
+            this.ctx.ellipse(x, y, canvasWidth * 0.009, canvasHeight * 0.004, i * 0.5, 0, Math.PI * 2);
             this.ctx.fill();
         }
     }
@@ -736,7 +766,7 @@ export class Game {
         this.gameState = 'start';
         this.ballLaunched = false;
         this.shakeEffect = 0;
-        this.paddle.x = 350;
+        this.paddle.x = this.canvas.width * 0.39;
         this.score.score = 0;
         this.lives.lives = 3;
 
@@ -757,31 +787,40 @@ export class Game {
     }
 
     showStartScreen() {
-        this.ctx.font = '48px Arial';
+        const titleFontSize = this.canvas.width * 0.053; // 48px at 900px = 5.3%
+        const titleY = this.canvas.height * 0.222; // 200px at 900px = 22.2%
+
+        this.ctx.font = `${titleFontSize}px Arial`;
         this.ctx.fillStyle = '#FFD700';
         this.ctx.strokeStyle = '#000';
         this.ctx.lineWidth = 3;
         this.ctx.textAlign = 'center';
-        this.ctx.strokeText('JUNGLE ARKANOID', this.canvas.width / 2, 200);
-        this.ctx.fillText('JUNGLE ARKANOID', this.canvas.width / 2, 200);
-        
-        this.ctx.font = '24px Arial';
+        this.ctx.strokeText('JUNGLE ARKANOID', this.canvas.width / 2, titleY);
+        this.ctx.fillText('JUNGLE ARKANOID', this.canvas.width / 2, titleY);
+
+        const buttonFontSize = this.canvas.width * 0.027; // 24px at 900px = 2.7%
+        const startY = this.canvas.height * 0.333; // 300px at 900px = 33.3%
+
+        this.ctx.font = `${buttonFontSize}px Arial`;
         this.ctx.fillStyle = '#90EE90';
         this.ctx.strokeStyle = '#000';
         this.ctx.lineWidth = 2;
-        this.ctx.strokeText('Press SPACE to Start', this.canvas.width / 2, 300);
-        this.ctx.fillText('Press SPACE to Start', this.canvas.width / 2, 300);
-        
-        this.ctx.font = '18px Arial';
-        this.ctx.fillStyle = '#FFFF00';
-        this.ctx.strokeText('Use ← → arrows or mouse to move', this.canvas.width / 2, 350);
-        this.ctx.fillText('Use ← → arrows or mouse to move', this.canvas.width / 2, 350);
-        
-        this.ctx.strokeText('Press SPACE or ENTER to launch ball', this.canvas.width / 2, 380);
-        this.ctx.fillText('Press SPACE or ENTER to launch ball', this.canvas.width / 2, 380);
+        this.ctx.strokeText('Press SPACE to Start', this.canvas.width / 2, startY);
+        this.ctx.fillText('Press SPACE to Start', this.canvas.width / 2, startY);
 
-        this.ctx.strokeText('Press S for Settings', this.canvas.width / 2, 410);
-        this.ctx.fillText('Press S for Settings', this.canvas.width / 2, 410);
+        const instructionFontSize = this.canvas.width * 0.02; // 18px at 900px = 2%
+        const instructionSpacing = this.canvas.height * 0.056; // 50px at 900px = 5.6%
+
+        this.ctx.font = `${instructionFontSize}px Arial`;
+        this.ctx.fillStyle = '#FFFF00';
+        this.ctx.strokeText('Use ← → arrows or mouse to move', this.canvas.width / 2, startY + instructionSpacing);
+        this.ctx.fillText('Use ← → arrows or mouse to move', this.canvas.width / 2, startY + instructionSpacing);
+
+        this.ctx.strokeText('Press SPACE or ENTER to launch ball', this.canvas.width / 2, startY + instructionSpacing * 2);
+        this.ctx.fillText('Press SPACE or ENTER to launch ball', this.canvas.width / 2, startY + instructionSpacing * 2);
+
+        this.ctx.strokeText('Press S for Settings', this.canvas.width / 2, startY + instructionSpacing * 3);
+        this.ctx.fillText('Press S for Settings', this.canvas.width / 2, startY + instructionSpacing * 3);
     }
 
     showSettingsScreen() {
@@ -805,44 +844,54 @@ export class Game {
     }
 
     showGameOverScreen() {
-        this.ctx.font = '36px Arial';
+        const titleFontSize = this.canvas.width * 0.04; // 36px at 900px = 4%
+        const titleY = this.canvas.height * 0.444; // 50px from center at 900px = 5.6%
+
+        this.ctx.font = `${titleFontSize}px Arial`;
         this.ctx.fillStyle = '#FF4500';
         this.ctx.strokeStyle = '#000';
         this.ctx.lineWidth = 2;
         this.ctx.textAlign = 'center';
-        this.ctx.strokeText('Game Over', this.canvas.width / 2, this.canvas.height / 2 - 50);
-        this.ctx.fillText('Game Over', this.canvas.width / 2, this.canvas.height / 2 - 50);
-        
-        this.ctx.font = '24px Arial';
+        this.ctx.strokeText('Game Over', this.canvas.width / 2, titleY);
+        this.ctx.fillText('Game Over', this.canvas.width / 2, titleY);
+
+        const scoreFontSize = this.canvas.width * 0.027; // 24px at 900px = 2.7%
+        this.ctx.font = `${scoreFontSize}px Arial`;
         this.ctx.fillStyle = '#FFD700';
         this.ctx.strokeText(`Final Score: ${this.score.score}`, this.canvas.width / 2, this.canvas.height / 2);
         this.ctx.fillText(`Final Score: ${this.score.score}`, this.canvas.width / 2, this.canvas.height / 2);
-        
-        this.ctx.font = '18px Arial';
+
+        const restartFontSize = this.canvas.width * 0.02; // 18px at 900px = 2%
+        this.ctx.font = `${restartFontSize}px Arial`;
         this.ctx.fillStyle = '#90EE90';
-        this.ctx.strokeText('Press SPACE to restart', this.canvas.width / 2, this.canvas.height / 2 + 40);
-        this.ctx.fillText('Press SPACE to restart', this.canvas.width / 2, this.canvas.height / 2 + 40);
+        this.ctx.strokeText('Press SPACE to restart', this.canvas.width / 2, this.canvas.height / 2 + this.canvas.height * 0.044);
+        this.ctx.fillText('Press SPACE to restart', this.canvas.width / 2, this.canvas.height / 2 + this.canvas.height * 0.044);
     }
 
     showWinScreen() {
         this.gameState = 'gameOver';
-        this.ctx.font = '36px Arial';
+        const titleFontSize = this.canvas.width * 0.04; // 36px at 900px = 4%
+        const titleY = this.canvas.height * 0.444; // 50px from center at 900px = 5.6%
+
+        this.ctx.font = `${titleFontSize}px Arial`;
         this.ctx.fillStyle = '#32CD32';
         this.ctx.strokeStyle = '#000';
         this.ctx.lineWidth = 2;
         this.ctx.textAlign = 'center';
-        this.ctx.strokeText('Victory!', this.canvas.width / 2, this.canvas.height / 2 - 50);
-        this.ctx.fillText('Victory!', this.canvas.width / 2, this.canvas.height / 2 - 50);
-        
-        this.ctx.font = '24px Arial';
+        this.ctx.strokeText('Victory!', this.canvas.width / 2, titleY);
+        this.ctx.fillText('Victory!', this.canvas.width / 2, titleY);
+
+        const scoreFontSize = this.canvas.width * 0.027; // 24px at 900px = 2.7%
+        this.ctx.font = `${scoreFontSize}px Arial`;
         this.ctx.fillStyle = '#FFD700';
         this.ctx.strokeText(`Final Score: ${this.score.score}`, this.canvas.width / 2, this.canvas.height / 2);
         this.ctx.fillText(`Final Score: ${this.score.score}`, this.canvas.width / 2, this.canvas.height / 2);
-        
-        this.ctx.font = '18px Arial';
+
+        const restartFontSize = this.canvas.width * 0.02; // 18px at 900px = 2%
+        this.ctx.font = `${restartFontSize}px Arial`;
         this.ctx.fillStyle = '#90EE90';
-        this.ctx.strokeText('Press SPACE to play again', this.canvas.width / 2, this.canvas.height / 2 + 40);
-        this.ctx.fillText('Press SPACE to play again', this.canvas.width / 2, this.canvas.height / 2 + 40);
+        this.ctx.strokeText('Press SPACE to play again', this.canvas.width / 2, this.canvas.height / 2 + this.canvas.height * 0.044);
+        this.ctx.fillText('Press SPACE to play again', this.canvas.width / 2, this.canvas.height / 2 + this.canvas.height * 0.044);
     }
 
     startGameLoop() {

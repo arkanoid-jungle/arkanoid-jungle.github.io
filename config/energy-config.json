@@ -12,14 +12,27 @@
       "highEnergyEfficiency": 0.35
     },
     "baseConfig": {
-      "maxEnergy": 100,
-      "baseConsumptionRate": 0.08,
-      "maxRecoveryRate": 0.12,
-      "recoveryCurveSteepness": 4
+      "maxEnergy": 130,
+      "baseConsumptionRate": 0.015,
+      "maxRecoveryRate": 0.1,
+      "recoveryCurveSteepness": 1.4
     },
     "ui": {
       "energyBarEnabled": true,
       "animationEnabled": true
     }
+  },
+  "paddle": {
+    "maxSpeed": 10,
+    "acceleration": 0.9,
+    "friction": 0.1
+  },
+  "ball": {
+    "baseSpeed": 2
+  },
+  "brickSystem": {
+    "maxWidth": 175,
+    "height": 20,
+    "padding": 4
   }
 }

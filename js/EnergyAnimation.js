@@ -163,6 +163,15 @@ export class EnergyAnimation {
 
         ctx.save();
 
+        // Get canvas dimensions for clipping
+        const canvasWidth = ctx.canvas.width;
+        const canvasHeight = ctx.canvas.height;
+
+        // Create clipping region to prevent drawing outside canvas
+        ctx.beginPath();
+        ctx.rect(0, 0, canvasWidth, canvasHeight);
+        ctx.clip();
+
         // Get energy color with pulsing intensity
         const pulseIntensity = Math.sin(this.fieldPulse) * 0.2 + 0.8;
         const energyColor = energySystem.getEnergyColor();
@@ -222,7 +231,7 @@ export class EnergyAnimation {
             }
         }
 
-        // Draw glowing aura directly under paddle
+        // Draw glowing aura directly under paddle (bounded)
         const auraGradient = ctx.createRadialGradient(
             fieldX, paddle.y + paddle.height/2, 0,
             fieldX, paddle.y + paddle.height/2, paddle.width
@@ -236,7 +245,14 @@ export class EnergyAnimation {
 
         ctx.fillStyle = auraGradient;
         ctx.globalAlpha = this.fieldIntensity * 0.8;
-        ctx.fillRect(fieldX - paddle.width, paddle.y - 20, paddle.width * 2, paddle.height + 40);
+
+        // Calculate bounded aura rectangle
+        const auraX = Math.max(0, fieldX - paddle.width);
+        const auraY = Math.max(0, paddle.y - 62)  +100;
+        const auraWidth = Math.min(canvasWidth - auraX, paddle.width * 2);
+        const auraHeight = Math.min(canvasHeight - auraY, paddle.height + 40);
+
+        ctx.fillRect(auraX, auraY, auraWidth, auraHeight);
 
         ctx.restore();
     }

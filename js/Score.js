@@ -1,6 +1,8 @@
 export class Score {
-    constructor(score, x, y) {
+    constructor(score, x, y, canvasWidth = 800, canvasHeight = 800) {
         this.score = score;
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
         this.x = x;
         this.y = y;
     }
@@ -14,7 +16,8 @@ export class Score {
     }
 
     draw(ctx) {
-        ctx.font = '18px Arial';
+        const fontSize = this.canvasWidth * 0.02; // 18px at 900px = 2%
+        ctx.font = `${fontSize}px Arial`;
         ctx.fillStyle = '#FFD700';
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 1;

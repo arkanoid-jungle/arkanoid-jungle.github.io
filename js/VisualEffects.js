@@ -18,18 +18,8 @@ export class VisualEffects {
     }
 
     initBackgroundParticles() {
-        // Create ambient floating particles for atmosphere
-        for (let i = 0; i < 30; i++) {
-            this.backgroundParticles.push({
-                x: Math.random() * this.canvas.width,
-                y: Math.random() * this.canvas.height,
-                size: Math.random() * 2 + 1,
-                speedX: (Math.random() - 0.5) * 0.5,
-                speedY: (Math.random() - 0.5) * 0.5,
-                opacity: Math.random() * 0.3 + 0.1,
-                color: '#90EE90'
-            });
-        }
+        // Disabled background particles to prevent green glowing edge effects
+        this.backgroundParticles = [];
     }
 
     createBrickExplosion(x, y, brickColor, brickType = 'standard') {
@@ -303,14 +293,18 @@ export class VisualEffects {
             particle.x += particle.speedX;
             particle.y += particle.speedY;
 
-            // Wrap around screen
-            if (particle.x < 0) particle.x = this.canvas.width;
-            if (particle.x > this.canvas.width) particle.x = 0;
-            if (particle.y < 0) particle.y = this.canvas.height;
-            if (particle.y > this.canvas.height) particle.y = 0;
+            // Bounce off screen edges instead of wrapping
+            if (particle.x <= 0 || particle.x >= this.canvas.width) {
+                particle.speedX *= -1;
+                particle.x = Math.max(0, Math.min(this.canvas.width, particle.x));
+            }
+            if (particle.y <= 0 || particle.y >= this.canvas.height) {
+                particle.speedY *= -1;
+                particle.y = Math.max(0, Math.min(this.canvas.height, particle.y));
+            }
 
             // Subtle opacity animation
-            particle.opacity = 0.1 + Math.sin(Date.now() * 0.001 + particle.x) * 0.1;
+            particle.opacity = 0.05 + Math.sin(Date.now() * 0.001 + particle.x) * 0.05;
         });
     }
 
@@ -426,15 +420,7 @@ export class VisualEffects {
     }
 
     renderBackgroundParticles() {
-        this.backgroundParticles.forEach(particle => {
-            this.ctx.save();
-            this.ctx.globalAlpha = particle.opacity;
-            this.ctx.fillStyle = particle.color;
-            this.ctx.beginPath();
-            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-            this.ctx.fill();
-            this.ctx.restore();
-        });
+        // Background particles disabled - no rendering
     }
 
     renderParticles() {

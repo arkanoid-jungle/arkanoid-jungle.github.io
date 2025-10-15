@@ -1,26 +1,30 @@
 export class Paddle {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, config = null) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.velocity = 0;
-        this.acceleration = 0.8;
-        this.friction = 0.85;
-        this.maxSpeed = 8;
+        
+        // Load from config or use defaults
+        const paddleConfig = config?.paddle || {};
+        this.acceleration = paddleConfig.acceleration || 0.8;
+        this.friction = paddleConfig.friction || 0.85;
+        this.maxSpeed = paddleConfig.maxSpeed || 8;
 
         // Energy system integration
-        this.baseMaxSpeed = 8;
-        this.baseAcceleration = 0.8;
+        this.baseMaxSpeed = this.maxSpeed;
+        this.baseAcceleration = this.acceleration;
 
         this.img = new Image();
         this.img.src = 'images/platform.png';
     }
 
-    update(leftPressed, rightPressed, energySystem = null) {
+    update(leftPressed, rightPressed, energySystem = null, canvasWidth = 900) {
         // Check if paddle is against walls before applying forces
-        const minValidX = 10;
-        const maxValidX = 790 - this.width;
+        const wallThickness = canvasWidth * 0.011; // Match Game.js calculation
+        const minValidX = wallThickness;
+        const maxValidX = canvasWidth - wallThickness - this.width;
         const paddleAtLeftWall = this.x <= minValidX;
         const paddleAtRightWall = this.x >= maxValidX;
 

@@ -28,8 +28,8 @@ export class LevelManager {
             perfectLevels: 0 // Levels completed without losing lives
         };
 
-        // Initialize first level
-        this.initializeLevel(1);
+        // Initialize first level after configuration is loaded
+        this.levelInitialized = false;
     }
 
     async initializeLevel(levelNumber) {
@@ -40,6 +40,14 @@ export class LevelManager {
     loadLevel(levelNumber) {
         this.currentLevel = Math.min(levelNumber, this.maxLevel);
         this.levelConfig = this.configManager.getLevelConfig(this.currentLevel);
+
+        // If level config is still null, wait and retry
+        if (!this.levelConfig) {
+            console.warn('Level config not loaded yet, retrying...');
+            setTimeout(() => this.loadLevel(levelNumber), 100);
+            return;
+        }
+
         this.bricks = [];
         this.bricksDestroyed = 0;
         this.levelStartTime = Date.now();
@@ -67,34 +75,43 @@ export class LevelManager {
         const brickSystemConfig = config.brickSystem || {};
         const globalDefaults = this.configManager.getGlobalDefaults('brickSystem') || {};
 
-        // Use configuration values or fall back to defaults
-        const brickWidth = brickSystemConfig.width || globalDefaults.width || 75;
-        const brickHeight = brickSystemConfig.height || globalDefaults.height || 25;
-        const brickPadding = brickSystemConfig.padding || globalDefaults.padding || 4;
+        // Use relative sizing based on canvas dimensions
+        const canvasWidth = this.game.canvas.width;
+        const canvasHeight = this.game.canvas.height;
+        const wallThickness = canvasWidth * 0.011; // Same as in Game.js
+
+        // Use configuration values or fall back to defaults (with relative sizing)
+        const maxBrickWidth = brickSystemConfig.maxWidth || globalDefaults.maxWidth || (canvasWidth * 0.083); // 75px at 900px = 8.3%
+        const brickHeight = brickSystemConfig.height || globalDefaults.height || (canvasHeight * 0.028); // 25px at 900px = 2.8%
+        const brickPadding = brickSystemConfig.padding || globalDefaults.padding || (canvasWidth * 0.004); // 4px at 900px = 0.4%
         const columns = brickSystemConfig.columns || 10;
         const rows = brickSystemConfig.rows || 6;
 
         // Calculate layout with proper centering
-        const totalBricksWidth = columns * brickWidth + (columns - 1) * brickPadding;
-        const availableWidth = this.game.canvas.width - 20; // Account for walls
-        const brickOffsetLeft = (availableWidth - totalBricksWidth) / 2 + 10; // Center with wall offset
-        const brickOffsetTop = 100;
-
-        // Ensure we don't go out of bounds
-        const maxOffsetLeft = Math.max(10, brickOffsetLeft);
-        const adjustedBrickWidth = Math.min(brickWidth, (availableWidth - (columns - 1) * brickPadding) / columns);
+        const availableWidth = canvasWidth - (wallThickness * 2); // Account for walls
+        const totalPaddingWidth = (columns - 1) * brickPadding;
+        const availableBrickWidth = availableWidth - totalPaddingWidth;
+        
+        // Calculate brick width: use smaller of maxWidth or stretched width
+        const stretchedBrickWidth = availableBrickWidth / columns;
+        const brickWidth = Math.min(maxBrickWidth, stretchedBrickWidth);
+        
+        // If using max width, center the brick area
+        const totalBricksWidth = columns * brickWidth + totalPaddingWidth;
+        const brickOffsetLeft = (availableWidth - totalBricksWidth) / 2 + wallThickness;
+        const brickOffsetTop = canvasHeight * 0.111; // 100px at 900px = 11.1%
 
         // Create brick grid
         for (let c = 0; c < columns; c++) {
             this.bricks[c] = [];
             for (let r = 0; r < rows; r++) {
-                const brickX = c * (adjustedBrickWidth + brickPadding) + maxOffsetLeft;
+                const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
                 const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
 
                 // Determine brick type based on pattern and configuration
                 const brickType = this.determineBrickType(c, r, config);
 
-                const brick = new Brick(brickX, brickY, adjustedBrickWidth, brickHeight, brickType, r, this.currentLevel);
+                const brick = new Brick(brickX, brickY, brickWidth, brickHeight, brickType, r, this.currentLevel);
                 this.bricks[c][r] = brick;
 
                 if (!brick.destroyed) {
@@ -254,6 +271,14 @@ export class LevelManager {
     }
 
     update(deltaTime) {
+        // Initialize level if not done yet
+        if (!this.levelInitialized) {
+            this.initializeLevel(1).then(() => {
+                this.levelInitialized = true;
+            });
+            return; // Skip update until level is initialized
+        }
+
         // Update all bricks
         let activeBricks = 0;
         for (let c = 0; c < this.bricks.length; c++) {
@@ -468,6 +493,11 @@ export class LevelManager {
     }
 
     draw(ctx) {
+        // Don't draw anything if level is not initialized yet
+        if (!this.levelInitialized || this.bricks.length === 0) {
+            return;
+        }
+
         // Draw all bricks
         for (let c = 0; c < this.bricks.length; c++) {
             for (let r = 0; r < this.bricks[c].length; r++) {
@@ -498,19 +528,23 @@ export class LevelManager {
     }
 
     drawExplosion(ctx, x, y, radius) {
+        const canvasWidth = this.game.canvas.width;
         ctx.save();
 
         // Draw expanding circle
         ctx.strokeStyle = '#FF4500';
-        ctx.lineWidth = 3;
+        const lineWidth = canvasWidth * 0.003; // 3px at 900px = 0.3%
+        ctx.lineWidth = lineWidth;
         ctx.globalAlpha = 0.7;
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.stroke();
 
         // Draw explosion particles
-        for (let i = 0; i < 20; i++) {
-            const angle = (Math.PI * 2 * i) / 20;
+        const particleCount = 20;
+        const particleRadius = canvasWidth * 0.003; // 3px at 900px = 0.3%
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (Math.PI * 2 * i) / particleCount;
             const distance = Math.random() * radius;
             const px = x + Math.cos(angle) * distance;
             const py = y + Math.sin(angle) * distance;
@@ -518,7 +552,7 @@ export class LevelManager {
             ctx.fillStyle = '#FF6347';
             ctx.globalAlpha = 1 - (distance / radius);
             ctx.beginPath();
-            ctx.arc(px, py, 3, 0, Math.PI * 2);
+            ctx.arc(px, py, particleRadius, 0, Math.PI * 2);
             ctx.fill();
         }
 
@@ -526,18 +560,24 @@ export class LevelManager {
     }
 
     drawLevelInfo(ctx) {
+        const canvasWidth = this.game.canvas.width;
+        const canvasHeight = this.game.canvas.height;
+
         ctx.save();
+        const fontSize = canvasWidth * 0.022; // 20px at 900px = 2.2%
         ctx.fillStyle = '#FFD700';
-        ctx.font = 'bold 20px Arial';
+        ctx.font = `bold ${fontSize}px Arial`;
         ctx.textAlign = 'left';
-        ctx.fillText(`Level: ${this.currentLevel}`, 20, 30);
+        const levelX = canvasWidth * 0.022; // 20px at 900px = 2.2%
+        const levelY = canvasHeight * 0.033; // 30px at 900px = 3.3%
+        ctx.fillText(`Level: ${this.currentLevel}`, levelX, levelY);
 
         // Draw progress bar
         const progress = this.bricksDestroyed / this.totalBricks;
-        const barWidth = 200;
-        const barHeight = 10;
-        const barX = 20;
-        const barY = 40;
+        const barWidth = canvasWidth * 0.222; // 200px at 900px = 22.2%
+        const barHeight = canvasHeight * 0.011; // 10px at 900px = 1.1%
+        const barX = canvasWidth * 0.022; // 20px at 900px = 2.2%
+        const barY = canvasHeight * 0.044; // 40px at 900px = 4.4%
 
         // Background
         ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
@@ -553,27 +593,33 @@ export class LevelManager {
         ctx.strokeRect(barX, barY, barWidth, barHeight);
 
         // Progress text
+        const progressFontSize = canvasWidth * 0.013; // 12px at 900px = 1.3%
         ctx.fillStyle = '#FFFFFF';
-        ctx.font = '12px Arial';
+        ctx.font = `${progressFontSize}px Arial`;
         ctx.textAlign = 'center';
-        ctx.fillText(`${Math.round(progress * 100)}%`, barX + barWidth / 2, barY + 8);
+        ctx.fillText(`${Math.round(progress * 100)}%`, barX + barWidth / 2, barY + canvasHeight * 0.009);
 
         ctx.restore();
     }
 
     drawTransitionEffect(ctx) {
+        const canvasWidth = this.game.canvas.width;
+        const canvasHeight = this.game.canvas.height;
+
         ctx.save();
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+        const titleFontSize = canvasWidth * 0.04; // 36px at 900px = 4%
         ctx.fillStyle = '#FFD700';
-        ctx.font = 'bold 36px Arial';
+        ctx.font = `bold ${titleFontSize}px Arial`;
         ctx.textAlign = 'center';
-        ctx.fillText('Level Complete!', this.game.canvas.width / 2, this.game.canvas.height / 2);
+        ctx.fillText('Level Complete!', canvasWidth / 2, canvasHeight / 2);
 
-        ctx.font = '20px Arial';
+        const subtitleFontSize = canvasWidth * 0.022; // 20px at 900px = 2.2%
+        ctx.font = `${subtitleFontSize}px Arial`;
         ctx.fillText(`Preparing Level ${this.currentLevel + 1}...`,
-                    this.game.canvas.width / 2, this.game.canvas.height / 2 + 40);
+                    canvasWidth / 2, canvasHeight / 2 + canvasHeight * 0.044);
 
         ctx.restore();
     }
@@ -597,6 +643,7 @@ export class LevelManager {
         this.totalBricks = 0;
         this.levelState = 'playing';
         this.specialBrickEffects = [];
+        this.levelInitialized = false;
         this.stats = {
             levelsCompleted: 0,
             totalBricksDestroyed: 0,
@@ -604,6 +651,9 @@ export class LevelManager {
             perfectLevels: 0
         };
 
-        this.loadLevel(1);
+        // Load level 1 asynchronously
+        this.initializeLevel(1).then(() => {
+            this.levelInitialized = true;
+        });
     }
 }
