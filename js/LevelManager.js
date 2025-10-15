@@ -1,0 +1,609 @@
+import { Brick } from './Brick.js';
+import { configManager } from './ConfigManager.js';
+
+export class LevelManager {
+    constructor(game) {
+        this.game = game;
+        this.currentLevel = 1;
+        this.maxLevel = 50; // Can be extended with procedural generation
+        this.bricks = [];
+        this.levelConfig = null;
+        this.bricksDestroyed = 0;
+        this.totalBricks = 0;
+        this.levelStartTime = 0;
+        this.levelCompletedTime = 0;
+        this.specialBrickEffects = [];
+        this.configManager = configManager;
+
+        // Level progression state
+        this.levelState = 'playing'; // 'playing', 'completed', 'failed', 'transitioning'
+        this.transitionTimer = 0;
+        this.nextLevelDelay = 2000; // 2 seconds before next level
+
+        // Statistics
+        this.stats = {
+            levelsCompleted: 0,
+            totalBricksDestroyed: 0,
+            totalTimeSpent: 0,
+            perfectLevels: 0 // Levels completed without losing lives
+        };
+
+        // Initialize first level
+        this.initializeLevel(1);
+    }
+
+    async initializeLevel(levelNumber) {
+        await this.configManager.initialize();
+        this.loadLevel(levelNumber);
+    }
+
+    loadLevel(levelNumber) {
+        this.currentLevel = Math.min(levelNumber, this.maxLevel);
+        this.levelConfig = this.configManager.getLevelConfig(this.currentLevel);
+        this.bricks = [];
+        this.bricksDestroyed = 0;
+        this.levelStartTime = Date.now();
+        this.levelState = 'playing';
+        this.specialBrickEffects = [];
+        this.transitionTimer = 0;
+
+        // Generate bricks based on level configuration
+        this.generateBricks();
+
+        // Update present system with new level
+        if (this.game.presentSystem) {
+            this.game.presentSystem.setLevel(this.currentLevel);
+        }
+
+        // Update ball speed based on level
+        this.updateBallSpeed();
+
+        // Show level introduction
+        this.showLevelIntro();
+    }
+
+    generateBricks() {
+        const config = this.levelConfig;
+        const brickSystemConfig = config.brickSystem || {};
+        const globalDefaults = this.configManager.getGlobalDefaults('brickSystem') || {};
+
+        // Use configuration values or fall back to defaults
+        const brickWidth = brickSystemConfig.width || globalDefaults.width || 75;
+        const brickHeight = brickSystemConfig.height || globalDefaults.height || 25;
+        const brickPadding = brickSystemConfig.padding || globalDefaults.padding || 4;
+        const columns = brickSystemConfig.columns || 10;
+        const rows = brickSystemConfig.rows || 6;
+
+        // Calculate layout with proper centering
+        const totalBricksWidth = columns * brickWidth + (columns - 1) * brickPadding;
+        const availableWidth = this.game.canvas.width - 20; // Account for walls
+        const brickOffsetLeft = (availableWidth - totalBricksWidth) / 2 + 10; // Center with wall offset
+        const brickOffsetTop = 100;
+
+        // Ensure we don't go out of bounds
+        const maxOffsetLeft = Math.max(10, brickOffsetLeft);
+        const adjustedBrickWidth = Math.min(brickWidth, (availableWidth - (columns - 1) * brickPadding) / columns);
+
+        // Create brick grid
+        for (let c = 0; c < columns; c++) {
+            this.bricks[c] = [];
+            for (let r = 0; r < rows; r++) {
+                const brickX = c * (adjustedBrickWidth + brickPadding) + maxOffsetLeft;
+                const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
+
+                // Determine brick type based on pattern and configuration
+                const brickType = this.determineBrickType(c, r, config);
+
+                const brick = new Brick(brickX, brickY, adjustedBrickWidth, brickHeight, brickType, r, this.currentLevel);
+                this.bricks[c][r] = brick;
+
+                if (!brick.destroyed) {
+                    this.totalBricks++;
+                }
+            }
+        }
+    }
+
+    determineBrickType(column, row, config) {
+        const brickSystemConfig = config.brickSystem || {};
+        // Get available brick types for this level
+        const availableTypes = brickSystemConfig.types || ['standard'];
+        const pattern = brickSystemConfig.pattern || 'solid';
+
+        // Apply pattern-based placement
+        switch (pattern) {
+            case 'solid':
+                return this.getBrickTypeByRow(row, availableTypes);
+
+            case 'checkerboard':
+                return (column + row) % 2 === 0 ?
+                    this.getBrickTypeByRow(row, availableTypes) : 'standard';
+
+            case 'fortress':
+                return this.getFortressBrickType(column, row, config);
+
+            case 'moving_rows':
+                return this.getMovingRowBrickType(row, availableTypes);
+
+            case 'boss_fortress':
+                return this.getBossFortressBrickType(column, row, config);
+
+            case 'procedural_complex':
+                return this.getProceduralBrickType(column, row, config);
+
+            case 'procedural_extreme':
+                return this.getProceduralBrickType(column, row, config);
+
+            case 'ultimate_fortress':
+                return this.getUltimateFortressBrickType(column, row, config);
+
+            default:
+                return availableTypes[Math.floor(Math.random() * availableTypes.length)];
+        }
+    }
+
+    getBrickTypeByRow(row, availableTypes) {
+        // Higher rows have stronger bricks
+        const tier = Math.floor(row / 2);
+        if (tier >= availableTypes.length) {
+            return availableTypes[availableTypes.length - 1];
+        }
+        return availableTypes[tier];
+    }
+
+    getFortressBrickType(column, row, config) {
+        const brickSystemConfig = config.brickSystem || {};
+        const { columns, rows } = brickSystemConfig;
+
+        // Corners are reinforced
+        if ((column === 0 || column === columns - 1) &&
+            (row === 0 || row === rows - 1)) {
+            return 'gold';
+        }
+
+        // Edges are metal
+        if (column === 0 || column === columns - 1 ||
+            row === 0 || row === rows - 1) {
+            return 'metal';
+        }
+
+        // Some explosive bricks in strategic positions
+        if (column % 3 === 1 && row % 2 === 1) {
+            return 'explosive';
+        }
+
+        // Standard bricks fill the rest
+        return 'standard';
+    }
+
+    getMovingRowBrickType(row, availableTypes) {
+        // Alternating rows with different properties
+        if (row % 3 === 0) return 'regenerating';
+        if (row % 3 === 1) return 'metal';
+        return this.getBrickTypeByRow(row, availableTypes);
+    }
+
+    getBossFortressBrickType(column, row, config) {
+        const brickSystemConfig = config.brickSystem || {};
+        const { columns, rows } = brickSystemConfig;
+        const bossPosition = brickSystemConfig.bossBrickPosition || { row: Math.floor(rows / 2), column: Math.floor(columns / 2) };
+
+        // Center boss brick
+        if (column === bossPosition.column && row === bossPosition.row) {
+            return 'diamond';
+        }
+
+        // Guard layers around boss
+        const distance = Math.abs(column - bossPosition.column) + Math.abs(row - bossPosition.row);
+        if (distance <= 2) {
+            return 'gold';
+        }
+
+        // Explosive perimeter
+        if (distance === 3) {
+            return 'explosive';
+        }
+
+        // Metal walls
+        if (column === 0 || column === columns - 1 ||
+            row === 0 || row === rows - 1) {
+            return 'metal';
+        }
+
+        // Standard fill
+        return 'standard';
+    }
+
+    getProceduralBrickType(column, row, config) {
+        const brickSystemConfig = config.brickSystem || {};
+        // Use noise or patterns for procedural generation
+        const noise = this.simplexNoise(column * 0.1, row * 0.1);
+        const types = brickSystemConfig.types || ['standard', 'metal', 'gold'];
+
+        if (noise > 0.7) return types[types.length - 1] || 'gold';
+        if (noise > 0.4) return types[1] || 'metal';
+        if (noise < -0.5 && Math.random() < 0.3) return 'explosive';
+
+        return types[0] || 'standard';
+    }
+
+    simplexNoise(x, y) {
+        // Simple pseudo-random noise function
+        const n = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+        return (n - Math.floor(n)) * 2 - 1;
+    }
+
+    updateBallSpeed() {
+        if (this.game.balls && this.game.balls.length > 0) {
+            const gameBalanceConfig = this.levelConfig.gameBalance || {};
+            const globalDefaults = this.configManager.getGlobalDefaults('gameBalance') || {};
+            const baseSpeed = globalDefaults.baseBallSpeed || 4.0;
+            const ballSpeed = gameBalanceConfig.ballSpeed || baseSpeed;
+
+            const speedMultiplier = ballSpeed / baseSpeed;
+
+            this.game.balls.forEach(ball => {
+                const currentSpeed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy);
+                if (currentSpeed > 0) {
+                    const targetSpeed = baseSpeed * speedMultiplier;
+                    ball.dx = (ball.dx / currentSpeed) * targetSpeed;
+                    ball.dy = (ball.dy / currentSpeed) * targetSpeed;
+                }
+            });
+        }
+    }
+
+    update(deltaTime) {
+        // Update all bricks
+        let activeBricks = 0;
+        for (let c = 0; c < this.bricks.length; c++) {
+            for (let r = 0; r < this.bricks[c].length; r++) {
+                const brick = this.bricks[c][r];
+                brick.update(deltaTime);
+
+                if (!brick.destroyed) {
+                    activeBricks++;
+                }
+            }
+        }
+
+        // Update special brick effects
+        this.updateSpecialEffects(deltaTime);
+
+        // Check win condition
+        if (activeBricks === 0 && this.levelState === 'playing') {
+            this.completeLevel();
+        }
+
+        // Handle level transitions
+        if (this.levelState === 'transitioning') {
+            this.transitionTimer += deltaTime;
+            if (this.transitionTimer >= this.nextLevelDelay) {
+                this.loadNextLevel();
+            }
+        }
+
+        // Update moving patterns if applicable
+        if (this.levelConfig.specialFeatures &&
+            this.levelConfig.specialFeatures.includes('row_movement')) {
+            this.updateMovingRows(deltaTime);
+        }
+    }
+
+    updateSpecialEffects(deltaTime) {
+        // Handle explosive chain reactions
+        this.specialBrickEffects = this.specialBrickEffects.filter(effect => {
+            if (effect.type === 'explosion') {
+                // Check for bricks in explosion radius
+                for (let c = 0; c < this.bricks.length; c++) {
+                    for (let r = 0; r < this.bricks[c].length; r++) {
+                        const brick = this.bricks[c][r];
+                        if (brick.destroyed || brick.type === 'explosive') continue;
+
+                        const dx = (brick.x + brick.width / 2) - effect.x;
+                        const dy = (brick.y + brick.height / 2) - effect.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance <= effect.radius) {
+                            const destroyed = brick.hit();
+                            if (destroyed) {
+                                this.onBrickDestroyed(brick);
+
+                                // Chain reaction for explosive bricks
+                                if (brick.type === 'explosive') {
+                                    this.createExplosion(brick.x + brick.width / 2,
+                                                       brick.y + brick.height / 2);
+                                }
+                            }
+                        }
+                    }
+                }
+                return false; // Remove explosion effect after processing
+            }
+            return true;
+        });
+    }
+
+    updateMovingRows(deltaTime) {
+        const moveSpeed = 0.5; // pixels per frame
+        const moveDirection = Math.sin(Date.now() * 0.001) > 0 ? 1 : -1;
+
+        for (let c = 0; c < this.bricks.length; c++) {
+            for (let r = 0; r < this.bricks[c].length; r++) {
+                const brick = this.bricks[c][r];
+                if (!brick.destroyed) {
+                    brick.x += moveSpeed * moveDirection;
+
+                    // Bounce off walls
+                    if (brick.x <= 10 || brick.x + brick.width >= this.game.canvas.width - 10) {
+                        brick.x = Math.max(10, Math.min(this.game.canvas.width - 10 - brick.width, brick.x));
+                    }
+                }
+            }
+        }
+    }
+
+    onBrickDestroyed(brick) {
+        this.bricksDestroyed++;
+        this.stats.totalBricksDestroyed++;
+
+        // Chance to spawn present when brick is destroyed
+        if (this.game.presentSystem) {
+            this.game.presentSystem.spawnPresent(
+                brick.x + brick.width / 2 - 15,
+                brick.y + brick.height / 2
+            );
+        }
+
+        // Add score
+        this.game.score.addPoints(brick.getPoints());
+
+        // Check for special effects
+        const specialEffect = brick.destroy();
+        if (specialEffect) {
+            if (specialEffect.explosive) {
+                this.createExplosion(specialEffect.x, specialEffect.y, specialEffect.radius);
+            }
+        }
+    }
+
+    createExplosion(x, y, radius = 80) {
+        this.specialBrickEffects.push({
+            type: 'explosion',
+            x: x,
+            y: y,
+            radius: radius
+        });
+
+        // Create visual explosion effect
+        if (this.game.visualEffects) {
+            this.game.visualEffects.createExplosion(x, y, radius);
+        }
+    }
+
+    completeLevel() {
+        this.levelState = 'completed';
+        this.levelCompletedTime = Date.now();
+        const levelTime = this.levelCompletedTime - this.levelStartTime;
+        this.stats.totalTimeSpent += levelTime;
+        this.stats.levelsCompleted++;
+
+        // Check for perfect level (no lives lost)
+        if (this.game.lives.lives === this.game.lives.maxLives) {
+            this.stats.perfectLevels++;
+            // Bonus points for perfect level
+            this.game.score.addPoints(1000 * this.currentLevel);
+        }
+
+        // Level completion bonus
+        const completionBonus = 500 * this.currentLevel;
+        this.game.score.addPoints(completionBonus);
+
+        // Start transition to next level
+        this.levelState = 'transitioning';
+        this.transitionTimer = 0;
+
+        // Show level complete message
+        this.showLevelComplete();
+    }
+
+    loadNextLevel() {
+        if (this.currentLevel < this.maxLevel) {
+            this.loadLevel(this.currentLevel + 1);
+        } else {
+            // Game completed
+            this.completeGame();
+        }
+    }
+
+    completeGame() {
+        this.levelState = 'game_completed';
+        this.game.gameState = 'gameOver';
+
+        // Calculate final score bonuses
+        const timeBonus = Math.max(0, 10000 - this.stats.totalTimeSpent);
+        const perfectBonus = this.stats.perfectLevels * 2000;
+
+        this.game.score.addPoints(timeBonus + perfectBonus);
+
+        // Show victory screen
+        this.showGameComplete();
+    }
+
+    showLevelIntro() {
+        // Create level introduction notification
+        const levelName = this.levelConfig.name || `Level ${this.currentLevel}`;
+        const introText = `${levelName}: ${this.levelConfig.difficulty ? this.levelConfig.difficulty.charAt(0).toUpperCase() + this.levelConfig.difficulty.slice(1) : 'Normal'}`;
+
+        if (this.game.presentSystem) {
+            this.game.presentSystem.showEffectNotification(introText, '#FFD700');
+        }
+    }
+
+    showLevelComplete() {
+        const completeText = `Level ${this.currentLevel} Complete!`;
+        const bonusText = `+${500 * this.currentLevel} bonus points`;
+
+        if (this.game.presentSystem) {
+            this.game.presentSystem.showEffectNotification(completeText, '#32CD32');
+            setTimeout(() => {
+                this.game.presentSystem.showEffectNotification(bonusText, '#FFD700');
+            }, 500);
+        }
+    }
+
+    showGameComplete() {
+        const victoryText = 'Congratulations! All Levels Complete!';
+        const scoreText = `Final Score: ${this.game.score.score}`;
+
+        // Display on game canvas
+        setTimeout(() => {
+            if (this.game.presentSystem) {
+                this.game.presentSystem.showEffectNotification(victoryText, '#FFD700');
+                setTimeout(() => {
+                    this.game.presentSystem.showEffectNotification(scoreText, '#32CD32');
+                }, 1000);
+            }
+        }, 1000);
+    }
+
+    draw(ctx) {
+        // Draw all bricks
+        for (let c = 0; c < this.bricks.length; c++) {
+            for (let r = 0; r < this.bricks[c].length; r++) {
+                const brick = this.bricks[c][r];
+                brick.draw(ctx);
+            }
+        }
+
+        // Draw special effects
+        this.drawSpecialEffects(ctx);
+
+        // Draw level information
+        this.drawLevelInfo(ctx);
+
+        // Draw transition effects
+        if (this.levelState === 'transitioning') {
+            this.drawTransitionEffect(ctx);
+        }
+    }
+
+    drawSpecialEffects(ctx) {
+        // Draw explosion effects
+        this.specialBrickEffects.forEach(effect => {
+            if (effect.type === 'explosion') {
+                this.drawExplosion(ctx, effect.x, effect.y, effect.radius);
+            }
+        });
+    }
+
+    drawExplosion(ctx, x, y, radius) {
+        ctx.save();
+
+        // Draw expanding circle
+        ctx.strokeStyle = '#FF4500';
+        ctx.lineWidth = 3;
+        ctx.globalAlpha = 0.7;
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Draw explosion particles
+        for (let i = 0; i < 20; i++) {
+            const angle = (Math.PI * 2 * i) / 20;
+            const distance = Math.random() * radius;
+            const px = x + Math.cos(angle) * distance;
+            const py = y + Math.sin(angle) * distance;
+
+            ctx.fillStyle = '#FF6347';
+            ctx.globalAlpha = 1 - (distance / radius);
+            ctx.beginPath();
+            ctx.arc(px, py, 3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        ctx.restore();
+    }
+
+    drawLevelInfo(ctx) {
+        ctx.save();
+        ctx.fillStyle = '#FFD700';
+        ctx.font = 'bold 20px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText(`Level: ${this.currentLevel}`, 20, 30);
+
+        // Draw progress bar
+        const progress = this.bricksDestroyed / this.totalBricks;
+        const barWidth = 200;
+        const barHeight = 10;
+        const barX = 20;
+        const barY = 40;
+
+        // Background
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fillRect(barX, barY, barWidth, barHeight);
+
+        // Progress
+        ctx.fillStyle = '#32CD32';
+        ctx.fillRect(barX, barY, barWidth * progress, barHeight);
+
+        // Border
+        ctx.strokeStyle = '#FFD700';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(barX, barY, barWidth, barHeight);
+
+        // Progress text
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${Math.round(progress * 100)}%`, barX + barWidth / 2, barY + 8);
+
+        ctx.restore();
+    }
+
+    drawTransitionEffect(ctx) {
+        ctx.save();
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
+
+        ctx.fillStyle = '#FFD700';
+        ctx.font = 'bold 36px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Level Complete!', this.game.canvas.width / 2, this.game.canvas.height / 2);
+
+        ctx.font = '20px Arial';
+        ctx.fillText(`Preparing Level ${this.currentLevel + 1}...`,
+                    this.game.canvas.width / 2, this.game.canvas.height / 2 + 40);
+
+        ctx.restore();
+    }
+
+    getCurrentLevel() {
+        return this.currentLevel;
+    }
+
+    getLevelConfig() {
+        return this.levelConfig;
+    }
+
+    getStats() {
+        return this.stats;
+    }
+
+    reset() {
+        this.currentLevel = 1;
+        this.bricks = [];
+        this.bricksDestroyed = 0;
+        this.totalBricks = 0;
+        this.levelState = 'playing';
+        this.specialBrickEffects = [];
+        this.stats = {
+            levelsCompleted: 0,
+            totalBricksDestroyed: 0,
+            totalTimeSpent: 0,
+            perfectLevels: 0
+        };
+
+        this.loadLevel(1);
+    }
+}

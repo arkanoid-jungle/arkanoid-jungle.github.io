@@ -1,0 +1,74 @@
+{
+  "MULTI_BALL": {
+    "emoji": "🎱",
+    "color": "#4A90E2",
+    "effect": "spawnBalls",
+    "rarity": 0.15,
+    "description": "Spawns 2 additional balls",
+    "duration": 0,
+    "level": 1
+  },
+  "EXPAND_PADDLE": {
+    "emoji": "📏",
+    "color": "#7ED321",
+    "effect": "expandPaddle",
+    "rarity": 0.20,
+    "description": "Increases paddle width by 40%",
+    "duration": 20000,
+    "level": 1
+  },
+  "SLOW_BALL": {
+    "emoji": "🐌",
+    "color": "#9013FE",
+    "effect": "slowBall",
+    "rarity": 0.15,
+    "description": "Reduces ball velocity by 30%",
+    "duration": 15000,
+    "level": 1
+  },
+  "POWER_SHOT": {
+    "emoji": "⚡",
+    "color": "#F5A623",
+    "effect": "powerShot",
+    "rarity": 0.10,
+    "description": "Ball destroys bricks without bouncing",
+    "duration": 0,
+    "level": 2
+  },
+  "SHIELD": {
+    "emoji": "🛡️",
+    "color": "#50E3C2",
+    "effect": "addShield",
+    "rarity": 0.20,
+    "description": "Prevents ball loss for 1 collision",
+    "duration": 10000,
+    "level": 1
+  },
+  "BONUS_POINTS": {
+    "emoji": "💎",
+    "color": "#FF6B6B",
+    "effect": "addPoints",
+    "rarity": 0.20,
+    "description": "Instant 500 points",
+    "duration": 0,
+    "level": 4
+  },
+  "ENERGY_BOOST": {
+    "emoji": "🔵",
+    "color": "#4A90E2",
+    "effect": "energyBoost",
+    "rarity": 0.15,
+    "description": "Reduces energy consumption by 40%",
+    "duration": 20000,
+    "level": 1
+  },
+  "ENERGY_FREE": {
+    "emoji": "🔋",
+    "color": "#00FF00",
+    "effect": "energyFree",
+    "rarity": 0.10,
+    "description": "No energy consumption for movement",
+    "duration": 15000,
+    "level": 2
+  }
+}

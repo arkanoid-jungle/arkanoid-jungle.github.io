@@ -1,11 +1,24 @@
 export class Ball {
-    constructor(x, y, radius, color) {
+    static ballImage = null;
+    static imageLoaded = false;
+
+    constructor(x, y, radius, color, hueOffset = 0) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.color = color;
+        this.hueOffset = hueOffset;
         this.dx = 0;
         this.dy = 0;
+
+        // Unique ID for tracking effects
+        this.id = Math.random().toString(36).substr(2, 9);
+
+        if (!Ball.ballImage) {
+            Ball.ballImage = new Image();
+            Ball.ballImage.onload = () => Ball.imageLoaded = true;
+            Ball.ballImage.src = 'images/ball.png';
+        }
     }
 
     update(canvas, paddle, bricks, score, lives) {
@@ -90,13 +103,23 @@ export class Ball {
     }
 
     draw(ctx) {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = '#FFD700';
-        ctx.fill();
-        ctx.strokeStyle = '#FFA500';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        ctx.closePath();
+        if (Ball.imageLoaded) {
+            ctx.save();
+            if (this.hueOffset !== 0) {
+                ctx.filter = `hue-rotate(${this.hueOffset}deg)`;
+            }
+            const size = this.radius * 2;
+            ctx.drawImage(Ball.ballImage, this.x - this.radius, this.y - this.radius, size, size);
+            ctx.restore();
+        } else {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#FFD700';
+            ctx.fill();
+            ctx.strokeStyle = '#FFA500';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.closePath();
+        }
     }
 }

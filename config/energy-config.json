@@ -1,0 +1,25 @@
+{
+  "energySystem": {
+    "thresholds": {
+      "speedPenaltyThreshold": 0.30,
+      "consumptionReductionThreshold": 0.70
+    },
+    "penalties": {
+      "speedPenaltyAmount": 0.50,
+      "tiredConsumptionPenalty": 0.15
+    },
+    "bonuses": {
+      "highEnergyEfficiency": 0.35
+    },
+    "baseConfig": {
+      "maxEnergy": 100,
+      "baseConsumptionRate": 0.08,
+      "maxRecoveryRate": 0.12,
+      "recoveryCurveSteepness": 4
+    },
+    "ui": {
+      "energyBarEnabled": true,
+      "animationEnabled": true
+    }
+  }
+}
