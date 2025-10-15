@@ -13,9 +13,9 @@ export class Game {
         
         // Set canvas size based on background image when it loads
         this.backImg = new Image();
-        this.backImg.src = 'back.jpg';
+        this.backImg.src = 'images/back.jpg';
         this.frontImg = new Image();
-        this.frontImg.src = 'front.jpg';
+        this.frontImg.src = 'images/front.jpg';
 
         this.gameState = 'start';
         this.keys = {};

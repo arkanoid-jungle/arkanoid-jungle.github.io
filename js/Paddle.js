@@ -10,7 +10,7 @@ export class Paddle {
         this.maxSpeed = 8;
         
         this.img = new Image();
-        this.img.src = 'platform.png';
+        this.img.src = 'images/platform.png';
     }
 
     update(leftPressed, rightPressed) {
