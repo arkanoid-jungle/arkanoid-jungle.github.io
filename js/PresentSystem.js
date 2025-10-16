@@ -471,8 +471,8 @@ export class PresentSystem {
 
     addEnergyBoost() {
         // Restore 50% of max energy immediately
-        if (this.game.energySystem) {
-            const maxEnergy = this.game.energySystem.maxEnergy;
+        if (this.game.energySystem && this.game.energySystem.config) {
+            const maxEnergy = this.game.energySystem.config.maxEnergy;
             const boostAmount = maxEnergy * 0.5;
             this.game.energySystem.addEnergy(boostAmount);
         }

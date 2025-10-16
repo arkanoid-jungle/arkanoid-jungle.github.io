@@ -65,7 +65,7 @@ export class Game {
         this.activeBonusUI = new ActiveBonusUI(this.canvas, this.presentSystem);
 
         // Energy system (will load config asynchronously)
-        this.energySystem = new EnergySystem();
+        this.energySystem = new EnergySystem(this);
         this.energyBar = new EnergyBar(20, 60, 150, 20);
         this.energyAnimation = new EnergyAnimation();
         this.energySystemInitialized = false;

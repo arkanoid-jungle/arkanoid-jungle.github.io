@@ -1,7 +1,10 @@
 import { configManager } from './ConfigManager.js';
 
 export class EnergySystem {
-    constructor() {
+    constructor(game = null) {
+        // Game reference for accessing present system effects
+        this.game = game;
+        
         // Configuration file reference
         this.configFile = null;
 
@@ -347,10 +350,16 @@ export class EnergySystem {
     }
 
     getEnergyPercentage() {
+        if (!this.config.maxEnergy || this.config.maxEnergy === 0) {
+            return 1; // Return 100% if maxEnergy is invalid
+        }
         return this.config.currentEnergy / this.config.maxEnergy;
     }
 
     addEnergy(amount) {
+        if (!this.config.maxEnergy || this.config.maxEnergy === 0) {
+            return; // Don't add energy if maxEnergy is invalid
+        }
         this.config.currentEnergy = Math.min(this.config.maxEnergy, this.config.currentEnergy + amount);
     }
 
